@@ -13,7 +13,7 @@
         android:background="@drawable/hotel4"
         android:layout_marginBottom="40dp"
         android:gravity="center_horizontal"
-        android:text=""
+        android:text="Welcome!"
         android:textColor="#CFD7D8"
         android:paddingVertical="70dp"
         android:textSize="30sp"
@@ -61,6 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Đăng nhập"
+        android:id="@+id/button_login"
         android:layout_marginHorizontal="30dp"
         android:layout_marginBottom="25dp"
         android:background="@drawable/button_login"
@@ -69,7 +70,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Chưa có tài khoản? Đăng ký!"
+        android:text="Quên mật khẩu? Lấy lại!"
         android:gravity="center_horizontal"
         />
 </LinearLayout>
