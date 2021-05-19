@@ -31,7 +31,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Tài khoản: "
-        android:textSize="18sp"
         android:layout_marginHorizontal="30dp"
         android:textColor="@color/teal_200"
         />
@@ -55,7 +54,7 @@
         android:layout_marginHorizontal="30dp"
         android:inputType="textPassword"
         android:textColor="@color/teal_200"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="35dp"
         />
     <Button
         android:layout_width="match_parent"
