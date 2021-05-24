@@ -13,13 +13,22 @@
 
     <fragment
         android:id="@+id/nav_room_list"
-        android:name="com.example.hotelapp.ui.gallery.GalleryFragment"
+        android:name="com.example.hotelapp.ui.listRoom.ListRoomFragment"
         android:label="@string/menu_room_list"
-        tools:layout="@layout/fragment_gallery" />
-
+        tools:layout="@layout/fragment_room_list" />
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.hotelapp.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_service"
+        android:name="com.example.hotelapp.ui.service.ServiceFragment"
+        android:label="@string/menu_service"
+        tools:layout="@layout/fragment_service" />
+    <fragment
+        android:id="@+id/nav_receipt"
+        android:name="com.example.hotelapp.ui.ReceiptFragment"
+        android:label="@string/menu_receipt"
+        tools:layout="@layout/fragment_receipt" />
+    <fragment
+        android:id="@+id/nav_revenue"
+        android:name="com.example.hotelapp.ui.service.ServiceFragment"
+        android:label="@string/menu_service"
+        tools:layout="@layout/fragment_service" />
 </navigation>

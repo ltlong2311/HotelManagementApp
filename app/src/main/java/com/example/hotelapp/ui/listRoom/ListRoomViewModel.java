@@ -1,14 +1,14 @@
-package com.example.hotelapp.ui.gallery;
+package com.example.hotelapp.ui.listRoom;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class GalleryViewModel extends ViewModel {
+public class ListRoomViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public GalleryViewModel() {
+    public ListRoomViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("");
     }

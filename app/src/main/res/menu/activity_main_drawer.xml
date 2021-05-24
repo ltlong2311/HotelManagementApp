@@ -10,15 +10,46 @@
             android:title="@string/menu_home" />
         <item
             android:id="@+id/nav_room_list"
-            android:icon="@drawable/bunk_bed"
+            android:icon="@drawable/bed_empty"
             android:title="@string/menu_room_list" />
+
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/clipboard_pulse"
+            android:id="@+id/nav_service"
+            android:icon="@drawable/fridge_variant"
+            android:title="@string/menu_service" />
+        <item
+            android:id="@+id/nav_receipt"
+            android:icon="@drawable/currency_usd"
             android:title="@string/menu_invoice" />
         <item
-            android:id="@+id/nav_"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
+            android:id="@+id/nav_revenue"
+            android:icon="@drawable/chart_areaspline"
+            android:title="@string/menu_revenue" />
     </group>
+    <item android:title="Tài khoản">
+        <menu>
+            <item android:id="@+id/nav_manager_account"
+                android:icon="@drawable/briefcase_account"
+                android:title="Quản lý" />
+            <item android:id="@+id/nav_log_out"
+                android:icon="@drawable/logout_variant"
+                android:title="Đăng xuất" />
+        </menu>
+    </item>
+
+    <item android:title="Ứng dụng">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/info_app"
+                    android:icon="@drawable/information"
+                    android:title="Về ứng dụng" />
+                <item
+                    android:id="@+id/assist"
+                    android:icon="@drawable/help_circle"
+                    android:title="Hỗ trợ" />
+            </group>
+        </menu>
+    </item>
 </menu>
+

@@ -1,4 +1,4 @@
-package com.example.hotelapp.ui.slideshow;
+package com.example.hotelapp.ui.service;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

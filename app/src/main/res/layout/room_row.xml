@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="150dp"
+        android:layout_height="86dp"
+        android:orientation="horizontal"
+        android:background="#DBF1FB"
+        android:id="@+id/layoutRoom"
+        android:padding="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/textViewTenPhongCustom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Tên phòng"
+            android:textColor="#000"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textViewTangCustom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewTenPhongCustom"
+            android:layout_marginTop="10dp"
+            android:text="Tầng"
+            android:textColor="#8E24AA"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/textViewTrangThaiCustom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewTenPhongCustom"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:text="Trạng thái"
+            android:textColor="#6F7149"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/imageViewDeleteRoom"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="6dp"
+            android:src="@drawable/alpha_x" />
+
+        <ImageView
+            android:id="@+id/imageViewEditRoom"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/dots_vertical" />
+    </RelativeLayout>
+</RelativeLayout>

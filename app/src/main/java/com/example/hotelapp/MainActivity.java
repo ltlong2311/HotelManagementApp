@@ -18,7 +18,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 
 public class MainActivity extends AppCompatActivity {
-    String urlGetData = "http://192.168.1.102/severApp/products";
+    String urlGetData = "http://192.168.1.4:4000/getData";
     private Button button_login;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(MainActivity.this, "Không thành công!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Đăng nhập!", Toast.LENGTH_SHORT).show();
                     }
                 }
         );
