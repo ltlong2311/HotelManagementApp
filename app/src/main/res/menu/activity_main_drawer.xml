@@ -15,7 +15,7 @@
 
         <item
             android:id="@+id/nav_service"
-            android:icon="@drawable/fridge_variant"
+            android:icon="@drawable/coffee_maker"
             android:title="@string/menu_service" />
         <item
             android:id="@+id/nav_receipt"
@@ -29,7 +29,7 @@
     <item android:title="Tài khoản">
         <menu>
             <item android:id="@+id/nav_manager_account"
-                android:icon="@drawable/briefcase_account"
+                android:icon="@drawable/briefcase"
                 android:title="Quản lý" />
             <item android:id="@+id/nav_log_out"
                 android:icon="@drawable/logout_variant"

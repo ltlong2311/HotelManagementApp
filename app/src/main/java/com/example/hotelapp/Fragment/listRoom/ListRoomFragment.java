@@ -1,7 +1,10 @@
-package com.example.hotelapp.ui.listRoom;
+package com.example.hotelapp.Fragment.listRoom;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
@@ -24,6 +27,8 @@ import com.android.volley.toolbox.Volley;
 import com.example.hotelapp.R;
 import com.example.hotelapp.Room;
 import com.example.hotelapp.RoomAdapter;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 
 import org.json.JSONArray;
@@ -39,18 +44,7 @@ public class ListRoomFragment extends Fragment {
 
     private ListRoomViewModel galleryViewModel;
     private AppBarConfiguration mAppBarConfiguration;
-    String urlGetData = "http://192.168.1.4/severApp/products";
-
-//    GridView gvRoom;
-//    ListView lvRoom;
-//    ArrayList<Room> arrayRoom;
-//    RoomAdapter adapter;
-//
-//    GridView gridViewRoom;
-//    ListView lvRoom;
-//    ArrayList<Room> arrayRoom;
-//    RoomAdapter adapter;
-
+    String urlGetData = "http://192.168.1.3/severApp/products";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,6 +67,23 @@ public class ListRoomFragment extends Fragment {
             }
         });
 
+        FloatingActionButton fab = root.findViewById(R.id.add_room);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Add room", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Thêm phòng", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
 
         gvRoom = root.findViewById(R.id.gridViewRoom);
         arrayRoom = new ArrayList<>();
@@ -111,11 +122,23 @@ public class ListRoomFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }
+
+
         );
         requestQueue.add(jsonArrayRequest);
     }
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_add, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
 }

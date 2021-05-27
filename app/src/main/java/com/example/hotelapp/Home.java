@@ -1,11 +1,15 @@
 package com.example.hotelapp;
 
+import android.app.Activity;
+import android.content.res.Configuration;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Menu;
-import android.widget.GridView;
-import android.widget.ListView;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -14,12 +18,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.hotelapp.ui.ReceiptFragment;
-import com.example.hotelapp.ui.home.HomeFragment;
-import com.example.hotelapp.ui.listRoom.ListRoomFragment;
-import com.example.hotelapp.ui.service.ServiceFragment;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -34,16 +32,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle drawerToggle;
     private AppBarConfiguration mAppBarConfiguration;
-    String urlGetData = "http://192.168.1.4/severApp/products";
+    String urlGetData = "http://192.168.1.3/severApp/services";
 
 //    GridView gridViewRoom;
 //    ListView lvRoom;
@@ -54,7 +49,40 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        Window window = getWindow();
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            window.setStatusBarColor(R.drawable.gradient_status_bar);
+//            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
+//              View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+//        }
+
+//        if (Build.VERSION.SDK_INT >= 21) {
+//            window.setStatusBarColor(R.drawable.gradient_status_bar2);
+////            window.setStatusBarColor(Color.parseColor("#2585FA"));
+//            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
+//                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+//        }
+
         setContentView(R.layout.activity_home);
+
+        if(Build.VERSION.SDK_INT>=19 && Build.VERSION.SDK_INT<21 )
+        {
+            SetWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, true);
+        }
+        if(Build.VERSION.SDK_INT>=19)
+        {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }
+        if(Build.VERSION.SDK_INT>=21)
+        {
+            SetWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -91,22 +119,22 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-//        if(savedInstanceState == null) {
-//            getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
-//                    new HomeFragment()).commit();
-//            navigationView.setCheckedItem(R.id.nav_home);
-//        }
-////
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(drawerToggle);
 
-//        lvRoom = findViewById(R.id.gridViewRoom);
-
-//        lvRoom = (ListView) findViewById(R.id.listViewRoom);
-//        arrayRoom = new ArrayList<>();
-//        adapter = new RoomAdapter(this, R.layout.room_row, arrayRoom);
-//        lvRoom.setAdapter(adapter);
           getData(urlGetData);
     }
+    private static void SetWindowFlag(Activity activity, final int Bits, Boolean on) {
+        Window win =  activity.getWindow();
+        WindowManager.LayoutParams Winparams = win.getAttributes();
+        if (on) {
+            Winparams.flags  |=Bits;
+        } else {
+            Winparams.flags &= ~Bits;
+        }
+        win.setAttributes(Winparams);
 
+    }
     private void getData(String url){
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
@@ -115,28 +143,13 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                     public void onResponse(JSONArray response) {
 //                        private String response = response;
                         Toast.makeText(Home.this, response.toString(), Toast.LENGTH_SHORT).show();
-//                        for (int i=0; i < response.length(); i++){
-//                            try {
-//                                JSONObject object = response.getJSONObject(i);
-//                                arrayRoom.add(new Room(
-//                                        object.getInt("id"),
-//                                        object.getInt("tang"),
-//                                        object.getString("tenPhong"),
-//                                        object.getInt("gia"),
-//                                        object.getInt("trangThai"),
-//                                        object.getInt("tuSua")
-//                                ));
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                        adapter.notifyDataSetChanged();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(Home.this, error.toString(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(Home.this, error.toString(), Toast.LENGTH_SHORT).show();
+                          Toast.makeText(Home.this, "", Toast.LENGTH_SHORT).show();
                     }
                 }
         );
@@ -174,6 +187,9 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(drawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
         switch (item.getItemId()) {
             case R.id.nav_log_out:
                 Toast.makeText(this, "Test", Toast.LENGTH_SHORT).show();
@@ -196,6 +212,18 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             super.onBackPressed();
         }
     }
+//    @Override
+//    protected void onPostCreate(Bundle savedInstanceState) {
+//        super.onPostCreate(savedInstanceState);
+//        // Sync the toggle state after onRestoreInstanceState has occurred.
+//        drawerToggle.syncState();
+//    }
+//
+//    @Override
+//    public void onConfigurationChanged(Configuration newConfig) {
+//        super.onConfigurationChanged(newConfig);
+//        drawerToggle.onConfigurationChanged(newConfig);
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

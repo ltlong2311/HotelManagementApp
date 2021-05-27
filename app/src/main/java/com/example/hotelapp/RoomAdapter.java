@@ -2,6 +2,7 @@ package com.example.hotelapp;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +46,7 @@ public class  RoomAdapter extends BaseAdapter {
         TextView txtTenPhong, txtTang, txtTrangThai;
         ImageView imageDelete, imageEdit;
         RelativeLayout layoutRoom;
+
     }
 
     @Override
@@ -59,7 +61,7 @@ public class  RoomAdapter extends BaseAdapter {
             holder.txtTang = (TextView) convertView.findViewById(R.id.textViewTangCustom);
             holder.txtTrangThai = (TextView) convertView.findViewById(R.id.textViewTrangThaiCustom);
             holder.imageEdit = (ImageView) convertView.findViewById(R.id.imageViewEditRoom);
-            holder.imageDelete = (ImageView) convertView.findViewById(R.id.imageViewDeleteRoom);
+//            holder.imageDelete = (ImageView) convertView.findViewById(R.id.imageViewDeleteRoom);
             holder.layoutRoom = convertView.findViewById(R.id.layoutRoom);
             convertView.setTag(holder);
         } else {
@@ -72,15 +74,21 @@ public class  RoomAdapter extends BaseAdapter {
 
         if (room.getTrangThai() == 0){
             holder.txtTrangThai.setText("Trống");
-            holder.layoutRoom.setBackgroundColor(Color.parseColor("#DBF1FB"));
+//            holder.layoutRoom.setBackgroundColor(Color.parseColor("#DBF1FB"));
+            GradientDrawable gradientDrawable = (GradientDrawable) holder.layoutRoom.getBackground().mutate();
+            gradientDrawable.setColor(Color.parseColor("#DBF1FB"));
         } else {
             holder.txtTrangThai.setText("Đã Dùng");
-            holder.layoutRoom.setBackgroundColor(Color.parseColor("#f1828d"));
+//            holder.layoutRoom.setBackgroundColor(Color.parseColor("#f1828d"));
+            GradientDrawable gradientDrawable = (GradientDrawable) holder.layoutRoom.getBackground().mutate();
+            gradientDrawable.setColor(Color.parseColor("#f1828d"));
         }
 
         if(room.getTuSua() == 1){
             holder.txtTrangThai.setText("Đang sửa!");
-            holder.layoutRoom.setBackgroundColor(Color.parseColor("#65c6bb"));
+//            holder.layoutRoom.setBackgroundColor(Color.parseColor("#65c6bb"));
+            GradientDrawable gradientDrawable = (GradientDrawable) holder.layoutRoom.getBackground().mutate();
+            gradientDrawable.setColor(Color.parseColor("#65c6bb"));
         }
 
         return convertView;
