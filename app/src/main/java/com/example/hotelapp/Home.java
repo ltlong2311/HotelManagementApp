@@ -1,7 +1,7 @@
 package com.example.hotelapp;
 
 import android.app.Activity;
-import android.content.res.Configuration;
+import android.app.FragmentManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +18,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.hotelapp.Fragment.home.HomeFragment;
+import com.example.hotelapp.Fragment.listRoom.AddRoomFragment;
+import com.example.hotelapp.Fragment.listRoom.ListRoomFragment;
+import com.example.hotelapp.Fragment.receipt.ReceiptFragment;
+import com.example.hotelapp.Fragment.revenue.RevenueFragment;
+import com.example.hotelapp.Fragment.service.ServiceFragment;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -38,8 +44,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private AppBarConfiguration mAppBarConfiguration;
-    String urlGetData = "http://192.168.1.3/severApp/services";
-
+    String urlGetData = "http://192.168.1.107/severApp/services";
+    public static Toolbar mToolbar;
 //    GridView gridViewRoom;
 //    ListView lvRoom;
 //    ArrayList<Room> arrayRoom;
@@ -98,6 +104,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
 
        drawerLayout = findViewById(R.id.drawer_layout);
+       mToolbar = findViewById(R.id.toolbar);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
@@ -116,8 +123,9 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
+
+//        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+//        NavigationUI.setupWithNavController(navigationView, navController);
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(drawerToggle);
@@ -158,37 +166,18 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-//            case R.id.nav_home:
-//                getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
-//                        new HomeFragment()).commit();
-//
-//                break;
-//            case R.id.nav_room_list:
-//                getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
-//                        new ListRoomFragment()).commit();
-//                break;
-//            case R.id.nav_slideshow:
-//                getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
-//                        new ServiceFragment()).commit();
-//                break;
-//            case R.id.nav_receipt:
-//                getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
-//                        new ReceiptFragment()).commit();
-//                break;
-//            case R.id.nav_manager_account:
-//                Toast.makeText(this, "Quản lý", Toast.LENGTH_SHORT).show();
-//                break;
-        }
-        drawerLayout.closeDrawer(GravityCompat.START);
+//        if(drawerToggle.onOptionsItemSelected(item)) {
+//            return true;
+//        }
+        int id = item.getItemId();
 
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(drawerToggle.onOptionsItemSelected(item)) {
-            return true;
+        if (id == R.id.nav_log_out){
+            AddRoomFragment addRoom= new AddRoomFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.drawer_layout, addRoom, "Add")
+                    .addToBackStack(null)
+                    .commit();
+            Toast.makeText(Home.this, "", Toast.LENGTH_SHORT).show();
         }
         switch (item.getItemId()) {
             case R.id.nav_log_out:
@@ -201,8 +190,74 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 Toast.makeText(this, "Thông tin hỗ trợ", Toast.LENGTH_SHORT).show();
                 return true;
         }
-        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()){
+            case R.id.nav_home:
+//                mToolbar.setTitle(getString(R.string.dashboard_new_sale));
+                mToolbar.setTitle("Home");
+                getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                        new HomeFragment()).commit();
+
+                break;
+            case R.id.nav_room_list:
+                mToolbar.setTitle("Sơ đồ phòng");
+                getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                        new ListRoomFragment()).commit();
+                break;
+            case R.id.nav_service:
+                mToolbar.setTitle("Dịch vụ");
+                getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                        new ServiceFragment()).commit();
+                break;
+            case R.id.nav_receipt:
+                mToolbar.setTitle("Hóa đơn");
+                getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                        new ReceiptFragment()).commit();
+                break;
+            case R.id.nav_revenue:
+                mToolbar.setTitle("Doanh thu");
+                getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                        new RevenueFragment()).commit();
+                break;
+            case R.id.nav_manager_account:
+                Toast.makeText(this, "Quản lý", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+
+        return true;
     }
+
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        if(drawerToggle.onOptionsItemSelected(item)) {
+//            return true;
+//        }
+//        switch (item.getItemId()) {
+//            case R.id.nav_log_out:
+//                Toast.makeText(this, "Test", Toast.LENGTH_SHORT).show();
+//                return true;
+//            case R.id.info_app:
+//                Toast.makeText(this, "Thông tin ứng dụng", Toast.LENGTH_SHORT).show();
+//                return true;
+//            case R.id.assist:
+//                Toast.makeText(this, "Thông tin hỗ trợ", Toast.LENGTH_SHORT).show();
+//                return true;
+//        }
+//
+////        if (item.getItemId() == R.id.menu_add_room) {
+////            FragmentManager manager = getFragmentManager();
+////            AddRoomFragment addRoom = new AddRoomFragment();
+////            manager.beginTransaction().replace(R.id.fragment_add_room, addRoom, "hello").commit();
+//////            FragmentTransaction transaction = manager.beginTransaction();
+//////            transaction.add(R.id.container, addRoom, "add");
+//////            transaction.addToBackStack(null);
+//////            transaction.commit();
+////        }
+////
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
     @Override
     public void onBackPressed() {
@@ -228,9 +283,10 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
+//        getMenuInflater().inflate(R.menu.home, menu);
         return true;
     }
+
 
 //    @Override
 //    public boolean onOptionsItemSelected(Menu menu) {

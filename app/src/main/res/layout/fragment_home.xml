@@ -8,7 +8,6 @@
     tools:context=".Fragment.home.HomeFragment"
     android:background="#f7f7f7"
     >
-
     <androidx.drawerlayout.widget.DrawerLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -45,38 +44,43 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="20dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:layout_below="@+id/title_home"
                 android:id="@+id/grid_view2"
                 android:rowCount="4"
                 android:columnCount="2">
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="67dp"
                     android:layout_row="0"
-                    android:layout_column="0"
-                    android:layout_gravity="fill"
                     android:layout_rowWeight="0"
+                    android:layout_column="0"
                     android:layout_columnWeight="1"
+                    android:layout_gravity="fill"
                     android:layout_margin="8dp"
                     app:cardCornerRadius="8dp"
-                    app:cardElevation="8dp"
-                    >
+                    app:cardElevation="8dp">
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
+                        android:layout_gravity="center_vertical|center_horizontal"
                         android:gravity="center"
-                        android:layout_gravity="center_vertical|center_horizontal">
+                        android:orientation="vertical">
+
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
                             android:src="@drawable/bed_empty"
                             app:tint="@color/light_blue" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="SƠ ĐỒ PHÒNG"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
@@ -85,34 +89,37 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_row="0"
-                    android:layout_column="1"
-                    android:layout_gravity="fill"
                     android:layout_rowWeight="1"
+                    android:layout_column="1"
                     android:layout_columnWeight="1.5"
+                    android:layout_gravity="fill"
                     android:layout_margin="8dp"
                     app:cardCornerRadius="8dp"
-                    app:cardElevation="8dp"
-                    >
+                    app:cardElevation="8dp">
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
+                        android:layout_gravity="center_vertical|center_horizontal"
                         android:gravity="center"
-                        android:layout_gravity="center_vertical|center_horizontal">
+                        android:orientation="vertical">
+
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/bed_empty"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:src="@drawable/fridge_variant"
                             app:tint="@color/light_blue" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="DỊCH VỤ"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
 
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -132,9 +139,9 @@
                         android:gravity="center"
                         android:layout_gravity="center_vertical|center_horizontal">
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/bed_empty"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:src="@drawable/currency_usd"
                             app:tint="@color/light_blue" />
                         <TextView
                             android:layout_width="wrap_content"
@@ -163,9 +170,9 @@
                         android:gravity="center"
                         android:layout_gravity="center_vertical|center_horizontal">
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/bed_empty"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:src="@drawable/chart_areaspline"
                             app:tint="@color/light_blue" />
                         <TextView
                             android:layout_width="wrap_content"
@@ -194,9 +201,9 @@
                         android:gravity="center"
                         android:layout_gravity="center_vertical|center_horizontal">
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/bed_empty"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:src="@drawable/briefcase"
                             app:tint="@color/light_blue" />
                         <TextView
                             android:layout_width="wrap_content"
@@ -225,9 +232,9 @@
                         android:gravity="center"
                         android:layout_gravity="center_vertical|center_horizontal">
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/bed_empty"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:src="@drawable/help_circle"
                             app:tint="@color/light_blue" />
                         <TextView
                             android:layout_width="wrap_content"

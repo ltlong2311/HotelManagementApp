@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#fff"
     android:layout_height="match_parent"
     tools:context=".Fragment.service.ServiceFragment">
 
@@ -26,21 +27,9 @@
             android:layout_height="match_parent"
             android:fadeScrollbars="false"
             android:fastScrollEnabled="true"
-            android:paddingBottom="20dp"
             android:scrollbarThumbVertical="@android:color/transparent"
-            ></ListView>
+            >
+        </ListView>
+
     </LinearLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/add_service"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:backgroundTint="@color/light_blue"
-            android:layout_alignParentRight="true"
-            android:layout_margin="@dimen/fab_margin"
-            app:srcCompat="@drawable/plus_white" />
-    </RelativeLayout>
 </RelativeLayout>

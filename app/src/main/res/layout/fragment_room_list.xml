@@ -5,8 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/fragment_list_room"
+    android:background="#fff"
     tools:context=".Fragment.listRoom.ListRoomFragment">
-
     <androidx.drawerlayout.widget.DrawerLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,16 +22,16 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-<!--                <ImageView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="180dp"-->
-<!--                    android:background="@drawable/hotel4"-->
-<!--                    android:fontFamily="cursive"-->
-<!--                    android:gravity="center_horizontal"-->
-<!--                    android:src="@drawable/the_image_overlay"-->
-<!--                    android:text=""-->
-<!--                    android:textColor="#CFD7D8"-->
-<!--                    android:textSize="30sp" />-->
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:background="@drawable/hotel_room7"
+                    android:fontFamily="cursive"
+                    android:gravity="center_horizontal"
+                    android:src="@drawable/the_image_overlay"
+                    android:text=""
+                    android:textColor="#CFD7D8"
+                    android:textSize="30sp" />
                 <GridView
                     android:id="@+id/gridViewRoom"
                     android:layout_width="match_parent"
@@ -40,7 +41,6 @@
                     android:numColumns="2"
                     android:gravity="center"
                     android:weightSum="2"
-                    android:paddingTop="10dp"
                     android:scrollbarThumbVertical="@android:color/transparent"
                     ></GridView>
 

@@ -25,7 +25,7 @@ import org.json.JSONObject;
 
 public class ReceiptFragment extends Fragment {
 
-    String urlGetData = "http://192.168.1.3/severApp/pays";
+    String urlGetData = "http://192.168.1.107/severApp/pays";
 
 
 
@@ -39,9 +39,6 @@ public class ReceiptFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_service, container, false);
-
-
-
 
         getData(urlGetData);
         return root;

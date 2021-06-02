@@ -7,8 +7,8 @@
     android:gravity="center"
     >
     <RelativeLayout
-        android:layout_width="165dp"
-        android:layout_height="86dp"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@drawable/shadow"
         android:id="@+id/layoutRoom"
@@ -25,12 +25,19 @@
             android:textColor="#000"
             android:textSize="15sp"
             android:textStyle="bold" />
+        <View
+            android:id="@+id/hr"
+            android:layout_width="match_parent"
+            android:layout_height="1sp"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/textViewTenPhongCustom"
+            android:background="#504C4C"/>
 
         <TextView
             android:id="@+id/textViewTangCustom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textViewTenPhongCustom"
+            android:layout_below="@+id/hr"
             android:layout_marginTop="10dp"
             android:text="Tầng"
             android:textColor="#8E24AA"
@@ -40,13 +47,50 @@
             android:id="@+id/textViewTrangThaiCustom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textViewTenPhongCustom"
+            android:layout_below="@+id/hr"
             android:layout_alignParentRight="true"
             android:layout_marginTop="10dp"
             android:text="Trạng thái"
             android:textColor="#6F7149"
             android:textSize="15sp" />
-
+        <TextView
+            android:id="@+id/textViewTitleCost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewTangCustom"
+            android:layout_marginTop="10dp"
+            android:text="Giá Phòng"
+            android:textColor="#8E24AA"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/textViewGiaPhongCustom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewTangCustom"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:text="100000"
+            android:textColor="#00897B"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/textViewTitleService"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewGiaPhongCustom"
+            android:layout_marginTop="10dp"
+            android:text="Dịch vụ"
+            android:textColor="#8E24AA"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/textViewTongGiaDichVuCustom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewGiaPhongCustom"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:text="0"
+            android:textColor="#00897B"
+            android:textSize="15sp" />
 <!--        <ImageView-->
 <!--            android:id="@+id/imageViewDeleteRoom"-->
 <!--            android:layout_width="23dp"-->

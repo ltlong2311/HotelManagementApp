@@ -21,6 +21,7 @@ public class HomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        setHasOptionsMenu(true);
 //        getActivity().getActionBar().hide();
     }
     public View onCreateView(@NonNull LayoutInflater inflater,

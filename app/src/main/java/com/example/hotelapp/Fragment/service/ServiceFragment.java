@@ -2,6 +2,8 @@ package com.example.hotelapp.Fragment.service;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -38,11 +40,17 @@ import java.util.ArrayList;
 public class ServiceFragment extends Fragment {
 
     DrawerLayout drawerLayout;
-    String urlGetData = "http://192.168.1.3/severApp/services";
+    String urlGetData = "http://192.168.1.107/severApp/services";
 
     ListView lvService;
     ArrayList<Service> arrayService;
     ServiceAdapter adapter;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -93,5 +101,10 @@ public class ServiceFragment extends Fragment {
                 }
         );
         requestQueue.add(request);
+    }
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_add_service, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 }
