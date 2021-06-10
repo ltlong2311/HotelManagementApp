@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:background="#FBF8F8"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:onClick="hideKeyBoard"
     tools:context=".RoomEdit">
+
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/gradient_status_bar"
         android:paddingTop="32dp"
+        android:id="@+id/appBarUpdateRoom"
         android:theme="@style/Theme.HotelApp.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
@@ -21,157 +23,164 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@drawable/gradient_status_bar"
             app:popupTheme="@style/Theme.HotelApp.PopupOverlay">
-<!--            <ImageView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:id="@+id/btn_back_edit_room"-->
-<!--                android:background="@drawable/keyboard_backspace"-->
-<!--                />-->
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:orientation="vertical">
-        <EditText
-            android:id="@+id/editTextTenPhong"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="25dp"
-            android:inputType="text"
-            android:hint="Tên phòng"
-            />
-        <EditText
-            android:id="@+id/editTextTang"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="25dp"
-            android:inputType="text"
-            android:hint="Tầng"
-            />
-        <EditText
-            android:id="@+id/editTextGiaPhong"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:inputType="text"
-            android:layout_marginBottom="25dp"
-            android:hint="Giá phòng"
-            />
-<!--        <EditText-->
-<!--            android:id="@+id/editTrangThai"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginBottom="20dp"-->
-<!--            android:inputType="text"-->
-<!--            android:hint="Trạng thái"-->
-<!--            />-->
-<!--        <EditText-->
-<!--            android:id="@+id/editTuSua"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginBottom="20dp"-->
-<!--            android:inputType="text"-->
-<!--            android:hint="Tu Sửa"-->
-            />
-        <TextView
-            android:text="Trạng thái phòng:"
-            android:paddingLeft="3dp"
-            android:textSize="18dp"
-            android:textColor="#201F1F"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <RelativeLayout
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="50dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <CheckBox
-                android:id="@+id/one"
-                android:text="Trống"
-                android:checked="true"
-                android:clickable="false"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <CheckBox
-                android:id="@+id/true2"
-                android:layout_toRightOf="@+id/one"
-                android:layout_marginLeft="120dp"
-                android:text="Đang dùng"
-                android:clickable="false"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-        <TextView
-            android:layout_marginTop="5dp"
-            android:text="Tu Sửa:"
-            android:paddingLeft="3dp"
-            android:textSize="18dp"
-            android:textColor="#201F1F"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <RelativeLayout
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="50dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <CheckBox
-                android:id="@+id/int_id"
-                android:text="Đang sửa"
-                android:clickable="false"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <CheckBox
-                android:id="@+id/double_id"
-                android:layout_toRightOf="@id/int_id"
-                android:layout_marginLeft="95dp"
-                android:text="Không"
-                android:checked="true"
-                android:clickable="false"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </RelativeLayout>
-
-
-    </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:paddingBottom="10dp"
-        android:paddingLeft="35dp"
-        android:paddingRight="35dp"
-        android:layout_alignParentBottom="true">
-        <Button
-            android:layout_width="140dp"
+        android:id="@+id/updateRoom"
+        android:layout_below="@+id/appBarUpdateRoom"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_add"
-            android:textColor="#F4EDED"
-            android:layout_alignParentLeft="true"
-            android:textStyle="bold"
-            android:layout_gravity="bottom"
-            android:gravity="center"
-            android:id="@+id/btn_edit_room"
-            android:text="Sửa" />
-        <Button
-            android:layout_width="140dp"
+            android:id="@+id/formEditRoom"
+            android:paddingTop="30dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:orientation="vertical">
+            <TextView
+                android:text="Tên phòng:"
+                android:paddingLeft="3dp"
+                android:textSize="18dp"
+                android:textColor="#160140"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/edtUpdateTenPhong"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="25dp"
+                android:inputType="text"
+                android:textColor="#393535"
+                android:hint=""
+                />
+            <TextView
+                android:text="Tầng:"
+                android:paddingLeft="3dp"
+                android:textSize="18dp"
+                android:textColor="#160140"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/edtUpdateTang"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="25dp"
+                android:textColor="#393535"
+                android:inputType="text"
+                android:hint=""
+                />
+            <TextView
+                android:text="Giá phòng:"
+                android:paddingLeft="3dp"
+                android:textSize="18dp"
+                android:textColor="#160140"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/edtUpdateGiaPhong"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textColor="#393535"
+                android:layout_marginBottom="25dp"
+                android:hint=""
+                />
+            <TextView
+                android:text="Trạng thái phòng:"
+                android:paddingLeft="3dp"
+                android:textSize="18dp"
+                android:textColor="#160140"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <RelativeLayout
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <CheckBox
+                    android:id="@+id/checkboxEmptyRoom"
+                    android:text="Trống"
+                    android:clickable="false"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <CheckBox
+                    android:id="@+id/checkboxRoomIsUsed"
+                    android:layout_toRightOf="@+id/checkboxEmptyRoom"
+                    android:layout_marginLeft="120dp"
+                    android:text="Đang dùng"
+                    android:clickable="false"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <TextView
+                android:layout_marginTop="5dp"
+                android:text="Tu sửa:"
+                android:paddingLeft="3dp"
+                android:textSize="18dp"
+                android:textColor="#160140"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="50dp">
+                <RadioButton
+                    android:id="@+id/rbnRoomIsFixing"
+                    android:text="Đang sửa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <RadioButton
+                    android:id="@+id/rbnRoomActivity"
+                    android:layout_toRightOf="@+id/checkboxRoomIsFixing"
+                    android:text="Không"
+                    android:layout_marginLeft="95dp"
+                    android:checked="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RadioGroup>
+
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_delete"
-            android:textColor="#F4EDED"
-            android:textStyle="bold"
-            android:layout_alignParentRight="true"
-            android:layout_gravity="bottom"
-            android:gravity="center"
-            android:id="@+id/btn_delete_room"
+            android:layout_marginTop="30dp"
+            android:paddingLeft="35dp"
+            android:paddingRight="35dp"
+            android:layout_below="@+id/formEditRoom"
+            >
+            <Button
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_add"
+                android:textColor="#F4EDED"
+                android:layout_alignParentLeft="true"
+                android:textStyle="bold"
+                android:layout_gravity="bottom"
+                android:gravity="center"
+                android:id="@+id/btn_update_room"
+                android:text="Sửa" />
+            <Button
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_delete"
+                android:textColor="#F4EDED"
+                android:textStyle="bold"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="bottom"
+                android:gravity="center"
+                android:id="@+id/btn_delete_room"
+                android:text="Xóa phòng" />
             android:text="Xóa phòng" />
-            android:text="Xóa phòng" />
+        </RelativeLayout>
     </RelativeLayout>
 
 
-</LinearLayout>
+
+</RelativeLayout>

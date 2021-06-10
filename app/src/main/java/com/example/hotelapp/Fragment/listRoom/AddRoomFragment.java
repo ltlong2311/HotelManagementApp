@@ -1,6 +1,8 @@
 package com.example.hotelapp.Fragment.listRoom;
 
+import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,8 +11,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,11 +37,11 @@ import java.util.Map;
 
 
 public class AddRoomFragment extends Fragment{
-
+    LinearLayout layoutHideKeyboard;
     EditText edtTenPhong, edtTang, edtGiaPhong;
     Button btnThemPhong, btnHuy;
 
-    String urlAddRoom = "http://192.168.1.107/serverApp/createRoom.php";
+    String urlAddRoom = "http://192.168.60.1/serverApp/createRoom.php";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,6 +85,17 @@ public class AddRoomFragment extends Fragment{
             }
         });
 
+        layoutHideKeyboard = (LinearLayout) root.findViewById(R.id.layoutHideKeyboard);
+        layoutHideKeyboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Activity hay Context đều được
+//                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+
+                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+            }
+        });
 
         return root;
     }

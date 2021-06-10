@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:onClick="hideKeyBoard"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ServiceEdit">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gradient_status_bar"
+        android:paddingTop="32dp"
+        android:id="@+id/appBarUpdateService"
+        android:theme="@style/Theme.HotelApp.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:gravity="center"
+            android:id="@+id/toolbar_ER"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/gradient_status_bar"
+            app:popupTheme="@style/Theme.HotelApp.PopupOverlay">
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/updateService"
+        android:layout_below="@+id/appBarUpdateService"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/formEditService"
+            android:paddingTop="30dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:orientation="vertical">
+            <TextView
+                android:text="Tên dịch vụ:"
+                android:paddingLeft="3dp"
+                android:textSize="18dp"
+                android:textColor="#160140"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/edtUpdateTenDV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="25dp"
+                android:inputType="text"
+                android:textColor="#393535"
+                android:hint=""
+                />
+            <TextView
+                android:text="Chi phí:"
+                android:paddingLeft="3dp"
+                android:textSize="18dp"
+                android:textColor="#160140"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/edtUpdateGiaDV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textColor="#393535"
+                android:layout_marginBottom="25dp"
+                android:hint=""
+                />
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:text="Trạng thái dịch vụ:"
+                android:paddingLeft="3dp"
+                android:textSize="18dp"
+                android:textColor="#160140"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="50dp">
+                <RadioButton
+                    android:id="@+id/rbnServiceIsActive"
+                    android:text="Hiện có"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <RadioButton
+                    android:id="@+id/rbnServiceIsStopServing"
+                    android:text="Ngừng phục vụ"
+                    android:layout_marginLeft="65dp"
+                    android:checked="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RadioGroup>
+
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:paddingLeft="35dp"
+            android:paddingRight="35dp"
+            android:layout_below="@+id/formEditService"
+            >
+            <Button
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_add"
+                android:textColor="#F4EDED"
+                android:layout_alignParentLeft="true"
+                android:textStyle="bold"
+                android:layout_gravity="bottom"
+                android:gravity="center"
+                android:id="@+id/btn_update_service"
+                android:text="Cập nhật" />
+            <Button
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_delete"
+                android:textColor="#F4EDED"
+                android:textStyle="bold"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="bottom"
+                android:gravity="center"
+                android:id="@+id/btn_delete_service"
+                android:text="Xóa dịch vụ" />
+            android:text="Xóa phòng" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

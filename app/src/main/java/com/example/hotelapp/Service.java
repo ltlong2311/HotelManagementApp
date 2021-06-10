@@ -1,6 +1,8 @@
 package com.example.hotelapp;
 
-public class Service {
+import java.io.Serializable;
+
+public class Service implements Serializable {
     private int ID;
     private String TenDV;
     private int Gia;

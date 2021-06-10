@@ -1,14 +1,18 @@
 package com.example.hotelapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +24,8 @@ public class  RoomAdapter extends BaseAdapter {
     private Context context;
     private int layout;
     private List<Room> RoomList;
+
+    int vt= -1;
 
     public RoomAdapter(Context context, int layout, List<Room> roomList) {
         this.context = context;
@@ -51,6 +57,10 @@ public class  RoomAdapter extends BaseAdapter {
 
     }
 
+    public List<Room> getData() {
+        return RoomList;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -72,7 +82,7 @@ public class  RoomAdapter extends BaseAdapter {
         }
         Room room = RoomList.get(position);
         holder.txtTenPhong.setText(room.getTenPhong());
-        holder.txtTang.setText("Tầng " + room.getTang());
+        holder.txtTang.setText("" + room.getTang());
         holder.txtGiaPhong.setText(room.getGia() + "");
 
 
@@ -80,31 +90,60 @@ public class  RoomAdapter extends BaseAdapter {
             holder.txtTrangThai.setText("Trống");
 //            holder.layoutRoom.setBackgroundColor(Color.parseColor("#DBF1FB"));
             GradientDrawable gradientDrawable = (GradientDrawable) holder.layoutRoom.getBackground().mutate();
-            gradientDrawable.setColor(Color.parseColor("#DBF1FB"));
+            gradientDrawable.setColor(Color.parseColor("#F9FEFF"));
         } else {
             holder.txtTrangThai.setText("Đã Dùng");
 //            holder.layoutRoom.setBackgroundColor(Color.parseColor("#a9ffeb"));
             GradientDrawable gradientDrawable = (GradientDrawable) holder.layoutRoom.getBackground().mutate();
-            gradientDrawable.setColor(Color.parseColor("#ffdce4"));
+            gradientDrawable.setColor(Color.parseColor("#F4DFDF"));
         }
 
         if(room.getTuSua() == 1){
-            holder.txtTrangThai.setText("Đang sửa!");
-//            holder.layoutRoom.setBackgroundColor(Color.parseColor("#65c6bb"));
+            holder.txtTrangThai.setText("Tạm dừng!");
+//            holder.layoutRoom.setBackgroundColor(Color.parseColor("#65c6bb#8ce3da#AEEAE4"));
             GradientDrawable gradientDrawable = (GradientDrawable) holder.layoutRoom.getBackground().mutate();
-            gradientDrawable.setColor(Color.parseColor("#8ce3da"));
+            gradientDrawable.setColor(Color.parseColor("#C3EFEB"));
         }
 
-        holder.imageEdit.setOnClickListener(new View.OnClickListener() {
+
+
+//        holder.imageEdit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(context, RoomEdit.class);
+//                intent.putExtra("dataRoom", room);
+//                context.startActivity(intent);
+////                ((Activity)context).finish();
+//            }
+//        });
+         holder.imageEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast.makeText(context, room.getId(), Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(context, RoomEdit.class);
-                intent.putExtra("dataRoom", room);
-//                intent.putExtra("TenPhong", room.getTenPhong());
-                context.startActivity(intent);
+//                PopupMenu popup = new PopupMenu(context, v, Gravity.RIGHT);
+                PopupMenu popup = null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                    popup = new PopupMenu(context, v, Gravity.RIGHT);
+                }
+                popup.inflate(R.menu.menu_manager_room);
+                popup.show();
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        int id = item.getItemId();
+                        switch (id){
+                            case R.id.checkin:
+                                Toast.makeText(context, "Test", Toast.LENGTH_SHORT).show();
+                                return true;
+                            case R.id.checkout:
+                                Toast.makeText(context, "Thông tin ứng dụng", Toast.LENGTH_SHORT).show();
+                                return true;
+                        }
+                        return true;
+                    }
+                });
             }
         });
+
 
         return convertView;
     }

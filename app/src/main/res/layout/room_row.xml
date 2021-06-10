@@ -3,11 +3,14 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="false"
-    android:padding="10dp"
+    android:paddingBottom="15dp"
+    android:paddingRight="10dp"
     android:gravity="center"
     >
     <RelativeLayout
-        android:layout_width="175dp"
+        android:layout_width="wrap_content"
+        android:layout_rowWeight="0"
+        android:layout_columnWeight="1"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@drawable/shadow"
@@ -28,13 +31,14 @@
         <View
             android:id="@+id/hr"
             android:layout_width="match_parent"
-            android:layout_height="1sp"
+            android:layout_height="0.5sp"
+            android:background="#504C4C"
             android:layout_marginTop="5dp"
             android:layout_below="@+id/textViewTenPhongCustom"
-            android:background="#504C4C"/>
+            />
 
         <TextView
-            android:id="@+id/textViewTangCustom"
+            android:id="@+id/textViewTitleFloor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/hr"
@@ -42,17 +46,17 @@
             android:text="Tầng"
             android:textColor="#8E24AA"
             android:textSize="15sp" />
-
         <TextView
-            android:id="@+id/textViewTrangThaiCustom"
+            android:id="@+id/textViewTangCustom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/hr"
             android:layout_alignParentRight="true"
             android:layout_marginTop="10dp"
-            android:text="Trạng thái"
+            android:text="1"
             android:textColor="#6F7149"
             android:textSize="15sp" />
+
         <TextView
             android:id="@+id/textViewTitleCost"
             android:layout_width="wrap_content"
@@ -91,6 +95,25 @@
             android:text="0"
             android:textColor="#00897B"
             android:textSize="15sp" />
+        <TextView
+            android:id="@+id/textViewTitleStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewTitleService"
+            android:layout_marginTop="10dp"
+            android:text="Trạng thái"
+            android:textColor="#8E24AA"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/textViewTrangThaiCustom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewTitleService"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:text="Trạng thái"
+            android:textColor="#6F7149"
+            android:textSize="15sp" />
 <!--        <ImageView-->
 <!--            android:id="@+id/imageViewDeleteRoom"-->
 <!--            android:layout_width="23dp"-->
@@ -105,6 +128,7 @@
             android:layout_height="15dp"
             android:layout_alignParentRight="true"
             android:layout_marginTop="6dp"
-            android:src="@drawable/dots_vertical" />
+            android:src="@drawable/dots_vertical"
+            />
     </RelativeLayout>
 </RelativeLayout>

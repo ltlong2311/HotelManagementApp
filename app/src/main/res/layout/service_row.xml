@@ -50,23 +50,25 @@
             android:textColor="#F6100A"
             android:textSize="16sp" />
 
-        <ImageView
-            android:id="@+id/imageViewDeleteService"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="2dp"
-            android:src="@drawable/alpha_x"
-            app:tint="#B52A2A" />
-
-        <ImageView
-            android:id="@+id/imageViewEditService"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="30dp"
-            android:src="@drawable/dots_vertical"
-            app:tint="#1D6C53"/>
+<!--        <ImageView-->
+<!--            android:id="@+id/imageViewDeleteService"-->
+<!--            android:layout_width="35dp"-->
+<!--            android:layout_height="35dp"-->
+<!--            android:layout_alignParentRight="true"-->
+<!--            android:layout_marginTop="2dp"-->
+<!--            android:src="@drawable/alpha_x"-->
+<!--            app:tint="#B52A2A" />-->
+         <ImageView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content" />
+<!--        <ImageView-->
+<!--            android:id="@+id/imageViewEditService"-->
+<!--            android:layout_width="20dp"-->
+<!--            android:layout_height="20dp"-->
+<!--            android:layout_alignParentRight="true"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:layout_marginRight="30dp"-->
+<!--            android:src="@drawable/dots_vertical"-->
+<!--            app:tint="#1D6C53"/>-->
     </RelativeLayout>
 </RelativeLayout>

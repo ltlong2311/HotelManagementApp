@@ -18,7 +18,7 @@
             android:icon="@drawable/coffee_maker"
             android:title="@string/menu_service" />
         <item
-            android:id="@+id/nav_receipt"
+            android:id="@+id/nav_invoice"
             android:icon="@drawable/currency_usd"
             android:title="@string/menu_invoice" />
         <item

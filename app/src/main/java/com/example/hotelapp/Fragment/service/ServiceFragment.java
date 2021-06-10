@@ -1,11 +1,14 @@
 package com.example.hotelapp.Fragment.service;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,22 +28,27 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.hotelapp.Fragment.listRoom.AddRoomFragment;
+import com.example.hotelapp.Home;
 import com.example.hotelapp.R;
 import com.example.hotelapp.Room;
 import com.example.hotelapp.RoomAdapter;
+import com.example.hotelapp.RoomEdit;
 import com.example.hotelapp.Service;
 import com.example.hotelapp.ServiceAdapter;
+import com.example.hotelapp.ServiceEdit;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class ServiceFragment extends Fragment {
 
     DrawerLayout drawerLayout;
-    String urlGetData = "http://192.168.1.107/severApp/services";
+    String urlGetData = "http://192.168.60.1/severApp/services";
 
     ListView lvService;
     ArrayList<Service> arrayService;
@@ -56,13 +64,23 @@ public class ServiceFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_service, container, false);
-
-
+        ((Home) getActivity())
+                .setActionBarTitle("Dịch vụ");
         lvService = root.findViewById(R.id.listViewService);
         arrayService = new ArrayList<>();
         adapter = new ServiceAdapter(getActivity(), R.layout.service_row, arrayService);
         lvService.setAdapter(adapter);
         getData(urlGetData);
+
+        lvService.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), ServiceEdit.class);
+                intent.putExtra("dataService", (Serializable) arrayService.get(position));
+                startActivity(intent);
+            }
+        });
+
         return root;
     }
 
@@ -84,7 +102,7 @@ public class ServiceFragment extends Fragment {
                                           data.getInt("Gia"),
                                           data.getInt("TrangThai")
                                   ));
-                                Toast.makeText(getActivity(), data.getString("TenDV"), Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getActivity(), data.getString("TenDV"), Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -106,5 +124,19 @@ public class ServiceFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu_add_service, menu);
         super.onCreateOptionsMenu(menu, inflater);
+
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.menu_add_service) {
+            AddServiceFragment add= new AddServiceFragment();
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.drawer_layout, add)
+                    .addToBackStack(null)
+                    .commit();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

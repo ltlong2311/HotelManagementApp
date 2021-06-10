@@ -8,14 +8,19 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.hotelapp.Fragment.listRoom.ListRoomFragment;
+import com.example.hotelapp.Fragment.service.ServiceFragment;
 import com.example.hotelapp.R;
+
 
 public class HomeFragment extends Fragment {
 
+    CardView cardViewListRoom, cardViewService, cardViewInvoice, cardViewRevenue;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,7 +34,22 @@ public class HomeFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 //        final TextView textView = root.findViewById(R.id.text_home);
-
+        cardViewListRoom = (CardView) root.findViewById(R.id.cardViewListRoom);
+        cardViewService = (CardView) root.findViewById(R.id.cardViewService);
+        cardViewListRoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                        new ListRoomFragment()).commit();
+            }
+        });
+        cardViewService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                        new ServiceFragment()).addToBackStack(null).commit();
+            }
+        });
         return root;
     }
 }

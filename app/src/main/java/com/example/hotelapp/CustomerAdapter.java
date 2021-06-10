@@ -7,14 +7,14 @@ import android.widget.BaseAdapter;
 
 import java.util.List;
 
-public class ReceiptAdapter extends BaseAdapter {
+public class CustomerAdapter extends BaseAdapter {
     private Context context;
     private int layout;
-    private List<Receipt> ReceiptList;
+    private List<Customer> customerList;
 
     @Override
     public int getCount() {
-        return 0;
+        return customerList.size();
     }
 
     @Override

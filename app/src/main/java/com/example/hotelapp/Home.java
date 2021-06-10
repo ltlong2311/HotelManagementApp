@@ -1,7 +1,7 @@
 package com.example.hotelapp;
 
 import android.app.Activity;
-import android.app.FragmentManager;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,9 +19,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.hotelapp.Fragment.home.HomeFragment;
-import com.example.hotelapp.Fragment.listRoom.AddRoomFragment;
 import com.example.hotelapp.Fragment.listRoom.ListRoomFragment;
-import com.example.hotelapp.Fragment.receipt.ReceiptFragment;
+import com.example.hotelapp.Fragment.invoice.InvoiceFragment;
 import com.example.hotelapp.Fragment.revenue.RevenueFragment;
 import com.example.hotelapp.Fragment.service.ServiceFragment;
 import com.google.android.material.navigation.NavigationView;
@@ -44,7 +43,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private AppBarConfiguration mAppBarConfiguration;
-    String urlGetData = "http://192.168.1.107/severApp/services";
+//    String urlGetData = "http://192.168.60.1/severApp/services";
     public static Toolbar mToolbar;
 //    GridView gridViewRoom;
 //    ListView lvRoom;
@@ -56,21 +55,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         Window window = getWindow();
-
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            window.setStatusBarColor(R.drawable.gradient_status_bar);
-//            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
-//              View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-//        }
-
-//        if (Build.VERSION.SDK_INT >= 21) {
-//            window.setStatusBarColor(R.drawable.gradient_status_bar2);
-////            window.setStatusBarColor(Color.parseColor("#2585FA"));
-//            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
-//                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-//        }
 
         setContentView(R.layout.activity_home);
 
@@ -119,7 +104,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         // menu should be considered as top level destinations.
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_room_list, R.id.nav_receipt, R.id.nav_service, R.id.nav_revenue)
+                R.id.nav_home, R.id.nav_room_list, R.id.nav_invoice, R.id.nav_service, R.id.nav_revenue)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -130,7 +115,31 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(drawerToggle);
 
-          getData(urlGetData);
+//        getData(urlGetData);
+        //        String value=getIntent().getStringExtra("key");
+//        Bundle bundle = new Bundle();
+//        bundle.putString("key",value);
+//        ListRoomFragment lr= new ListRoomFragment();
+//        lr.setArguments(bundle);
+        setActionBarTitle("Home");
+
+        Intent intent = getIntent();
+        String toListRoom = intent.getStringExtra("url");
+        if (toListRoom != null){
+            mToolbar.setTitle("Sơ đồ phòng");
+            getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                    new ListRoomFragment()).commit();
+        }
+
+
+        String toService = intent.getStringExtra("service");
+
+        if (toService != null){
+//            Toast.makeText(Home.this, toService, Toast.LENGTH_SHORT).show();
+            getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                    new ServiceFragment()).commit();
+        }
+
     }
     private static void SetWindowFlag(Activity activity, final int Bits, Boolean on) {
         Window win =  activity.getWindow();
@@ -172,12 +181,10 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         int id = item.getItemId();
 
         if (id == R.id.nav_log_out){
-            AddRoomFragment addRoom= new AddRoomFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.drawer_layout, addRoom, "Add")
-                    .addToBackStack(null)
-                    .commit();
-            Toast.makeText(Home.this, "", Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
         switch (item.getItemId()) {
             case R.id.nav_log_out:
@@ -193,6 +200,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         switch (item.getItemId()){
             case R.id.nav_home:
 //                mToolbar.setTitle(getString(R.string.dashboard_new_sale));
+
                 mToolbar.setTitle("Home");
                 getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
                         new HomeFragment()).commit();
@@ -208,10 +216,10 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
                         new ServiceFragment()).commit();
                 break;
-            case R.id.nav_receipt:
+            case R.id.nav_invoice:
                 mToolbar.setTitle("Hóa đơn");
                 getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
-                        new ReceiptFragment()).commit();
+                        new InvoiceFragment()).commit();
                 break;
             case R.id.nav_revenue:
                 mToolbar.setTitle("Doanh thu");
@@ -305,5 +313,9 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    public void setActionBarTitle(String title) {
+        getSupportActionBar().setTitle(title);
     }
 }

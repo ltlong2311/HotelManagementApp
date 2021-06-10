@@ -1,9 +1,11 @@
 package com.example.hotelapp;
 
+import org.json.JSONArray;
+
 import java.io.Serializable;
 import java.util.List;
 
-public class Receipt {
+public class Invoice {
     private int ID;
     private int IDPhong;
     private int IDUser;
@@ -12,7 +14,7 @@ public class Receipt {
     private int ThanhToan;
     private String createDate;
 
-    public Receipt(int ID, int IDPhong, int IDUser, Customer infoKhach, List<Service> dichVu, int thanhToan, String createDate) {
+    public Invoice(int ID, int IDPhong, int IDUser, Customer infoKhach, List<Service> dichVu, int thanhToan, String createDate) {
         this.ID = ID;
         this.IDPhong = IDPhong;
         this.IDUser = IDUser;
@@ -21,7 +23,6 @@ public class Receipt {
         ThanhToan = thanhToan;
         this.createDate = createDate;
     }
-
     public int getID() {
         return ID;
     }

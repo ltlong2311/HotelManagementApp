@@ -60,8 +60,8 @@ public class ServiceAdapter extends BaseAdapter {
               holder.txtTenDV = (TextView) convertView.findViewById(R.id.textViewTenDichVuCustom);
               holder.txtGia = (TextView) convertView.findViewById(R.id.textViewGiaDichVuCustom);
               holder.txtTrangThai = (TextView) convertView.findViewById(R.id.textViewTrangThaiDichVuCustom);
-              holder.imageEdit = (ImageView) convertView.findViewById(R.id.imageViewEditService);
-              holder.imageDelete = (ImageView) convertView.findViewById(R.id.imageViewDeleteService);
+//              holder.imageEdit = (ImageView) convertView.findViewById(R.id.imageViewEditService);
+//              holder.imageDelete = (ImageView) convertView.findViewById(R.id.imageViewDeleteService);
               holder.layoutService = convertView.findViewById(R.id.layoutService);
               convertView.setTag(holder);
           } else {
