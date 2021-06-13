@@ -13,7 +13,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.hotelapp.Fragment.invoice.InvoiceFragment;
 import com.example.hotelapp.Fragment.listRoom.ListRoomFragment;
+import com.example.hotelapp.Fragment.revenue.RevenueFragment;
 import com.example.hotelapp.Fragment.service.ServiceFragment;
 import com.example.hotelapp.R;
 
@@ -33,9 +35,14 @@ public class HomeFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-//        final TextView textView = root.findViewById(R.id.text_home);
+
         cardViewListRoom = (CardView) root.findViewById(R.id.cardViewListRoom);
         cardViewService = (CardView) root.findViewById(R.id.cardViewService);
+        cardViewInvoice = (CardView) root.findViewById(R.id.cardViewInvoice);
+        cardViewRevenue = (CardView) root.findViewById(R.id.cardViewRevenue);
+        cardViewInvoice = (CardView) root.findViewById(R.id.cardViewInvoice);
+
+
         cardViewListRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,6 +57,21 @@ public class HomeFragment extends Fragment {
                         new ServiceFragment()).addToBackStack(null).commit();
             }
         });
+        cardViewInvoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                        new InvoiceFragment()).addToBackStack(null).commit();
+            }
+        });
+        cardViewRevenue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                        new RevenueFragment()).addToBackStack(null).commit();
+            }
+        });
+
         return root;
     }
 }

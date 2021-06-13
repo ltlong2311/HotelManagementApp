@@ -71,7 +71,7 @@ public class ServiceAdapter extends BaseAdapter {
           Service service = serviceList.get(position);
 
           holder.txtTenDV.setText(service.getTenDV());
-          holder.txtGia.setText(service.getGia() + " đ");
+          holder.txtGia.setText(service.getGia() + "đ");
           if (service.getTrangThai() == 0){
               holder.txtTrangThai.setText("Ngừng phục vụ");
               holder.txtTrangThai.setTextColor(Color.parseColor("#F6100A"));

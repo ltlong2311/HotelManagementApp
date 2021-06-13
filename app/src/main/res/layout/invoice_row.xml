@@ -4,13 +4,13 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="false"
-    android:background="#F4F5FB"
+    android:background="#FFFFFF"
     >
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:id="@+id/layoutService"
+        android:id="@+id/layoutInvoice"
         android:paddingTop="10dp"
         android:paddingLeft="20dp"
         android:paddingRight="5dp"
@@ -19,7 +19,7 @@
         android:elevation="30dp">
 
         <TextView
-            android:id="@+id/textViewTenPhongHD"
+            android:id="@+id/textViewMaPhongHD"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
@@ -30,22 +30,23 @@
             />
 
         <TextView
-            android:id="@+id/textViewGiaDichVuCustom"
+            android:id="@+id/textViewThanhToanHD"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textViewMaHoaDon"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="10dp"
+
             android:paddingRight="8dp"
-            android:text="Số tiền: 200,000"
+            android:text="Thanh toán: 200,000"
             android:textStyle="bold"
-            android:textColor="#931E36"
+            android:textColor="#B81F3F"
             android:textSize="16sp" />
         <TextView
             android:id="@+id/textViewMaHoaDon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textViewTenPhongHD"
+            android:layout_below="@+id/textViewMaPhongHD"
             android:gravity="center"
             android:layout_marginTop="7dp"
             android:text="Mã: 0349802934"
@@ -55,23 +56,25 @@
             android:id="@+id/textViewNgayTaoHD"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textViewMaHoaDon"
+            android:layout_alignParentRight="true"
+            android:textStyle="italic"
             android:gravity="center"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="15dp"
+            android:paddingRight="10dp"
             android:text="Ngày tạo: 5/6/2021"
             android:textColor="#070707"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/textViewTenKhachHang"
+            android:id="@+id/textViewTenKhachHangHD"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nguyễn Văn A"
-            android:paddingRight="8dp"
-            android:textStyle="italic"
+            android:paddingRight="10dp"
+            android:textSize="16sp"
             android:textColor="#000"
             android:layout_marginTop="9dp"
-            android:layout_alignParentRight="true" />
+            android:layout_below="@+id/textViewMaHoaDon" />
 =
     </RelativeLayout>
 </RelativeLayout>

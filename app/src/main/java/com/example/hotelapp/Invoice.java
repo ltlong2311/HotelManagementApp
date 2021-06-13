@@ -1,20 +1,34 @@
 package com.example.hotelapp;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.List;
 
-public class Invoice {
+public class Invoice implements Serializable{
     private int ID;
     private int IDPhong;
     private int IDUser;
-    private Customer InfoKhach;
-    private List<Service> DichVu;
+//    private Customer InfoKhach;
+//    private List<ServiceUsed> DichVu;
+    private JSONObject InfoKhach;
+    private JSONArray DichVu;
     private int ThanhToan;
     private String createDate;
 
-    public Invoice(int ID, int IDPhong, int IDUser, Customer infoKhach, List<Service> dichVu, int thanhToan, String createDate) {
+//    public Invoice(int ID, int IDPhong, int IDUser, Customer infoKhach, List<ServiceUsed> dichVu, int thanhToan, String createDate) {
+//        this.ID = ID;
+//        this.IDPhong = IDPhong;
+//        this.IDUser = IDUser;
+//        InfoKhach = infoKhach;
+//        DichVu = dichVu;
+//        ThanhToan = thanhToan;
+//        this.createDate = createDate;
+//    }
+
+
+    public Invoice(int ID, int IDPhong, int IDUser, JSONObject infoKhach, JSONArray dichVu, int thanhToan, String createDate) {
         this.ID = ID;
         this.IDPhong = IDPhong;
         this.IDUser = IDUser;
@@ -23,6 +37,7 @@ public class Invoice {
         ThanhToan = thanhToan;
         this.createDate = createDate;
     }
+
     public int getID() {
         return ID;
     }
@@ -47,19 +62,36 @@ public class Invoice {
         this.IDUser = IDUser;
     }
 
-    public Customer getInfoKhach() {
+//    public Customer getInfoKhach() {
+//        return InfoKhach;
+//    }
+//
+//    public void setInfoKhach(Customer infoKhach) {
+//        InfoKhach = infoKhach;
+//    }
+//
+//    public List<ServiceUsed> getDichVu() {
+//        return DichVu;
+//    }
+//
+//    public void setDichVu(List<ServiceUsed> dichVu) {
+//        DichVu = dichVu;
+//    }
+
+
+    public JSONObject getInfoKhach() {
         return InfoKhach;
     }
 
-    public void setInfoKhach(Customer infoKhach) {
+    public void setInfoKhach(JSONObject infoKhach) {
         InfoKhach = infoKhach;
     }
 
-    public List<Service> getDichVu() {
+    public JSONArray getDichVu() {
         return DichVu;
     }
 
-    public void setDichVu(List<Service> dichVu) {
+    public void setDichVu(JSONArray dichVu) {
         DichVu = dichVu;
     }
 
@@ -78,4 +110,6 @@ public class Invoice {
     public void setCreateDate(String createDate) {
         this.createDate = createDate;
     }
+
 }
+

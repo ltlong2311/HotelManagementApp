@@ -39,7 +39,6 @@
                     android:layout_height="match_parent"
                     android:fadeScrollbars="false"
                     android:fastScrollEnabled="true"
-                    android:paddingTop="15dp"
                     android:paddingLeft="10dp"
                     android:numColumns="2"
                     android:gravity="center"

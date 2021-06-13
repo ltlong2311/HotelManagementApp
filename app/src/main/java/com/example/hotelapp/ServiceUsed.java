@@ -1,6 +1,8 @@
 package com.example.hotelapp;
 
-public class ServiceUsed {
+import java.io.Serializable;
+
+public class ServiceUsed implements Serializable {
     private String TenDV;
     private int Gia;
 

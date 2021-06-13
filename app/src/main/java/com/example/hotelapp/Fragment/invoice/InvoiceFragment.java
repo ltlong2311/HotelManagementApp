@@ -1,5 +1,6 @@
 package com.example.hotelapp.Fragment.invoice;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -20,16 +22,18 @@ import com.example.hotelapp.Customer;
 import com.example.hotelapp.Home;
 import com.example.hotelapp.Invoice;
 import com.example.hotelapp.InvoiceAdapter;
+import com.example.hotelapp.InvoiceDetail;
 import com.example.hotelapp.R;
 import com.example.hotelapp.Service;
-import com.example.hotelapp.ServiceAdapter;
+import com.example.hotelapp.ServiceEdit;
+import com.example.hotelapp.ServiceUsed;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class InvoiceFragment extends Fragment {
@@ -37,7 +41,7 @@ public class InvoiceFragment extends Fragment {
     String urlGetData = "http://192.168.60.1/severApp/pays";
 
     ListView lvInvoice;
-    ArrayList<Invoice> arrayInvoice;
+    ArrayList<Invoice> invoiceList;
     InvoiceAdapter adapter;
 
     @Override
@@ -53,9 +57,60 @@ public class InvoiceFragment extends Fragment {
         ((Home) getActivity())
                 .setActionBarTitle("Hóa đơn");
         lvInvoice = root.findViewById(R.id.listViewInvoice);
-        arrayInvoice = new ArrayList<>();
-        adapter = new InvoiceAdapter(getActivity(), R.layout.invoice_row, arrayInvoice);
+        invoiceList = new ArrayList<>();
+        adapter = new InvoiceAdapter(getActivity(), R.layout.invoice_row, invoiceList);
         lvInvoice.setAdapter(adapter);
+        lvInvoice.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), InvoiceDetail.class);
+                Invoice invoice = invoiceList.get(position);
+//                Toast.makeText(getActivity(), invoiceList.get(position).getCreateDate(), Toast.LENGTH_SHORT).show();
+                intent.putExtra("invoiceID", invoiceList.get(position).getID());
+                intent.putExtra("invoiceIDPhong", invoiceList.get(position).getIDPhong());
+                intent.putExtra("invoiceThanhToan", invoiceList.get(position).getThanhToan());
+                intent.putExtra("invoiceCreateDate", invoiceList.get(position).getCreateDate());
+                JSONObject json = invoice.getInfoKhach();
+                JSONObject jsonAddress = null;
+                try {
+                    String ten = json.getString("Ten");
+                    String cmt = json.getString("CMT");
+                    String sdt = json.getString("SDT");
+                    String diachi = json.getString("DiaChi");
+                    intent.putExtra("invoiceTenKhach", ten);
+                    intent.putExtra("invoiceCMNDKhach", cmt);
+                    intent.putExtra("invoiceSDTKhach", sdt);
+                    intent.putExtra("invoiceDiaChiKhach", diachi);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                JSONArray arr = invoice.getDichVu();
+                String tenDV = "";
+                int giaDV = 0;
+                ArrayList<String> listTenDV
+                        = new ArrayList<String>();
+                for (int i = 0; i < arr.length(); i++){
+                    try {
+                        JSONObject dichvu = arr.getJSONObject(i);
+                        //dv += dichvu.getString("TenDV");
+                        listTenDV.add(dichvu.getString("TenDV"));
+                        tenDV = listTenDV.toString();
+                        tenDV = tenDV.replace("[", "")
+                                .replace("]", "");
+
+                        giaDV += dichvu.getInt("Gia");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                intent.putExtra("invoiceDichVu", tenDV);
+                intent.putExtra("invoicePhiDichVu", giaDV);
+
+                startActivity(intent);
+            }
+        });
+
         getData(urlGetData);
         return root;
     }
@@ -70,59 +125,25 @@ public class InvoiceFragment extends Fragment {
                     public void onResponse(JSONObject response) {
                         try {
                             JSONArray jsonArray = response.getJSONArray("data");
-                            Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getActivity(), jsonArray.toString(), Toast.LENGTH_SHORT).show();
                             for (int i = 0; i < jsonArray.length(); i++){
                                 JSONObject data = jsonArray.getJSONObject(i);
-                                Toast.makeText(getActivity(), data.getString("createDate"), Toast.LENGTH_SHORT).show();
-                                JSONArray infoCustomer = data.getJSONArray("infoKhach");
-                                ArrayList<Customer> customer = new ArrayList<>();
-                                for (int j = 0; j < infoCustomer.length(); j++){
-                                    JSONObject dataInfo = infoCustomer.getJSONObject(j);
-                                    customer.add(new Customer(
-                                            dataInfo.getString("Ten"),
-                                            dataInfo.getString("CMT"),
-                                            dataInfo.getString("SDT"),
-                                            dataInfo.getString("Diachi")
-                                            ));
-                                    Toast.makeText(getActivity(), dataInfo.getString("Ten"), Toast.LENGTH_SHORT).show();
-                                }
-                                JSONArray serviceUsed = data.getJSONArray("DichVu");
-                                ArrayList<Customer> service = new ArrayList<>();
-                                for (int k = 0; k < serviceUsed.length(); k++){
-                                    JSONObject dataService = serviceUsed.getJSONObject(k);
-//                                    service.add(new ServiceUsed(
-//                                            dataService.getString("TenDV"),
-//                                            dataService.getString("Gia")
-//                                    ));
-                                    Toast.makeText(getActivity(), dataService.getString("TenDV"), Toast.LENGTH_SHORT).show();
-                                }
-                                ArrayList<Service> Service = new ArrayList<>();
-                                {
-
-                                }
-//                                arrayInvoice.add(new Invoice(
-//                                        data.getInt("ID"),
-//                                        data.getInt("IDPhong"),
-//                                        data.getInt("IDUser"),
-//                                        data.getJSONArray("InfoKhach"),
-//                                        data.getJSONArray("DichVu"),
-//                                        data.getInt("ThanhToan"),
-//                                        data.getString("createDate")
-//                                ));
-
-
-/*                               private int ID;
-                                private int IDPhong;
-                                private int IDUser;
-                                private Customer InfoKhach;
-                                private List<Service> DichVu;
-                                private int ThanhToan;
-                                private String createDate; */
+//                                Toast.makeText(getActivity(), data.getString("createDate"), Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getActivity(), data.getJSONObject("InfoKhach").toString(), Toast.LENGTH_SHORT).show();
+                                invoiceList.add(new Invoice(
+                                        data.getInt("ID"),
+                                        data.getInt("IDPhong"),
+                                        data.getInt("IDUser"),
+                                        data.getJSONObject("InfoKhach"),
+                                        data.getJSONArray("DichVu"),
+                                        data.getInt("ThanhToan"),
+                                        data.getString("createDate")
+                                ));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-//                        adapter.notifyDataSetChanged();
+                        adapter.notifyDataSetChanged();
                     }
                 },
                 new Response.ErrorListener() {

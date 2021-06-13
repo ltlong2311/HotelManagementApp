@@ -133,11 +133,16 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
 
         String toService = intent.getStringExtra("service");
-
         if (toService != null){
 //            Toast.makeText(Home.this, toService, Toast.LENGTH_SHORT).show();
             getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
                     new ServiceFragment()).commit();
+        }
+
+        String toInvoice = intent.getStringExtra("invoice");
+        if (toInvoice != null){
+            getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                    new InvoiceFragment()).commit();
         }
 
     }
@@ -191,7 +196,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 Toast.makeText(this, "Test", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.info_app:
-                Toast.makeText(this, "Thông tin ứng dụng", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Made by: Nhóm 4- CT2", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.assist:
                 Toast.makeText(this, "Thông tin hỗ trợ", Toast.LENGTH_SHORT).show();

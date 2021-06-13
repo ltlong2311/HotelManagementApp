@@ -1,9 +1,346 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:onClick="hideKeyBoard"
+    android:background="#f7f7f7"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".InvoiceDetail">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gradient_status_bar"
+        android:paddingTop="32dp"
+        android:id="@+id/appBarUpdateInvoice"
+        android:theme="@style/Theme.HotelApp.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:gravity="center"
+            android:id="@+id/toolbar_ER"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/gradient_status_bar"
+            app:popupTheme="@style/Theme.HotelApp.PopupOverlay">
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/appBarUpdateInvoice"
+        android:fadeScrollbars="false"
+        android:fastScrollEnabled="true"
+        android:scrollbarThumbVertical="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/updateInvoice"
+            android:paddingRight="15dp"
+            android:paddingLeft="15dp"
+            android:paddingTop="7dp"
+            android:paddingBottom="9dp"
+            android:layout_below="@+id/appBarUpdateInvoice"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/formInvoiceDetail"
+                android:background="#ffffff"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:orientation="vertical">
+                <!--            <TextView-->
+                <!--                android:text="Nội dung hóa đơn"-->
+                <!--                android:paddingLeft="3dp"-->
+                <!--                android:textSize="20dp"-->
+                <!--                android:gravity="center"-->
+                <!--                android:textColor="#160140"-->
+                <!--                android:textStyle="bold"-->
+                <!--                android:paddingTop="8dp"-->
+                <!--                android:paddingBottom="8dp"-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content" />-->
+                <!--            <View-->
+                <!--                android:id="@+id/hr"-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="1sp"-->
+                <!--                android:background="#000000"-->
+                <!--                android:layout_marginTop="5dp"-->
+                <!--                android:layout_below="@+id/textViewTenPhongCustom"-->
+                <!--                />-->
+                <TextView
+                    android:text="Mã hóa đơn:"
+                    android:paddingLeft="3dp"
+                    android:textSize="14dp"
+                    android:textColor="#645E70"
+                    android:paddingTop="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:id="@+id/edtMaHD"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:inputType="text"
+                    android:textSize="18dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="15dp"
+                    android:text=""
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:textColor="#1E1C1C"
+                    app:backgroundTint="#cacaca"
+                    android:hint="1"
+                    />
+                <TextView
+                    android:text="Số phòng:"
+                    android:paddingLeft="3dp"
+                    android:textSize="14dp"
+                    android:textColor="#645E70"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:id="@+id/edtSoPhong"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="15dp"
+                    android:textSize="18dp"
+                    android:text=""
+                    android:textColor="#1E1C1C"
+                    android:layout_marginBottom="5dp"
+                    android:hint="Phòng"
+                    app:backgroundTint="#cacaca"
+                    />
+                <TextView
+                    android:text="Khách hàng:"
+                    android:paddingLeft="3dp"
+                    android:textSize="14dp"
+                    android:textColor="#645E70"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:id="@+id/edtTenKhachHang"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:textSize="18dp"
+                    android:text=""
+                    android:paddingTop="5dp"
+                    android:paddingBottom="15dp"
+                    android:textColor="#1E1C1C"
+                    android:layout_marginBottom="5dp"
+                    android:hint="Tên"
+                    app:backgroundTint="#cacaca"
+                    />
+                <TextView
+                    android:text="CMND:"
+                    android:paddingLeft="3dp"
+                    android:textSize="14dp"
+                    android:textColor="#645E70"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:id="@+id/edtCMND"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:textSize="18dp"
+                    android:text=""
+                    android:paddingTop="5dp"
+                    android:paddingBottom="15dp"
+                    android:textColor="#1E1C1C"
+                    android:layout_marginBottom="5dp"
+                    android:hint="096273859312"
+                    app:backgroundTint="#cacaca"
+                    />
+                <TextView
+                    android:text="Địa chỉ:"
+                    android:paddingLeft="3dp"
+                    android:textSize="14dp"
+                    android:textColor="#645E70"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:id="@+id/edtDiaChi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="15dp"
+                    android:textSize="18dp"
+                    android:text=""
+                    android:textColor="#1E1C1C"
+                    android:layout_marginBottom="5dp"
+                    android:singleLine="true"
+                    android:hint="141 Chiến Thắng, Tân Triều, Thanh Trì, Hà Nội"
+                    app:backgroundTint="#cacaca"
+                    />
+                <TextView
+                    android:text="Số điện thoại:"
+                    android:paddingLeft="3dp"
+                    android:textSize="14dp"
+                    android:textColor="#645E70"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:id="@+id/edtSoDienThoai"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:textSize="18dp"
+                    android:text=""
+                    android:paddingTop="5dp"
+                    android:paddingBottom="15dp"
+                    android:textColor="#1E1C1C"
+                    android:layout_marginBottom="5dp"
+                    android:hint="0393260255"
+                    app:backgroundTint="#cacaca"
+                    />
+                <TextView
+                    android:text="Dịch vụ:"
+                    android:paddingLeft="3dp"
+                    android:textSize="14dp"
+                    android:textColor="#645E70"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:id="@+id/edtDichVuSuDung"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:textSize="18dp"
+                    android:text="Không"
+                    android:singleLine="true"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="15dp"
+                    android:textColor="#1E1C1C"
+                    android:layout_marginBottom="5dp"
+                    android:hint="Không"
+                    app:backgroundTint="#cacaca"
+                    />
+                <TextView
+                    android:text="Phí dịch vụ:"
+                    android:paddingLeft="3dp"
+                    android:textSize="14dp"
+                    android:textColor="#645E70"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:id="@+id/edtPhiDichVu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:textSize="18dp"
+                    android:text=""
+                    android:singleLine="true"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="15dp"
+                    android:textColor="#1E1C1C"
+                    android:layout_marginBottom="5dp"
+                    android:hint="230000"
+                    app:backgroundTint="#cacaca"
+                    />
+                <TextView
+                    android:text="Thanh toán:"
+                    android:paddingLeft="3dp"
+                    android:textSize="14dp"
+                    android:textColor="#645E70"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:id="@+id/edtThanhToan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="15dp"
+                    android:textSize="18dp"
+                    android:text=""
+                    android:textColor="#1E1C1C"
+                    android:layout_marginBottom="5dp"
+                    android:hint="3200000"
+                    app:backgroundTint="#cacaca"
+                    />
+                <TextView
+                    android:text="Ngày tạo:"
+                    android:paddingLeft="3dp"
+                    android:textSize="14dp"
+                    android:textColor="#645E70"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:id="@+id/edtNgayTao"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="15dp"
+                    android:textSize="18dp"
+                    android:text=""
+                    android:singleLine="true"
+                    android:textColor="#1E1C1C"
+                    android:layout_marginBottom="5dp"
+                    android:hint="23-11-1999"
+                    app:backgroundTint="#cacaca"
+                    />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:gravity="center"
+                android:layout_alignParentBottom="false"
+                android:layout_below="@+id/formInvoiceDetail"
+                >
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:background="@drawable/button_delete"
+                    android:textColor="#F4EDED"
+                    android:layout_marginBottom="15dp"
+                    android:layout_gravity="bottom"
+                    android:textStyle="bold"
+                    android:textSize="15dp"
+                    android:textAllCaps="false"
+                    android:id="@+id/btn_delete_invoice"
+                    android:text="Xóa hóa đơn" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+
+
+
+</RelativeLayout>
