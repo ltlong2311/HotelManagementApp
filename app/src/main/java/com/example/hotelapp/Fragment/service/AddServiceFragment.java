@@ -20,18 +20,9 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.hotelapp.Fragment.listRoom.AddRoomFragment;
-import com.example.hotelapp.Fragment.listRoom.ListRoomFragment;
 import com.example.hotelapp.R;
-import com.example.hotelapp.Room;
-import com.example.hotelapp.Service;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -63,6 +54,7 @@ public class AddServiceFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction().remove(AddServiceFragment.this).commit();
+                hideKeyBoard(view);
             }
         });
 
@@ -75,6 +67,7 @@ public class AddServiceFragment extends Fragment {
                     Toast.makeText(getActivity(), "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
                 } else {
                     ThemDV(urlAddService);
+                    hideKeyBoard(v);
                 }
             }
         });
@@ -83,12 +76,16 @@ public class AddServiceFragment extends Fragment {
         layoutHideKeyboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                hideKeyBoard(v);
             }
         });
 
         return root;
+    }
+
+    private void hideKeyBoard(View v) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 
     private void ThemDV(String url) {
@@ -127,5 +124,7 @@ public class AddServiceFragment extends Fragment {
         };
         requestQueue.add(stringRequest);
     }
+
+
 
 }

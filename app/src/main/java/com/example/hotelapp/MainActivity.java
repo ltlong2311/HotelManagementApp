@@ -20,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.hotelapp.Activities.Home;
 
 import org.json.JSONArray;
 
@@ -86,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(MainActivity.this, "Đăng nhập!", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(MainActivity.this, "Đăng nhập!", Toast.LENGTH_SHORT).show();
                     }
                 }
         );

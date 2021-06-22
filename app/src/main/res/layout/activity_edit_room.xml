@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:onClick="hideKeyBoard"
-    tools:context=".RoomEdit">
+    tools:context=".Activities.RoomEdit">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -69,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="25dp"
                 android:textColor="#393535"
-                android:inputType="text"
+                android:inputType="number"
                 android:hint=""
                 />
             <TextView
@@ -83,7 +83,7 @@
                 android:id="@+id/edtUpdateGiaPhong"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
+                android:inputType="number"
                 android:textColor="#393535"
                 android:layout_marginBottom="25dp"
                 android:hint=""

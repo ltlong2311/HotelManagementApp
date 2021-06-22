@@ -28,7 +28,7 @@
     </group>
     <item android:title="Tài khoản">
         <menu>
-            <item android:id="@+id/nav_manager_account"
+            <item android:id="@+id/nav_manage"
                 android:icon="@drawable/briefcase"
                 android:title="Quản lý" />
             <item android:id="@+id/nav_log_out"

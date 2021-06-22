@@ -1,27 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="87dp"
-    android:background="@drawable/the_overlay"
-    android:id="@+id/fragment_add_room"
-    tools:context=".Fragment.listRoom.AddRoomFragment">
-
-    <LinearLayout
+    android:padding="20dp"
+    android:orientation="vertical">
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp"
-        android:id="@+id/layoutHideKeyboard"
-        >
+        android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FFFFFF"
             android:orientation="vertical"
+            android:background="#E4F2F4"
             android:gravity="center"
             android:layout_gravity="center">
             <TextView
@@ -29,66 +19,101 @@
                 android:layout_height="wrap_content"
                 android:padding="15dp"
                 android:gravity="center"
-                android:textColor="#483d8b"
+                android:background="@color/light_blue"
+                android:textColor="#FDFDFD"
                 android:textStyle="bold"
                 android:textSize="18dp"
-                android:text="THÊM DỊCH VỤ" />
+                android:text="Check in" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="20dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:orientation="vertical">
+
                 <EditText
-                    android:id="@+id/editTextTenDichVu"
+                    android:id="@+id/editTextSoPhongCheckIn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:inputType="text"
-                    android:hint="Tên dịch vụ"
+                    android:inputType="none"
+                    android:hint="Số phòng"
+                    android:text="Phòng 101"
                     />
                 <EditText
-                    android:id="@+id/editTextGiaDichVu"
+                    android:id="@+id/editTextTenKhachCheckIn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:inputType="text"
+                    android:layout_marginBottom="20dp"
+                    android:text=""
+                    android:hint="Họ tên"
+                    />
+                <EditText
+                    android:id="@+id/editTextCMTCheckIn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:inputType="number"
                     android:layout_marginBottom="20dp"
-                    android:hint="Chi phí"
+                    android:text=""
+                    android:hint="CMND"
+                    />
+                <EditText
+                    android:id="@+id/editTextDiaChi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:inputType="number"
+                    android:layout_marginBottom="20dp"
+                    android:hint="Quê quán"
+                    />
+                <EditText
+                    android:id="@+id/editTextSDTCheckIn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:inputType="number"
+                    android:layout_marginBottom="20dp"
+                    android:text=""
+                    android:hint="Số điện thoại"
                     />
             </LinearLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:paddingBottom="10dp"
+                android:paddingBottom="20dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:layout_alignParentBottom="true">
                 <Button
                     android:layout_width="140dp"
                     android:layout_height="40dp"
-                    android:background="@drawable/button_add"
+                    android:background="@drawable/button_confirm"
                     android:textColor="#F4EDED"
                     android:layout_alignParentLeft="true"
                     android:layout_gravity="bottom"
                     android:gravity="center"
-                    android:id="@+id/btn_add_room"
-                    android:text="Thêm" />
+                    android:id="@+id/btn_submit_checkout"
+                    android:text="Xác nhận" />
                 <Button
                     android:layout_width="140dp"
                     android:layout_height="40dp"
-                    android:background="@drawable/button_cancel"
+                    android:background="@drawable/button_cancel2"
                     android:textColor="#F4EDED"
                     android:layout_alignParentRight="true"
                     android:layout_gravity="bottom"
                     android:gravity="center"
-                    android:id="@+id/btn_back"
+                    android:id="@+id/btn_cancel_checkout"
                     android:text="Hủy bỏ" />
             </RelativeLayout>
         </LinearLayout>
+    </ScrollView>
 
 
-    </LinearLayout>
-
-</FrameLayout>
+    <!--    </LinearLayout>-->
+</LinearLayout>

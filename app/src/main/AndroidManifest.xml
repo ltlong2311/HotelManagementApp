@@ -12,11 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HotelApp"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ServiceEdit"></activity>
-        <activity android:name=".InvoiceDetail" />
-        <activity android:name=".RoomEdit" />
+        <activity android:name=".Activities.ServiceEdit"></activity>
+        <activity android:name=".Activities.InvoiceDetail" />
+        <activity android:name=".Activities.RoomEdit" />
         <activity
-            android:name=".Home"
+            android:name=".Activities.Home"
             android:label="@string/title_activity_home"
             android:theme="@style/Theme.HotelApp.NoActionBar" />
         <activity android:name=".MainActivity">

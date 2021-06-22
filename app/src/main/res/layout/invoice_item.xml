@@ -25,7 +25,7 @@
             android:layout_marginTop="9dp"
             android:text="Phòng 203"
             android:textStyle="bold"
-            android:textColor="#000"
+            android:textColor="#333333"
             android:textSize="20sp"
             />
 

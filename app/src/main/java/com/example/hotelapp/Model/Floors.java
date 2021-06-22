@@ -1,4 +1,4 @@
-package com.example.hotelapp;
+package com.example.hotelapp.Model;
 
 public class Floors {
     private int id;

@@ -1,4 +1,4 @@
-package com.example.hotelapp;
+package com.example.hotelapp.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -21,8 +21,11 @@ import com.android.volley.toolbox.Volley;
 import com.example.hotelapp.Fragment.home.HomeFragment;
 import com.example.hotelapp.Fragment.listRoom.ListRoomFragment;
 import com.example.hotelapp.Fragment.invoice.InvoiceFragment;
+import com.example.hotelapp.Fragment.manage.ManageFragment;
 import com.example.hotelapp.Fragment.revenue.RevenueFragment;
 import com.example.hotelapp.Fragment.service.ServiceFragment;
+import com.example.hotelapp.MainActivity;
+import com.example.hotelapp.R;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -231,8 +234,10 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
                         new RevenueFragment()).commit();
                 break;
-            case R.id.nav_manager_account:
-                Toast.makeText(this, "Quản lý", Toast.LENGTH_SHORT).show();
+            case R.id.nav_manage:
+                mToolbar.setTitle("Quản lý");
+                getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                        new ManageFragment()).commit();
                 break;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

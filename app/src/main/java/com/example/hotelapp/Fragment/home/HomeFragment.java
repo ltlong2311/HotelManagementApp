@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.hotelapp.Fragment.invoice.InvoiceFragment;
 import com.example.hotelapp.Fragment.listRoom.ListRoomFragment;
+import com.example.hotelapp.Fragment.manage.ManageFragment;
 import com.example.hotelapp.Fragment.revenue.RevenueFragment;
 import com.example.hotelapp.Fragment.service.ServiceFragment;
 import com.example.hotelapp.R;
@@ -22,7 +23,7 @@ import com.example.hotelapp.R;
 
 public class HomeFragment extends Fragment {
 
-    CardView cardViewListRoom, cardViewService, cardViewInvoice, cardViewRevenue;
+    CardView cardViewListRoom, cardViewService, cardViewInvoice, cardViewRevenue, cardViewManage, cardViewSupport;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,8 @@ public class HomeFragment extends Fragment {
         cardViewInvoice = (CardView) root.findViewById(R.id.cardViewInvoice);
         cardViewRevenue = (CardView) root.findViewById(R.id.cardViewRevenue);
         cardViewInvoice = (CardView) root.findViewById(R.id.cardViewInvoice);
-
+        cardViewManage = (CardView) root.findViewById(R.id.cardViewManage);
+        cardViewSupport = (CardView) root.findViewById(R.id.cardViewSupport);
 
         cardViewListRoom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +71,13 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
                         new RevenueFragment()).addToBackStack(null).commit();
+            }
+        });
+        cardViewManage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                        new ManageFragment()).addToBackStack(null).commit();
             }
         });
 

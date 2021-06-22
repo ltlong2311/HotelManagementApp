@@ -1,21 +1,15 @@
-package com.example.hotelapp;
+package com.example.hotelapp.Adapters;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.example.hotelapp.Model.Invoice;
+import com.example.hotelapp.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class InvoiceAdapter extends BaseAdapter {

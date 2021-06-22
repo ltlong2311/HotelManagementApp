@@ -1,7 +1,5 @@
 package com.example.hotelapp.Fragment.listRoom;
 
-import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -15,7 +13,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -26,12 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.hotelapp.R;
-import com.example.hotelapp.Room;
-import com.example.hotelapp.RoomAdapter;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -74,13 +66,18 @@ public class AddRoomFragment extends Fragment{
         btnThemPhong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tenphong = edtTenPhong.getText().toString().trim();
+                String tenPhong = edtTenPhong.getText().toString().trim();
                 String tang = edtTang.getText().toString().trim();
-                String giaphong = edtGiaPhong.getText().toString().trim();
-                  if (tenphong.isEmpty() || tang.isEmpty() || giaphong.isEmpty()){
+                String giaPhong = edtGiaPhong.getText().toString().trim();
+                  if (tenPhong.isEmpty() || tang.isEmpty() || giaPhong.isEmpty()){
                       Toast.makeText(getActivity(), "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
+                      hideKeyBoard(v);
+                  } else if (Integer.parseInt(tang) > 10){
+                    Toast.makeText(getActivity(), "Hãy nhập đúng số tầng!", Toast.LENGTH_SHORT).show();
+                    hideKeyBoard(v);
                   } else {
                       ThemPhong(urlAddRoom);
+                      hideKeyBoard(v);
                   }
             }
         });
@@ -89,9 +86,6 @@ public class AddRoomFragment extends Fragment{
         layoutHideKeyboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Activity hay Context đều được
-//                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-
                 InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
             }
@@ -112,7 +106,7 @@ public class AddRoomFragment extends Fragment{
                             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
                                     new ListRoomFragment()).commit();
                         } else  {
-                            Toast.makeText(getActivity(), "Loi", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
                             getFragmentManager().beginTransaction().remove(AddRoomFragment.this).commit();
                         }
 //                        adapter.notifyDataSetChanged(); // reload lại danh sách phòng
@@ -139,7 +133,10 @@ public class AddRoomFragment extends Fragment{
         };
         requestQueue.add(stringRequest);
     }
-    
+    private void hideKeyBoard(View v) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+    }
 
 //    private void Map() {
 //        btnThemPhong = (Button) findViewById(R.id.btn_add_room);

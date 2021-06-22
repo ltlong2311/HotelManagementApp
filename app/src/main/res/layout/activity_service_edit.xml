@@ -6,7 +6,7 @@
     android:onClick="hideKeyBoard"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ServiceEdit">
+    tools:context=".Activities.ServiceEdit">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -67,7 +67,7 @@
                 android:id="@+id/edtUpdateGiaDV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
+                android:inputType="number"
                 android:textColor="#393535"
                 android:layout_marginBottom="25dp"
                 android:hint=""

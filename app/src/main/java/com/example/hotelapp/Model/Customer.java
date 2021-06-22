@@ -1,4 +1,4 @@
-package com.example.hotelapp;
+package com.example.hotelapp.Model;
 
 import java.io.Serializable;
 

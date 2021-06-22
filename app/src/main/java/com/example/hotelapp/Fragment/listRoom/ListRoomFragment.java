@@ -12,9 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,15 +26,13 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.hotelapp.Home;
+import com.example.hotelapp.Activities.Home;
 import com.example.hotelapp.R;
-import com.example.hotelapp.Room;
-import com.example.hotelapp.RoomAdapter;
-import com.example.hotelapp.RoomEdit;
-import com.example.hotelapp.Service;
+import com.example.hotelapp.Model.Room;
+import com.example.hotelapp.Adapters.RoomAdapter;
+import com.example.hotelapp.Activities.RoomEdit;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
@@ -110,7 +106,7 @@ public class ListRoomFragment extends Fragment {
 
         gvRoom = root.findViewById(R.id.gridViewRoom);
         arrayRoom = new ArrayList<>();
-        adapter = new RoomAdapter(getActivity(), R.layout.room_row, arrayRoom);
+        adapter = new RoomAdapter(getActivity(), R.layout.room_item, arrayRoom);
         gvRoom.setAdapter(adapter);
         getData(urlGetData);
         gvRoom.setOnItemClickListener(new AdapterView.OnItemClickListener() {

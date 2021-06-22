@@ -18,21 +18,16 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.hotelapp.Customer;
-import com.example.hotelapp.Home;
-import com.example.hotelapp.Invoice;
-import com.example.hotelapp.InvoiceAdapter;
-import com.example.hotelapp.InvoiceDetail;
+import com.example.hotelapp.Activities.Home;
+import com.example.hotelapp.Model.Invoice;
+import com.example.hotelapp.Adapters.InvoiceAdapter;
+import com.example.hotelapp.Activities.InvoiceDetail;
 import com.example.hotelapp.R;
-import com.example.hotelapp.Service;
-import com.example.hotelapp.ServiceEdit;
-import com.example.hotelapp.ServiceUsed;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 
@@ -58,7 +53,7 @@ public class InvoiceFragment extends Fragment {
                 .setActionBarTitle("Hóa đơn");
         lvInvoice = root.findViewById(R.id.listViewInvoice);
         invoiceList = new ArrayList<>();
-        adapter = new InvoiceAdapter(getActivity(), R.layout.invoice_row, invoiceList);
+        adapter = new InvoiceAdapter(getActivity(), R.layout.invoice_item, invoiceList);
         lvInvoice.setAdapter(adapter);
         lvInvoice.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -10,33 +10,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.ui.AppBarConfiguration;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.hotelapp.Fragment.listRoom.AddRoomFragment;
-import com.example.hotelapp.Home;
+import com.example.hotelapp.Activities.Home;
 import com.example.hotelapp.R;
-import com.example.hotelapp.Room;
-import com.example.hotelapp.RoomAdapter;
-import com.example.hotelapp.RoomEdit;
-import com.example.hotelapp.Service;
-import com.example.hotelapp.ServiceAdapter;
-import com.example.hotelapp.ServiceEdit;
+import com.example.hotelapp.Model.Service;
+import com.example.hotelapp.Adapters.ServiceAdapter;
+import com.example.hotelapp.Activities.ServiceEdit;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -68,7 +58,7 @@ public class ServiceFragment extends Fragment {
                 .setActionBarTitle("Dịch vụ");
         lvService = root.findViewById(R.id.listViewService);
         arrayService = new ArrayList<>();
-        adapter = new ServiceAdapter(getActivity(), R.layout.service_row, arrayService);
+        adapter = new ServiceAdapter(getActivity(), R.layout.service_item, arrayService);
         lvService.setAdapter(adapter);
         getData(urlGetData);
 

@@ -1,6 +1,5 @@
-package com.example.hotelapp;
+package com.example.hotelapp.Activities;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -9,10 +8,8 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -21,7 +18,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
@@ -30,16 +26,12 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.hotelapp.Fragment.listRoom.AddRoomFragment;
-import com.example.hotelapp.Fragment.listRoom.ListRoomFragment;
+import com.example.hotelapp.Adapters.RoomAdapter;
+import com.example.hotelapp.R;
+import com.example.hotelapp.Model.Room;
 import com.google.android.material.appbar.AppBarLayout;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -185,7 +177,7 @@ public class RoomEdit extends AppCompatActivity {
 //                            startActivity(intent);
                         } else  {
                             Toast.makeText(RoomEdit.this, "Lỗi cập nhật", Toast.LENGTH_SHORT).show();
-                            adapter.notifyDataSetChanged();
+//                            adapter.notifyDataSetChanged();
                         }
                     }
                 },

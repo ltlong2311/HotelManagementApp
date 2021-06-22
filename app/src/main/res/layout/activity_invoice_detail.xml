@@ -7,7 +7,7 @@
     android:background="#f7f7f7"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".InvoiceDetail">
+    tools:context=".Activities.InvoiceDetail">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
