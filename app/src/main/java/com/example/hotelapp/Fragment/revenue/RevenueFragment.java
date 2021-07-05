@@ -79,7 +79,7 @@ public class RevenueFragment extends Fragment {
         lineChart = (LineChart) root.findViewById(R.id.lineChart);
         lineChart.setBackgroundColor(Color.WHITE);
         lineChart.setDrawGridBackground(true);
-        lineChart.animateXY(1500, 0);
+        lineChart.animateXY(2000, 0);
         lineChart.setDrawBorders(false);
         lineChart.getDescription().setEnabled(false);
         lineChart.setNoDataTextColor(Color.RED);
@@ -92,6 +92,7 @@ public class RevenueFragment extends Fragment {
         yAxis.setAxisMinimum(0);
         yAxis.setDrawAxisLine(false);
         yAxis.setDrawZeroLine(false);
+        yAxis.setTextSize(9f);
         YAxis rightYAxis = lineChart.getAxisRight();
         rightYAxis.setEnabled(false);
 
@@ -106,17 +107,17 @@ public class RevenueFragment extends Fragment {
     }
     public void showChart(){
 
-//        for (int i = 0; i < revenueMList.size(); i++){
-//            yValues.add(new Entry(i, revenueMList.get(i)));
-//            Toast.makeText(getActivity(), revenueMList.toString(), Toast.LENGTH_SHORT).show();
-//        }
-        yValues.add(new Entry(0, 1320000));
-        yValues.add(new Entry(1, 1999000));
-        yValues.add(new Entry(2, 1702000));
-        yValues.add(new Entry(3, 2303000));
-        yValues.add(new Entry(4, 1802000));
-        yValues.add(new Entry(5, 2603000));
-        yValues.add(new Entry(6, 2503000));
+        for (int i = 0; i < revenueMList.size(); i++){
+            yValues.add(new Entry(i, revenueMList.get(i)));
+            Toast.makeText(getActivity(), revenueMList.toString(), Toast.LENGTH_SHORT).show();
+        }
+//        yValues.add(new Entry(0, 1320000));
+//        yValues.add(new Entry(1, 1999000));
+//        yValues.add(new Entry(2, 1702000));
+//        yValues.add(new Entry(3, 2303000));
+//        yValues.add(new Entry(4, 1802000));
+//        yValues.add(new Entry(5, 2603000));
+//        yValues.add(new Entry(6, 2503000));
 
 
 
@@ -138,6 +139,7 @@ public class RevenueFragment extends Fragment {
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setDrawAxisLine(false);
         xAxis.setDrawGridLines(false);
+
         xAxis.setValueFormatter(new IndexAxisValueFormatter(timeLines));
         xAxis.setGranularity(1);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -292,12 +294,9 @@ public class RevenueFragment extends Fragment {
                             for (int i = 0; i < revenueData.length(); i++){
                                 try {
                                     JSONObject revenuePoint = revenueData.getJSONObject(i);
-                                    timeLinesList.add(revenuePoint.getString("from"));
+                                    timeLinesList.add(revenuePoint.getString("from").substring(5)); //bỏ năm
                                     timeLinesList.toArray(timeLines);
                                     revenueMList.add(revenuePoint.getInt("summary"));
-//                                    revenueM[i] = revenuePoint.getInt("summary");
-//                                    yValues.add(new Entry(i,revenuePoint.getInt("summary")));
-//                                    Toast.makeText(getActivity(), String.valueOf(point), Toast.LENGTH_SHORT).show();
                                     revenue += revenuePoint.getInt("summary");
                                 } catch (JSONException e) {
                                     e.printStackTrace();
