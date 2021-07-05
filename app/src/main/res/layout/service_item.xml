@@ -12,6 +12,7 @@
         android:orientation="horizontal"
         android:id="@+id/layoutService"
         android:background="@drawable/background_item_service"
+        android:layout_marginTop="3dp"
         android:paddingTop="10dp"
         android:paddingLeft="20dp"
         android:paddingRight="5dp"

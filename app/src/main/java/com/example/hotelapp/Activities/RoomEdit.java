@@ -50,8 +50,6 @@ public class RoomEdit extends AppCompatActivity {
     ArrayList<Room> arrayRoom;
     RoomAdapter adapter;
 
-
-
     String urlUpdateRoom =  "http://192.168.60.1/serverApp/updateRoom.php";
     String urlDeleteRoom =  "http://192.168.60.1/serverApp/deleteRoom.php";
     @Override

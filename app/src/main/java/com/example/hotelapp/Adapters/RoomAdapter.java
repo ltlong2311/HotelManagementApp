@@ -56,8 +56,6 @@ public class  RoomAdapter extends BaseAdapter {
         return null;
     }
 
-
-
     @Override
     public long getItemId(int position) {
         return 0;
@@ -145,13 +143,14 @@ public class  RoomAdapter extends BaseAdapter {
                         int id = item.getItemId();
                         switch (id){
                             case R.id.checkin:
-                                Toast.makeText(context, "Test", Toast.LENGTH_SHORT).show();
-                                CheckInFragment checkIn = new CheckInFragment();
-                                FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
-                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                fragmentTransaction.replace(R.id.drawer_layout, checkIn);
-                                fragmentTransaction.addToBackStack(null);
-                                fragmentTransaction.commit();
+//                                Toast.makeText(context, "Test", Toast.LENGTH_SHORT).show();
+//                                CheckInFragment checkIn = new CheckInFragment();
+//                                FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
+//                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                                fragmentTransaction.replace(R.id.drawer_layout, checkIn);
+//                                fragmentTransaction.addToBackStack(null);
+//                                fragmentTransaction.commit();
+                                DialogCheckIn(Gravity.CENTER);
                                 return true;
                             case R.id.checkout:
                                 DialogCheckOut(Gravity.CENTER);
@@ -187,22 +186,9 @@ public class  RoomAdapter extends BaseAdapter {
         window.setAttributes(windowAttributes);
         dialog.show();
 
-//        EditText editPhone = dialog.findViewById(R.id.edtPhone);
-//        Button btnAdd = dialog.findViewById(R.id.btnAddContact);
-//          Button btnCannel = dialog.findViewById(R.id.btnCannel);
-//          btnCannel.setOnClickListener(new View.OnClickListener() {
-//              @Override
-//              public void onClick(View v) {
-//                  dialog.dismiss();
-//              }
-//          });
 
-//        btnAdd.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
+        Button btnAdd = dialog.findViewById(R.id.btn_submit_checkIn);
+        Button btnCannel = dialog.findViewById(R.id.btn_cancel_checkIn);
 
     }
 
@@ -224,24 +210,24 @@ public class  RoomAdapter extends BaseAdapter {
         window.setAttributes(windowAttributes);
         dialog.show();
 
-//        EditText edt = dialog.findViewById(R.id.edt);
-//        Button btnAdd = dialog.findViewById(R.id.btnAdd);
-          Button btnCannel = dialog.findViewById(R.id.btn_cancel_add_service);
-          btnCannel.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                  dialog.dismiss();
-              }
-          });
+        Button btnAdd = dialog.findViewById(R.id.btn_add_service_room);
+        Button btnCannel = dialog.findViewById(R.id.btn_cancel_add_service);
+        btnCannel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
 
-//        btnAdd.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
     }
+
     private void DialogCheckOut(int gravity) {
         Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -263,14 +249,14 @@ public class  RoomAdapter extends BaseAdapter {
 
 
 //        EditText editPhone = dialog.findViewById(R.id.edtPhone);
-          Button btnSubmitCheckOut = dialog.findViewById(R.id.btn_submit_checkout);
-          Button btnCancel = dialog.findViewById(R.id.btn_cancel_checkout);
-          btnCancel.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                  dialog.dismiss();
-              }
-          });
+        Button btnSubmitCheckOut = dialog.findViewById(R.id.btn_submit_checkout);
+        Button btnCancel = dialog.findViewById(R.id.btn_cancel_checkout);
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
 
         btnSubmitCheckOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -283,7 +269,7 @@ public class  RoomAdapter extends BaseAdapter {
 
     public void confirmCheckOut(){
         AlertDialog.Builder dialogDelInvoice = new AlertDialog.Builder(context);
-        dialogDelInvoice.setMessage("Có xác nhận tạo hóa đơn?");
+        dialogDelInvoice.setMessage("Có xác nhận lưu hóa đơn?");
         dialogDelInvoice.setNegativeButton("Có", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

@@ -48,7 +48,6 @@ public class ServiceEdit extends AppCompatActivity {
     ArrayList<Service> arrayService;
     ServiceAdapter adapter;
 
-
     String tokenAdmin = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJJRCI6IjEiLCJ1c2VyTmFtZSI6ImFkbWluIiwiSG9UZW4iOiJhZG1pbiJ9.234-aSxbQPO_Ozd4kcffsavH1FRWBgBx61dga5ZrAWE";
     String urlUpdateService =  "http://192.168.60.1/severApp/updateServices";
     String urlDeleteService =  "http://192.168.60.1/severApp/deleteServices";
@@ -82,7 +81,6 @@ public class ServiceEdit extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         Intent intent = getIntent();
         Service service = (Service) intent.getSerializableExtra("dataService");
-
 
         getDataService();
         ID = service.getID();

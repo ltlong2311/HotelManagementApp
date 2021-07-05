@@ -94,8 +94,6 @@ public class ListRoomFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 AddRoomFragment addRoom= new AddRoomFragment();
-//                Snackbar.make(view, "Thêm phòng", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.drawer_layout, addRoom, "Thêm Phòng")
                         .addToBackStack(null)

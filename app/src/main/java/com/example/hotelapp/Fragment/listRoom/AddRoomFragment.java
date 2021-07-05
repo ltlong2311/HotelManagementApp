@@ -47,8 +47,6 @@ public class AddRoomFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_add_room, container, false);
-//
-//        Button btn_back = root.findViewById(R.id.btn_back);
         btnHuy = root.findViewById(R.id.btn_back);
         btnThemPhong = root.findViewById(R.id.btn_add_room);
         edtTenPhong= (EditText) root.findViewById(R.id.editTextTenPhong);
@@ -58,7 +56,7 @@ public class AddRoomFragment extends Fragment{
             @Override
             public void onClick(View view) {
 //                getActivity().onBackPressed();
-//                getFragmentManager().popBackStack();       //back to home, sau do mới thoát
+//                getFragmentManager().popBackStack();     //back to home, sau do mới thoát
                 getFragmentManager().beginTransaction().remove(AddRoomFragment.this).commit();
             }
         });

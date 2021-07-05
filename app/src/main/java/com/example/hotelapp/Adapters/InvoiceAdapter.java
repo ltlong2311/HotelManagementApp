@@ -108,7 +108,6 @@ public class InvoiceAdapter extends BaseAdapter {
 //        }
 //        holder.txtThanhToan.setText(""+ gia);
 
-
         return convertView;
     }
 }

@@ -70,7 +70,6 @@ public class InvoiceDetail extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-
         Intent intent = getIntent();
 
         //        Invoice invoice = (Invoice) intent.getSerializableExtra("dataInvoice");

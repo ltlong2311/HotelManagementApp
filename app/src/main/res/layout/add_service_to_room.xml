@@ -67,7 +67,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_gravity="bottom"
                 android:gravity="center"
-                android:id="@+id/btn_submit_checkout"
+                android:id="@+id/btn_add_service_room"
                 android:text="Xác nhận" />
             <Button
                 android:layout_width="140dp"

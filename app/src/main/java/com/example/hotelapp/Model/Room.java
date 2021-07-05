@@ -66,4 +66,5 @@ public class Room implements Serializable {
     public void setTuSua(int tuSua) {
         this.tuSua = tuSua;
     }
+
 }

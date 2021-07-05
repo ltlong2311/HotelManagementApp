@@ -19,8 +19,6 @@ public class CheckInFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
-
-
     }
 
     @Override
@@ -34,6 +32,7 @@ public class CheckInFragment extends Fragment {
                 getActivity().onBackPressed();
             }
         });
+
         return root;
     }
 }

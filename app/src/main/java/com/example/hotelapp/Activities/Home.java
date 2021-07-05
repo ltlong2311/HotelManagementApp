@@ -53,7 +53,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 //    ArrayList<Room> arrayRoom;
 //    RoomAdapter adapter;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
