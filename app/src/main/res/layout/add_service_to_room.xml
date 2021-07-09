@@ -30,7 +30,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/editTextSoPhongCheckIn"
+                android:id="@+id/editTextSoPhongAddService"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -39,7 +39,7 @@
                 android:text="Phòng 101"
                 />
             <EditText
-                android:id="@+id/editTextTenKhachCheckIn"
+                android:id="@+id/editDichVuCheckIn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"

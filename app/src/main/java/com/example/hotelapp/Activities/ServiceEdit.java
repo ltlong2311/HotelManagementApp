@@ -32,8 +32,10 @@ import com.example.hotelapp.R;
 import com.example.hotelapp.Model.Service;
 import com.google.android.material.appbar.AppBarLayout;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class ServiceEdit extends AppCompatActivity {
@@ -87,7 +89,7 @@ public class ServiceEdit extends AppCompatActivity {
 //        Status = service.getTrangThai();
         Toast.makeText(this, String.valueOf(service.getID()), Toast.LENGTH_SHORT).show();
         edtTenDV.setText(service.getTenDV());
-        edtGiaDV.setText(""+service.getGia());
+        edtGiaDV.setText(""+ service.getGia());
         if(service.getTrangThai() == 1){
             rbnPhucVu.setChecked(true);
         } else {
@@ -152,7 +154,7 @@ public class ServiceEdit extends AppCompatActivity {
 //                            Toast.makeText(ServiceEdit.this, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
 //                            finish();
 //                        }
-                          Toast.makeText(ServiceEdit.this, response.toString(), Toast.LENGTH_SHORT).show();
+//                          Toast.makeText(ServiceEdit.this, response.toString(), Toast.LENGTH_SHORT).show();
                     }
                 },
                 new Response.ErrorListener() {

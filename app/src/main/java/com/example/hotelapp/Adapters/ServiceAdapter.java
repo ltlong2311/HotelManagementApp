@@ -13,7 +13,9 @@ import android.widget.TextView;
 import com.example.hotelapp.R;
 import com.example.hotelapp.Model.Service;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class ServiceAdapter extends BaseAdapter {
 
@@ -73,7 +75,12 @@ public class ServiceAdapter extends BaseAdapter {
           Service service = serviceList.get(position);
 
           holder.txtTenDV.setText(service.getTenDV());
-          holder.txtGia.setText(service.getGia() + "đ");
+          if(service.getGia() == 0){
+              holder.txtGia.setText("Miễn phí");
+              holder.txtGia.setTextColor(Color.parseColor("#B7950B"));
+          } else {
+              holder.txtGia.setText(NumberFormat.getNumberInstance(Locale.US).format(service.getGia()) + "đ");
+          }
           if (service.getTrangThai() == 0){
               holder.txtTrangThai.setText("Ngừng phục vụ");
               holder.txtTrangThai.setTextColor(Color.parseColor("#F6100A"));

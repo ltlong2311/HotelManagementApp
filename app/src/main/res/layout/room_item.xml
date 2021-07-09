@@ -45,7 +45,7 @@
             android:layout_marginTop="10dp"
             android:text="Tầng"
             android:textColor="#8E24AA"
-            android:textSize="15sp" />
+            android:textSize="14sp" />
         <TextView
             android:id="@+id/textViewTangCustom"
             android:layout_width="wrap_content"
@@ -55,7 +55,7 @@
             android:layout_marginTop="10dp"
             android:text="1"
             android:textColor="#6F7149"
-            android:textSize="15sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/textViewTitleCost"
@@ -65,7 +65,7 @@
             android:layout_marginTop="10dp"
             android:text="Giá Phòng"
             android:textColor="#8E24AA"
-            android:textSize="15sp" />
+            android:textSize="14sp" />
         <TextView
             android:id="@+id/textViewGiaPhongCustom"
             android:layout_width="wrap_content"
@@ -75,45 +75,45 @@
             android:layout_marginTop="10dp"
             android:text="100000"
             android:textColor="#00897B"
-            android:textSize="15sp" />
-        <TextView
-            android:id="@+id/textViewTitleService"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textViewGiaPhongCustom"
-            android:layout_marginTop="10dp"
-            android:text="Dịch vụ"
-            android:textColor="#8E24AA"
-            android:textSize="15sp" />
-        <TextView
-            android:id="@+id/textViewTongGiaDichVuCustom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textViewGiaPhongCustom"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="10dp"
-            android:text="0"
-            android:textColor="#00897B"
-            android:textSize="15sp" />
+            android:textSize="14sp" />
+<!--        <TextView-->
+<!--            android:id="@+id/textViewTitleService"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@+id/textViewGiaPhongCustom"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:text="Dịch vụ"-->
+<!--            android:textColor="#8E24AA"-->
+<!--            android:textSize="14sp" />-->
+<!--        <TextView-->
+<!--            android:id="@+id/textViewTongGiaDichVuCustom"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@+id/textViewGiaPhongCustom"-->
+<!--            android:layout_alignParentRight="true"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:text="0"-->
+<!--            android:textColor="#00897B"-->
+<!--            android:textSize="14sp" />-->
         <TextView
             android:id="@+id/textViewTitleStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textViewTitleService"
+            android:layout_below="@+id/textViewGiaPhongCustom"
             android:layout_marginTop="10dp"
             android:text="Trạng thái"
             android:textColor="#8E24AA"
-            android:textSize="15sp" />
+            android:textSize="14sp" />
         <TextView
             android:id="@+id/textViewTrangThaiCustom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textViewTitleService"
+            android:layout_below="@+id/textViewGiaPhongCustom"
             android:layout_alignParentRight="true"
             android:layout_marginTop="10dp"
             android:text="Trạng thái"
             android:textColor="#6F7149"
-            android:textSize="15sp" />
+            android:textSize="14sp" />
 <!--        <ImageView-->
 <!--            android:id="@+id/imageViewDeleteRoom"-->
 <!--            android:layout_width="23dp"-->

@@ -104,6 +104,7 @@ public class AddRoomFragment extends Fragment{
                             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
                                     new ListRoomFragment()).commit();
                         } else  {
+
                             Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
                             getFragmentManager().beginTransaction().remove(AddRoomFragment.this).commit();
                         }

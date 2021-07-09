@@ -28,7 +28,9 @@ import com.android.volley.toolbox.Volley;
 import com.example.hotelapp.R;
 import com.google.android.material.appbar.AppBarLayout;
 
+import java.text.NumberFormat;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class InvoiceDetail extends AppCompatActivity {
@@ -94,8 +96,8 @@ public class InvoiceDetail extends AppCompatActivity {
         edtSDT.setText(""+sdt);
         edtDiaChi.setText(""+diachi);
         edtDichVu.setText(""+dichvu);
-        edtPhiDichVu.setText(""+phidichvu);
-        edtThanhToan.setText(""+thanhtoan);
+        edtPhiDichVu.setText(""+ NumberFormat.getNumberInstance(Locale.US).format(phidichvu));
+        edtThanhToan.setText(""+ NumberFormat.getNumberInstance(Locale.US).format(thanhtoan));
         edtNgayTao.setText(""+ createDate);
 
 

@@ -10,7 +10,9 @@ import android.widget.TextView;
 import com.example.hotelapp.Model.Invoice;
 import com.example.hotelapp.R;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class InvoiceAdapter extends BaseAdapter {
 
@@ -40,8 +42,7 @@ public class InvoiceAdapter extends BaseAdapter {
     }
 
     private class ViewHolder{
-        TextView txtMaPhong, txtKhachHang, txtMaHD, textNgayTao, txtThanhToan; // Mã hóa đơn = tenKH + so cmnd
-                                                                             //string = string.replaceAll("\\s+","")
+        TextView txtMaPhong, txtKhachHang, txtMaHD, textNgayTao, txtThanhToan; 
     }
 
     @Override
@@ -76,37 +77,8 @@ public class InvoiceAdapter extends BaseAdapter {
         }
 
         holder.textNgayTao.setText(""+invoice.getCreateDate());
-        holder.txtThanhToan.setText("Thanh toán: "+invoice.getThanhToan());
-
-//        JSONObject json = invoice.getInfoKhach();
-//        JSONObject jsonAddress = null;
-//        try {
-//            String cmt = json.getString("CMT");
-//            holder.txtThanhToan.setText(""+ cmt);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-
-//        JSONArray arr = invoice.getDichVu();
-//        String dv = "";
-//        int gia = 0;
-//        ArrayList<String> listTenDV
-//                = new ArrayList<String>();
-//        for (int i = 0; i < arr.length(); i++){
-//            try {
-//                JSONObject dichvu = arr.getJSONObject(i);
-//                //dv += dichvu.getString("TenDV");
-//                listTenDV.add(dichvu.getString("TenDV"));
-//                dv = listTenDV.toString();
-//                dv = dv.replace("[", "")
-//                        .replace("]", "");
-//
-//                gia += dichvu.getInt("Gia");
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        holder.txtThanhToan.setText(""+ gia);
+        int cost = invoice.getThanhToan();
+        holder.txtThanhToan.setText("Thanh toán: "+ NumberFormat.getNumberInstance(Locale.US).format(cost)+ " đ");
 
         return convertView;
     }

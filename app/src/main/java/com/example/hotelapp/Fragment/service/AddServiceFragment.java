@@ -124,7 +124,4 @@ public class AddServiceFragment extends Fragment {
         };
         requestQueue.add(stringRequest);
     }
-
-
-
 }

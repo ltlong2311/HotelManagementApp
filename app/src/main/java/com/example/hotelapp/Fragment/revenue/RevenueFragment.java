@@ -44,8 +44,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class RevenueFragment extends Fragment {
@@ -79,7 +81,7 @@ public class RevenueFragment extends Fragment {
         lineChart = (LineChart) root.findViewById(R.id.lineChart);
         lineChart.setBackgroundColor(Color.WHITE);
         lineChart.setDrawGridBackground(true);
-        lineChart.animateXY(2000, 0);
+        lineChart.animateXY(1500, 0);
         lineChart.setDrawBorders(false);
         lineChart.getDescription().setEnabled(false);
         lineChart.setNoDataTextColor(Color.RED);
@@ -109,19 +111,13 @@ public class RevenueFragment extends Fragment {
 
         for (int i = 0; i < revenueMList.size(); i++){
             yValues.add(new Entry(i, revenueMList.get(i)));
-            Toast.makeText(getActivity(), revenueMList.toString(), Toast.LENGTH_SHORT).show();
         }
 //        yValues.add(new Entry(0, 1320000));
 //        yValues.add(new Entry(1, 1999000));
 //        yValues.add(new Entry(2, 1702000));
-//        yValues.add(new Entry(3, 2303000));
-//        yValues.add(new Entry(4, 1802000));
-//        yValues.add(new Entry(5, 2603000));
-//        yValues.add(new Entry(6, 2503000));
 
 
-
-        LineDataSet set1 = new LineDataSet(yValues, "Doanh thu");
+        LineDataSet set1 = new LineDataSet(yValues, "Doanh thu tuần qua");
         set1.setFillAlpha(120);
         set1.setColor(Color.BLUE);
         set1.setValueTextSize(10f);
@@ -133,8 +129,6 @@ public class RevenueFragment extends Fragment {
 
         LineData data = new LineData(dataSets);
         lineChart.setData(data);
-
-
 
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setDrawAxisLine(false);
@@ -167,7 +161,7 @@ public class RevenueFragment extends Fragment {
                                     e.printStackTrace();
                                 }
                             }
-                            lastMonthRevenue.setText(String.valueOf(revenue));
+                            lastMonthRevenue.setText(NumberFormat.getNumberInstance(Locale.US).format(revenue) + " vnd" );
                         } catch (Throwable t) {
                             Toast.makeText(getActivity(), "Could not parse malformed JSON: \"" + response + "\"", Toast.LENGTH_SHORT).show();
                         }
@@ -211,7 +205,7 @@ public class RevenueFragment extends Fragment {
                                     e.printStackTrace();
                                 }
                             }
-                            thisMonthRevenue.setText(String.valueOf(revenue));
+                            thisMonthRevenue.setText(NumberFormat.getNumberInstance(Locale.US).format(revenue)+ " vnd");
                         } catch (Throwable t) {
                             Toast.makeText(getActivity(), "Could not parse malformed JSON: \"" + response + "\"", Toast.LENGTH_SHORT).show();
                         }
@@ -255,7 +249,7 @@ public class RevenueFragment extends Fragment {
                                     e.printStackTrace();
                                 }
                             }
-                            thisWeekRevenue.setText(String.valueOf(revenue));
+                            thisWeekRevenue.setText(NumberFormat.getNumberInstance(Locale.US).format(revenue) + " vnd");
                         } catch (Throwable t) {
                             Toast.makeText(getActivity(), "Could not parse malformed JSON: \"" + response + "\"", Toast.LENGTH_SHORT).show();
                         }
@@ -294,7 +288,7 @@ public class RevenueFragment extends Fragment {
                             for (int i = 0; i < revenueData.length(); i++){
                                 try {
                                     JSONObject revenuePoint = revenueData.getJSONObject(i);
-                                    timeLinesList.add(revenuePoint.getString("from").substring(5)); //bỏ năm
+                                    timeLinesList.add(revenuePoint.getString("from").substring(5)); //rm year
                                     timeLinesList.toArray(timeLines);
                                     revenueMList.add(revenuePoint.getInt("summary"));
                                     revenue += revenuePoint.getInt("summary");
@@ -304,7 +298,6 @@ public class RevenueFragment extends Fragment {
                             }
                             Toast.makeText(getActivity(), timeLinesList.toString(), Toast.LENGTH_SHORT).show();
                             Toast.makeText(getActivity(), revenueMList.toString(), Toast.LENGTH_SHORT).show();
-                            thisWeekRevenue.setText(String.valueOf(revenue));
                         } catch (Throwable t) {
                             Toast.makeText(getActivity(), "Could not parse malformed JSON: \"" + response + "\"", Toast.LENGTH_SHORT).show();
                         }
