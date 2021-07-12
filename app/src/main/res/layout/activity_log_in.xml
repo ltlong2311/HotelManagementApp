@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:onClick="hideKeyBoard"
-    tools:context=".MainActivity">
+    tools:context=".LoginActivity">
 
     <ImageView
         android:layout_width="match_parent"
@@ -46,6 +46,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/editTextUsername"
             android:inputType="text"
             android:layout_marginHorizontal="30dp"
             android:layout_marginBottom="30dp"
@@ -62,6 +63,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/editTextPassword"
             android:layout_marginHorizontal="30dp"
             android:layout_marginBottom="50dp"
             android:inputType="textPassword"

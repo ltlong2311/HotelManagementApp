@@ -22,7 +22,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.hotelapp.LoginActivity;
 import com.example.hotelapp.R;
+import com.muddzdev.styleabletoast.StyleableToast;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -64,7 +66,7 @@ public class AddServiceFragment extends Fragment {
                 String tendv = edtTenDV.getText().toString().trim();
                 String giadv = edtGiaDV.getText().toString().trim();
                 if (tendv.isEmpty() || giadv.isEmpty()){
-                    Toast.makeText(getActivity(), "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
+                    StyleableToast.makeText(getActivity(), "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
                 } else {
                     ThemDV(urlAddService);
                     hideKeyBoard(v);
@@ -97,7 +99,7 @@ public class AddServiceFragment extends Fragment {
                         if (response.trim().equals("404")){
                             Toast.makeText(getActivity(), "Loi", Toast.LENGTH_SHORT).show();
                         } else  {
-                            Toast.makeText(getActivity(), "Thêm dịch vụ thành công!", Toast.LENGTH_SHORT).show();
+                            StyleableToast.makeText(getActivity(), "Thêm dịch vụ thành công!", Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
                             getFragmentManager().beginTransaction().remove(AddServiceFragment.this).commit();
                             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
                                     new ServiceFragment()).commit();

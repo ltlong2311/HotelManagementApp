@@ -54,6 +54,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:inputType="none"
+                    android:focusable="false"
+                    android:clickable="false"
                     android:hint="Số phòng"
                     android:text="Phòng 101"
                     />
@@ -70,10 +72,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:inputType="text"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:clickable="false"
                     android:layout_marginBottom="10dp"
-                    android:text="Nguyễn Văn A"
-                    android:hint=""
+                    android:text=""
+                    android:hint="Ten KH"
                     />
                 <TextView
                     android:text="CMND:"
@@ -88,13 +92,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:inputType="number"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:clickable="false"
                     android:layout_marginBottom="10dp"
-                    android:text="01857903059"
+                    android:text=""
                     android:hint="CMND"
                     />
                 <TextView
-                    android:text="Quê quán:"
+                    android:text="Địa chỉ:"
                     android:paddingLeft="3dp"
                     android:textSize="14dp"
                     android:textColor="#645E70"
@@ -106,10 +112,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:inputType="number"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:clickable="false"
                     android:layout_marginBottom="10dp"
-                    android:text="Hà Nội"
-                    android:hint=""
+                    android:text=""
+                    android:hint="Dia chi"
                     />
                 <TextView
                     android:text="Số điện thoại:"
@@ -124,10 +132,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:inputType="number"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:clickable="false"
                     android:layout_marginBottom="10dp"
-                    android:text="0964730399"
-                    android:hint=""
+                    android:text=""
+                    android:hint="Phone"
                     />
                 <TextView
                     android:text="Thanh toán:"
@@ -138,13 +148,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
                 <EditText
-                    android:id="@+id/editTextDurationCheckOut"
+                    android:id="@+id/editTextThanhToanCheckOut"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:inputType="number"
                     android:layout_marginBottom="20dp"
-                    android:hint="2000000"
+                    android:text=""
                     />
             </LinearLayout>
             <RelativeLayout

@@ -2,6 +2,7 @@ package com.example.hotelapp.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,9 +25,10 @@ import com.example.hotelapp.Fragment.invoice.InvoiceFragment;
 import com.example.hotelapp.Fragment.manage.ManageFragment;
 import com.example.hotelapp.Fragment.revenue.RevenueFragment;
 import com.example.hotelapp.Fragment.service.ServiceFragment;
-import com.example.hotelapp.MainActivity;
+import com.example.hotelapp.LoginActivity;
 import com.example.hotelapp.R;
 import com.google.android.material.navigation.NavigationView;
+import com.muddzdev.styleabletoast.StyleableToast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -52,12 +54,12 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 //    ListView lvRoom;
 //    ArrayList<Room> arrayRoom;
 //    RoomAdapter adapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Window window = getWindow();
+
 
         setContentView(R.layout.activity_home);
 
@@ -189,19 +191,19 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
         if (id == R.id.nav_log_out){
 
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
         switch (item.getItemId()) {
             case R.id.nav_log_out:
-                Toast.makeText(this, "Test", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.info_app:
-                Toast.makeText(this, "Made by: Nhóm 4- CT2", Toast.LENGTH_SHORT).show();
+                StyleableToast.makeText(this, "Made by: Nhóm 4- CT2", Toast.LENGTH_SHORT, R.style.toastInfo).show();
                 return true;
             case R.id.assist:
-                Toast.makeText(this, "Thông tin hỗ trợ", Toast.LENGTH_SHORT).show();
+                StyleableToast.makeText(this, "Thông tin hỗ trợ ứng dụng", Toast.LENGTH_SHORT, R.style.toastBlueLight).show();
                 return true;
         }
         switch (item.getItemId()){
@@ -245,36 +247,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         return true;
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        if(drawerToggle.onOptionsItemSelected(item)) {
-//            return true;
-//        }
-//        switch (item.getItemId()) {
-//            case R.id.nav_log_out:
-//                Toast.makeText(this, "Test", Toast.LENGTH_SHORT).show();
-//                return true;
-//            case R.id.info_app:
-//                Toast.makeText(this, "Thông tin ứng dụng", Toast.LENGTH_SHORT).show();
-//                return true;
-//            case R.id.assist:
-//                Toast.makeText(this, "Thông tin hỗ trợ", Toast.LENGTH_SHORT).show();
-//                return true;
-//        }
-//
-////        if (item.getItemId() == R.id.menu_add_room) {
-////            FragmentManager manager = getFragmentManager();
-////            AddRoomFragment addRoom = new AddRoomFragment();
-////            manager.beginTransaction().replace(R.id.fragment_add_room, addRoom, "hello").commit();
-//////            FragmentTransaction transaction = manager.beginTransaction();
-//////            transaction.add(R.id.container, addRoom, "add");
-//////            transaction.addToBackStack(null);
-//////            transaction.commit();
-////        }
-////
-//
-//        return super.onOptionsItemSelected(item);
-//    }
 
     @Override
     public void onBackPressed() {
@@ -284,18 +256,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             super.onBackPressed();
         }
     }
-//    @Override
-//    protected void onPostCreate(Bundle savedInstanceState) {
-//        super.onPostCreate(savedInstanceState);
-//        // Sync the toggle state after onRestoreInstanceState has occurred.
-//        drawerToggle.syncState();
-//    }
-//
-//    @Override
-//    public void onConfigurationChanged(Configuration newConfig) {
-//        super.onConfigurationChanged(newConfig);
-//        drawerToggle.onConfigurationChanged(newConfig);
-//    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -304,18 +265,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         return true;
     }
 
-
-//    @Override
-//    public boolean onOptionsItemSelected(Menu menu) {
-//        // The action bar home/up action should open or close the drawer.
-//        switch (menu.getItemID()) {
-//            case android.R.id.home:
-//                mDrawer.openDrawer(GravityCompat.START);
-//                return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
 
     @Override
     public boolean onSupportNavigateUp() {

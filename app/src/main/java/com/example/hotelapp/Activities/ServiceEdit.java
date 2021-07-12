@@ -31,6 +31,7 @@ import com.example.hotelapp.Adapters.ServiceAdapter;
 import com.example.hotelapp.R;
 import com.example.hotelapp.Model.Service;
 import com.google.android.material.appbar.AppBarLayout;
+import com.muddzdev.styleabletoast.StyleableToast;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -115,7 +116,7 @@ public class ServiceEdit extends AppCompatActivity {
                 String giaDV = edtGiaDV.getText().toString().trim();
 
                 if (tenDV.matches("") || giaDV.length() == 0){
-                    Toast.makeText(ServiceEdit.this, "Vui lòng điền đẩy đủ thông tin!", Toast.LENGTH_SHORT).show();
+                    StyleableToast.makeText(ServiceEdit.this, "Vui lòng điền đẩy đủ thông tin!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
                 } else  {
                     UpdateService(urlUpdateService);
                     Intent intent = new Intent(ServiceEdit.this, Home.class);
@@ -147,20 +148,13 @@ public class ServiceEdit extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
-//                        if (response.trim().equals("401")){
-//                            Toast.makeText(ServiceEdit.this, "Lỗi cập nhật", Toast.LENGTH_SHORT).show();
-//                        } else  {
-//                            Toast.makeText(ServiceEdit.this, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
-//                            finish();
-//                        }
 //                          Toast.makeText(ServiceEdit.this, response.toString(), Toast.LENGTH_SHORT).show();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ServiceEdit.this, error.toString(), Toast.LENGTH_SHORT).show();
+                        StyleableToast.makeText(ServiceEdit.this, error.toString(), Toast.LENGTH_SHORT, R.style.toastError).show();
                     }
                 }
         ){
@@ -203,9 +197,9 @@ public class ServiceEdit extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         if (response.trim().equals("404")){
-                            Toast.makeText(ServiceEdit.this, "Lỗi xóa đối tượng", Toast.LENGTH_SHORT).show();
+                            StyleableToast.makeText(ServiceEdit.this, "Lỗi xóa đối tượng!", Toast.LENGTH_SHORT, R.style.toastError).show();
                         } else  {
-                            Toast.makeText(ServiceEdit.this, "Xóa thành công!", Toast.LENGTH_SHORT).show();
+                            StyleableToast.makeText(ServiceEdit.this, "Xóa thành công!", Toast.LENGTH_SHORT, R.style.toastSuccess).show();
                             Intent intent = new Intent(ServiceEdit.this, Home.class);
                             intent.putExtra("service", "service");
                             startActivity(intent);

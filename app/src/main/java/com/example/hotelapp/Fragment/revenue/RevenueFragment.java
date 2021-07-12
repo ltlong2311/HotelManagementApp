@@ -148,7 +148,7 @@ public class RevenueFragment extends Fragment {
                         try {
                             JSONObject obj = new JSONObject(response);
                             JSONArray revenueData = obj.getJSONArray("data");
-                            Toast.makeText(getActivity(), revenueData.toString(), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getActivity(), revenueData.toString(), Toast.LENGTH_SHORT).show();
                             String startTime = "";
                             String endTime = "";
                             int revenue = 0;

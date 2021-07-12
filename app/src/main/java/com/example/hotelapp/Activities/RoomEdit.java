@@ -32,6 +32,7 @@ import com.example.hotelapp.Adapters.RoomAdapter;
 import com.example.hotelapp.R;
 import com.example.hotelapp.Model.Room;
 import com.google.android.material.appbar.AppBarLayout;
+import com.muddzdev.styleabletoast.StyleableToast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -124,7 +125,7 @@ public class RoomEdit extends AppCompatActivity {
                 String giaPhong = edtGiaPhong.getText().toString().trim();
 
                 if (tang.matches("") || tenPhong.matches("") || giaPhong.length() == 0){
-                    Toast.makeText(RoomEdit.this, "Vui long dien day du thong tin!", Toast.LENGTH_SHORT).show();
+                    StyleableToast.makeText(RoomEdit.this, "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
                 } else  {
                     UpdateRoom(urlUpdateRoom);
                     Intent intent = new Intent(RoomEdit.this, Home.class);
@@ -162,7 +163,7 @@ public class RoomEdit extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         if (response.trim().equals("success")){
-                            Toast.makeText(RoomEdit.this, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
+                            StyleableToast.makeText(RoomEdit.this, "Cập nhật thành công!", Toast.LENGTH_SHORT, R.style.toastSuccess).show();
 //                            finish();
 //                            RoomEdit.toolbar.setVisibility(View.GONE);
 //                            ActionBar actionBar = getSupportActionBar();
@@ -174,7 +175,7 @@ public class RoomEdit extends AppCompatActivity {
 //                            intent.putExtra("url", "true");
 //                            startActivity(intent);
                         } else  {
-                            Toast.makeText(RoomEdit.this, "Lỗi cập nhật", Toast.LENGTH_SHORT).show();
+                            StyleableToast.makeText(RoomEdit.this, "Lỗi cập nhật!", Toast.LENGTH_SHORT, R.style.toastError).show();
 //                            adapter.notifyDataSetChanged();
                         }
                     }
@@ -226,13 +227,13 @@ public class RoomEdit extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         if (response.trim().equals("success")){
-                            Toast.makeText(RoomEdit.this, "Xóa thành công!", Toast.LENGTH_SHORT).show();
+                            StyleableToast.makeText(RoomEdit.this, "Xóa thành công", Toast.LENGTH_SHORT, R.style.toastSuccess).show();
                             Intent intent = new Intent(RoomEdit.this, Home.class);
                             intent.putExtra("url", "url");
                             startActivity(intent);
 
                         } else  {
-                            Toast.makeText(RoomEdit.this, "Lỗi xóa đối tượng", Toast.LENGTH_SHORT).show();
+                            StyleableToast.makeText(RoomEdit.this, "Lỗi xóa đối tượng!", Toast.LENGTH_SHORT, R.style.toastError).show();
                             adapter.notifyDataSetChanged();
                         }
                     }

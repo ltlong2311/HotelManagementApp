@@ -78,7 +78,7 @@
                         android:layout_marginRight="10dp"
                         android:text="Doanh thu tháng trước:"
                         android:textColor="#514B4B"
-                        android:textSize="18sp" />
+                        android:textSize="17sp" />
                     <TextView
                         android:id="@+id/lastMonthRevenue"
                         android:layout_width="wrap_content"
@@ -86,7 +86,7 @@
                         android:layout_marginTop="5dp"
                         android:text="-"
                         android:textColor="#682424"
-                        android:textSize="16sp" />
+                        android:textSize="17sp" />
 
                 </LinearLayout>
                 <LinearLayout
@@ -99,7 +99,7 @@
                         android:layout_marginTop="10dp"
                         android:text="Doanh thu tháng này:"
                         android:textColor="#514B4B"
-                        android:textSize="18sp" />
+                        android:textSize="17sp" />
                     <TextView
                         android:id="@+id/thisMonthRevenue"
                         android:layout_width="wrap_content"
@@ -109,7 +109,7 @@
                         android:layout_marginLeft="10dp"
                         android:text="-"
                         android:textColor="#682424"
-                        android:textSize="16sp" />
+                        android:textSize="17sp" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -121,7 +121,7 @@
                         android:layout_marginTop="10dp"
                         android:text="Doanh thu tuần này:"
                         android:textColor="#514B4B"
-                        android:textSize="18sp" />
+                        android:textSize="17sp" />
                     <TextView
                         android:id="@+id/thisWeekRevenue"
                         android:layout_width="wrap_content"
@@ -131,7 +131,7 @@
                         android:layout_marginLeft="10dp"
                         android:text="-"
                         android:textColor="#682424"
-                        android:textSize="16sp" />
+                        android:textSize="17sp" />
                 </LinearLayout>
 
             </LinearLayout>

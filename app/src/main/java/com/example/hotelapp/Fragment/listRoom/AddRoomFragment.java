@@ -22,7 +22,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.hotelapp.Activities.RoomEdit;
 import com.example.hotelapp.R;
+import com.muddzdev.styleabletoast.StyleableToast;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -99,16 +101,14 @@ public class AddRoomFragment extends Fragment{
                     @Override
                     public void onResponse(String response) {
                         if (response.trim().equals("success")){
-                            Toast.makeText(getActivity(), "Thêm phòng thành công!", Toast.LENGTH_SHORT).show();
+                            StyleableToast.makeText(getActivity(), "Thêm phòng thành công!", Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
                             getFragmentManager().beginTransaction().remove(AddRoomFragment.this).commit();
                             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
                                     new ListRoomFragment()).commit();
                         } else  {
-
-                            Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+                            StyleableToast.makeText(getActivity(), "Error!", Toast.LENGTH_SHORT, R.style.toastError).show();
                             getFragmentManager().beginTransaction().remove(AddRoomFragment.this).commit();
                         }
-//                        adapter.notifyDataSetChanged(); // reload lại danh sách phòng
                     }
                 },
                 new Response.ErrorListener() {

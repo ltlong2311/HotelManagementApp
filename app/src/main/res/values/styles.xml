@@ -4,4 +4,63 @@
         <item name="android:background">@color/black_overlay</item>
         <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
     </style>
+
+    <style name="toastStyle">
+<!--        <item name="stTextBold">true</item>-->
+        <item name="stTextColor">#fff</item>
+<!--        <item name="stFont">@font/retrofont</item>-->
+        <item name="stTextSize">14sp</item>
+        <item name="stColorBackground">#6c757d</item>
+        <item name="stSolidBackground">true</item>
+<!--        <item name="stStrokeWidth">3dp</item> #88B352-->
+<!--        <item name="stStrokeColor">#fff</item>-->
+<!--        <item name="stIconStart">@drawable/ic</item>-->
+<!--        <item name="stIconEnd">@drawable/ic</item>-->
+<!--        <item name="stLength">LONG</item> LONG or SHORT-->
+<!--        <item name="stGravity">top</item> top or center-->
+        <item name="stRadius">25dp</item>
+    </style>
+    <style name="toastR">
+        <item name="stTextColor">#fff</item>
+        <item name="stTextSize">14sp</item>
+        <item name="stColorBackground">#A995FD</item>
+        <item name="stSolidBackground">true</item>
+        <item name="stRadius">25dp</item>
+    </style>
+    <style name="toastBlueLight">
+        <item name="stTextColor">#fff</item>
+        <item name="stTextSize">14sp</item>
+        <item name="stColorBackground">@color/light_blue</item>
+        <item name="stSolidBackground">true</item>
+        <item name="stRadius">25dp</item>
+    </style>
+    <style name="toastError">
+        <item name="stTextColor">#fff</item>
+        <item name="stTextSize">14sp</item>
+        <item name="stColorBackground">#f64747</item>
+        <item name="stSolidBackground">true</item>
+        <item name="stRadius">25dp</item>
+    </style>
+    <style name="toastInfo">
+        <item name="stTextColor">#fff</item>
+        <item name="stTextSize">14sp</item>
+        <item name="stColorBackground">#17a2b8</item>
+        <item name="stSolidBackground">true</item>
+        <item name="stRadius">25dp</item>
+    </style>
+    <style name="toastSuccess">
+        <item name="stTextColor">#fff</item>
+        <item name="stTextSize">14sp</item>
+        <item name="stColorBackground">#28a745</item>
+        <item name="stSolidBackground">true</item>
+        <item name="stRadius">25dp</item>
+    </style>
+    <style name="toastSuccess2">
+        <item name="stTextColor">#fff</item>
+        <item name="stTextSize">14sp</item>
+        <item name="stColorBackground">#88B352</item>
+        <item name="stSolidBackground">true</item>
+        <item name="stRadius">25dp</item>
+    </style>
+
 </resources>
