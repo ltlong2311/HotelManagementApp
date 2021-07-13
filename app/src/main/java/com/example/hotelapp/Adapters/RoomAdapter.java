@@ -16,12 +16,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +52,7 @@ import com.example.hotelapp.Fragment.service.ServiceFragment;
 import com.example.hotelapp.LoginActivity;
 import com.example.hotelapp.R;
 import com.example.hotelapp.Model.Room;
+import com.google.android.material.textfield.TextInputLayout;
 import com.muddzdev.styleabletoast.StyleableToast;
 
 import org.json.JSONArray;
@@ -74,7 +79,11 @@ public class  RoomAdapter extends BaseAdapter {
     public static final String SHARED_ID_INVOICE = "idInvoice";
     int vt= -1;
     EditText maPhongEdt, tenEdt, cmtEdt, sdtEdt, diachiEdt, maPhongEdtCO, tenEdtCO, cmtEdtCO, sdtEdtCO, diachiEdtCO, thanhtoanEdt;
-    String maPhong, ten, cmt, sdt, diachi;
+    String ten, cmt, sdt, diachi;
+    TextInputLayout layoutOption;
+    AutoCompleteTextView optionCheckIn;
+    ArrayList<String> arrayList_option;
+    ArrayAdapter<String> arrayAdapter_option;
 
 
     public RoomAdapter(Context context, int layout, List<Room> roomList) {
@@ -133,8 +142,7 @@ public class  RoomAdapter extends BaseAdapter {
         holder.txtTang.setText("" + room.getTang());
         holder.txtGiaPhong.setText(room.getGia() + "");
 
-//        SharedPreferences preferences = context.getApplicationContext().getSharedPreferences(SHARED_ID_INVOICE, Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = preferences.edit();
+
         if (room.getTrangThai() == 0){
             holder.txtTrangThai.setText("Trống");
 //            holder.layoutRoom.setBackgroundColor(Color.parseColor("#DBF1FB"));
@@ -154,15 +162,6 @@ public class  RoomAdapter extends BaseAdapter {
             gradientDrawable.setColor(Color.parseColor("#C3EFEB"));
         }
 
-//        holder.imageEdit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(context, RoomEdit.class);
-//                intent.putExtra("dataRoom", room);
-//                context.startActivity(intent);
-////                ((Activity)context).finish();
-//            }
-//        });
          holder.imageEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -186,12 +185,6 @@ public class  RoomAdapter extends BaseAdapter {
                                 } else {
                                     DialogCheckIn(Gravity.CENTER, room);
                                 }
-//                                CheckInFragment checkIn = new CheckInFragment();
-//                                FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
-//                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                                fragmentTransaction.replace(R.id.drawer_layout, checkIn);
-//                                fragmentTransaction.addToBackStack(null);
-//                                fragmentTransaction.commit();
                                 return true;
                             case R.id.checkout:
                                 if (room.getTuSua() == 1){
@@ -248,6 +241,23 @@ public class  RoomAdapter extends BaseAdapter {
         cmtEdt = dialog.findViewById(R.id.editTextCMTCheckIn);
         sdtEdt = dialog.findViewById(R.id.editTextSDTCheckIn);
         diachiEdt = dialog.findViewById(R.id.editTextDiaChiCheckIn);
+        layoutOption = (TextInputLayout) dialog.findViewById(R.id.optionLayout);
+        optionCheckIn = (AutoCompleteTextView) dialog.findViewById(R.id.optionsCheckInMenu);
+
+        arrayList_option = new ArrayList<>();
+        arrayList_option.add("Theo ngày");
+        arrayList_option.add("Theo giờ");
+        arrayAdapter_option = new ArrayAdapter<>(context.getApplicationContext(), R.layout.dropdown_item_ci, arrayList_option);
+        optionCheckIn.setAdapter(arrayAdapter_option);
+        optionCheckIn.setThreshold(1);
+
+        optionCheckIn.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String st = parent.getItemAtPosition(position).toString();
+                Toast.makeText(parent.getContext(), st, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         maPhongEdt.setText(room.getTenPhong());
 
@@ -443,8 +453,6 @@ public class  RoomAdapter extends BaseAdapter {
                             SharedPreferences.Editor editor = preferences.edit();
                             editor.putInt(String.valueOf(idPhong), idInvoice);
                             editor.apply();
-                            int value = preferences.getInt(String.valueOf(idPhong), 0);
-                            StyleableToast.makeText(context, String.valueOf(value), Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
                             if(status.equals("success")){
                                 Toast.makeText(context, msg.toString(), Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
@@ -496,8 +504,8 @@ public class  RoomAdapter extends BaseAdapter {
                         try {
                             JSONObject json = response.getJSONObject("data");
                             String ThanhToan = json.getString("ThanhToan");
+                            JSONObject infoKhach = json.getJSONObject("infoKhach");
                             thanhtoanEdt.setText(ThanhToan);
-                            JSONObject infoKhach = response.getJSONObject("infoKhach");
                             tenEdtCO.setText(infoKhach.getString("Ten"));
                             cmtEdtCO.setText(infoKhach.getString("CMT"));
                             sdtEdtCO.setText(infoKhach.getString("SDT"));

@@ -62,5 +62,18 @@
         <item name="stSolidBackground">true</item>
         <item name="stRadius">25dp</item>
     </style>
+    <style name="TextLabel" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:textColorHint">@color/white</item>
+        <item name="android:textSize">18sp</item>
+        <item name="colorControlNormal">@color/black_overlay</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+    </style>
+    <style name="AppTheme.NoActionBar"    parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/black</item>
+        <item name="colorAccent">@color/blue_beauty</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 
 </resources>

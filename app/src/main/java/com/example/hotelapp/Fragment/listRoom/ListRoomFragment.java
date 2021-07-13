@@ -47,9 +47,8 @@ public class ListRoomFragment extends Fragment {
     ArrayList<Room> arrayRoom;
     RoomAdapter adapter;
 
-   ActionBar actionBar;
+    ActionBar actionBar;
 
-    private ListRoomViewModel galleryViewModel;
     ImageView image;
     private AppBarConfiguration mAppBarConfiguration;
     String urlGetData = "http://192.168.60.1/severApp/rooms";
@@ -68,26 +67,11 @@ public class ListRoomFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        galleryViewModel =
-                new ViewModelProvider(this).get(ListRoomViewModel.class);
+
         View root = inflater.inflate(R.layout.fragment_room_list, container, false);
         final TextView textView = root.findViewById(R.id.text_gallery);
         ((Home) getActivity())
                 .setActionBarTitle("Sơ đồ phòng");
-//        image = root.findViewById(R.id.imageLR);
-//        image.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
-//                        new ListRoomFragment()).commit();
-//            }
-//        });
-        galleryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
 
         FloatingActionButton fab = root.findViewById(R.id.add_room);
         fab.setOnClickListener(new View.OnClickListener() {

@@ -1,6 +1,7 @@
 package com.example.hotelapp.Activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -50,16 +51,12 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     private AppBarConfiguration mAppBarConfiguration;
 //    String urlGetData = "http://192.168.60.1/severApp/services";
     public static Toolbar mToolbar;
-//    GridView gridViewRoom;
-//    ListView lvRoom;
-//    ArrayList<Room> arrayRoom;
-//    RoomAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Window window = getWindow();
-
 
         setContentView(R.layout.activity_home);
 
@@ -78,22 +75,11 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
 
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-
-
-       drawerLayout = findViewById(R.id.drawer_layout);
-       mToolbar = findViewById(R.id.toolbar);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        mToolbar = findViewById(R.id.toolbar);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
@@ -101,11 +87,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_room_list, R.id.nav_invoice, R.id.nav_service, R.id.nav_revenue)
@@ -113,18 +96,9 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 
-//        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-//        NavigationUI.setupWithNavController(navigationView, navController);
-
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(drawerToggle);
 
-//        getData(urlGetData);
-        //        String value=getIntent().getStringExtra("key");
-//        Bundle bundle = new Bundle();
-//        bundle.putString("key",value);
-//        ListRoomFragment lr= new ListRoomFragment();
-//        lr.setArguments(bundle);
         setActionBarTitle("Home");
 
         Intent intent = getIntent();
@@ -135,10 +109,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                     new ListRoomFragment()).commit();
         }
 
-
         String toService = intent.getStringExtra("service");
         if (toService != null){
-//            Toast.makeText(Home.this, toService, Toast.LENGTH_SHORT).show();
             getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
                     new ServiceFragment()).commit();
         }
@@ -198,6 +170,10 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         switch (item.getItemId()) {
             case R.id.nav_log_out:
                 Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
+                SharedPreferences preferences = this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.remove("token");
+                editor.apply();
                 return true;
             case R.id.info_app:
                 StyleableToast.makeText(this, "Made by: Nhóm 4- CT2", Toast.LENGTH_SHORT, R.style.toastInfo).show();

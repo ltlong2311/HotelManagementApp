@@ -1,11 +1,13 @@
 package com.example.hotelapp.Fragment.service;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +24,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.hotelapp.Activities.Home;
 import com.example.hotelapp.LoginActivity;
 import com.example.hotelapp.R;
 import com.muddzdev.styleabletoast.StyleableToast;
+
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -68,7 +73,9 @@ public class AddServiceFragment extends Fragment {
                 if (tendv.isEmpty() || giadv.isEmpty()){
                     StyleableToast.makeText(getActivity(), "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
                 } else {
-                    ThemDV(urlAddService);
+                    SharedPreferences preferences = getActivity().getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
+                    String token = preferences.getString("token", "");
+                    ThemDV(urlAddService, token);
                     hideKeyBoard(v);
                 }
             }
@@ -90,19 +97,25 @@ public class AddServiceFragment extends Fragment {
         inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 
-    private void ThemDV(String url) {
+    private void ThemDV(String url, String token) {
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         StringRequest stringRequest= new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        if (response.trim().equals("404")){
-                            Toast.makeText(getActivity(), "Loi", Toast.LENGTH_SHORT).show();
-                        } else  {
-                            StyleableToast.makeText(getActivity(), "Thêm dịch vụ thành công!", Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
-                            getFragmentManager().beginTransaction().remove(AddServiceFragment.this).commit();
-                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
-                                    new ServiceFragment()).commit();
+                        try {
+                            JSONObject obj = new JSONObject(response);
+                            String status = obj.getString("status");
+                            if(status.equals("success")){
+                                StyleableToast.makeText(getActivity(), "Thêm dịch vụ thành công!", Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
+                                getFragmentManager().beginTransaction().remove(AddServiceFragment.this).commit();
+                                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                                        new ServiceFragment()).commit();
+                            } else {
+                                StyleableToast.makeText(getActivity(), "Không thể thêm dịch vụ!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
+                            }
+                        } catch (Throwable t) {
+                            StyleableToast.makeText(getActivity(), "Kiểm tra lại quyền chỉnh sửa!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
                         }
                     }
                 },
@@ -117,7 +130,7 @@ public class AddServiceFragment extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("token",tokenAddService);
+                params.put("token",token);
                 params.put("TenDV",edtTenDV.getText().toString().trim());
                 params.put("Gia",edtGiaDV.getText().toString().trim());
                 params.put("TrangThai","1");

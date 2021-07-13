@@ -164,16 +164,6 @@ public class RoomEdit extends AppCompatActivity {
                     public void onResponse(String response) {
                         if (response.trim().equals("success")){
                             StyleableToast.makeText(RoomEdit.this, "Cập nhật thành công!", Toast.LENGTH_SHORT, R.style.toastSuccess).show();
-//                            finish();
-//                            RoomEdit.toolbar.setVisibility(View.GONE);
-//                            ActionBar actionBar = getSupportActionBar();
-//                            actionBar.hide();
-//                        toolbar.setTitle("Sơ đồ phòng");
-//                            getSupportFragmentManager().beginTransaction().add(R.id.updateRoom,
-//                                    new ListRoomFragment()).commit();
-//                            Intent intent = new Intent(RoomEdit.this, Home.class);
-//                            intent.putExtra("url", "true");
-//                            startActivity(intent);
                         } else  {
                             StyleableToast.makeText(RoomEdit.this, "Lỗi cập nhật!", Toast.LENGTH_SHORT, R.style.toastError).show();
 //                            adapter.notifyDataSetChanged();

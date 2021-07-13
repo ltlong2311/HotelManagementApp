@@ -64,8 +64,6 @@ public class ServiceAdapter extends BaseAdapter {
               holder.txtTenDV = (TextView) convertView.findViewById(R.id.textViewTenDichVuCustom);
               holder.txtGia = (TextView) convertView.findViewById(R.id.textViewGiaDichVuCustom);
               holder.txtTrangThai = (TextView) convertView.findViewById(R.id.textViewTrangThaiDichVuCustom);
-//              holder.imageEdit = (ImageView) convertView.findViewById(R.id.imageViewEditService);
-//              holder.imageDelete = (ImageView) convertView.findViewById(R.id.imageViewDeleteService);
               holder.layoutService = convertView.findViewById(R.id.layoutService);
               convertView.setTag(holder);
           } else {
@@ -77,9 +75,10 @@ public class ServiceAdapter extends BaseAdapter {
           holder.txtTenDV.setText(service.getTenDV());
           if(service.getGia() == 0){
               holder.txtGia.setText("Miễn phí");
-              holder.txtGia.setTextColor(Color.parseColor("#B7950B"));
+              holder.txtGia.setTextColor(Color.parseColor("#06972A"));
           } else {
               holder.txtGia.setText(NumberFormat.getNumberInstance(Locale.US).format(service.getGia()) + "đ");
+              holder.txtGia.setTextColor(Color.parseColor("#069779"));
           }
           if (service.getTrangThai() == 0){
               holder.txtTrangThai.setText("Ngừng phục vụ");
