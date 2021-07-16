@@ -75,7 +75,7 @@ public class ServiceAdapter extends BaseAdapter {
           holder.txtTenDV.setText(service.getTenDV());
           if(service.getGia() == 0){
               holder.txtGia.setText("Miễn phí");
-              holder.txtGia.setTextColor(Color.parseColor("#06972A"));
+              holder.txtGia.setTextColor(Color.parseColor("#34A851"));
           } else {
               holder.txtGia.setText(NumberFormat.getNumberInstance(Locale.US).format(service.getGia()) + "đ");
               holder.txtGia.setTextColor(Color.parseColor("#069779"));

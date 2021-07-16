@@ -14,15 +14,19 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.hotelapp.Fragment.home.HomeFragment;
+import com.example.hotelapp.Fragment.home.StaffHomeFragment;
 import com.example.hotelapp.Fragment.listRoom.ListRoomFragment;
 import com.example.hotelapp.Fragment.invoice.InvoiceFragment;
+import com.example.hotelapp.Fragment.listRoom.ListRoomStaffFragment;
 import com.example.hotelapp.Fragment.manage.ManageFragment;
 import com.example.hotelapp.Fragment.revenue.RevenueFragment;
 import com.example.hotelapp.Fragment.service.ServiceFragment;
@@ -43,13 +47,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
-public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+import java.util.HashMap;
+import java.util.Map;
+
+public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private AppBarConfiguration mAppBarConfiguration;
-//    String urlGetData = "http://192.168.60.1/severApp/services";
+    public static final String APICheck = "http://192.168.60.1/severApp/permissions";
+    String checkPermission = "http://192.168.60.1/severApp/permissions";
+    int permission;
     public static Toolbar mToolbar;
 
     @Override
@@ -100,6 +110,10 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         drawerLayout.addDrawerListener(drawerToggle);
 
         setActionBarTitle("Home");
+
+        SharedPreferences preferences = Home.this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
+        String token = preferences.getString("token", "");
+        checkPermission(checkPermission, token);
 
         Intent intent = getIntent();
         String toListRoom = intent.getStringExtra("url");
@@ -162,7 +176,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         int id = item.getItemId();
 
         if (id == R.id.nav_log_out){
-
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -173,6 +186,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 SharedPreferences preferences = this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.remove("token");
+                editor.remove("permission");
                 editor.apply();
                 return true;
             case R.id.info_app:
@@ -184,17 +198,26 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         }
         switch (item.getItemId()){
             case R.id.nav_home:
-//                mToolbar.setTitle(getString(R.string.dashboard_new_sale));
-
-                mToolbar.setTitle("Home");
-                getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
-                        new HomeFragment()).commit();
-
+                if(permission == 2){
+                    mToolbar.setTitle("Home");
+                    getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                            new HomeFragment()).commit();
+                } else {
+                    mToolbar.setTitle("Home");
+                    getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                            new StaffHomeFragment()).commit();
+                }
                 break;
             case R.id.nav_room_list:
-                mToolbar.setTitle("Sơ đồ phòng");
-                getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
-                        new ListRoomFragment()).commit();
+                if(permission == 2){
+                    mToolbar.setTitle("Sơ đồ phòng");
+                    getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                            new ListRoomFragment()).commit();
+                } else if (permission == 1){
+                    mToolbar.setTitle("Sơ đồ phòng");
+                    getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                            new ListRoomStaffFragment()).commit();
+                }
                 break;
             case R.id.nav_service:
                 mToolbar.setTitle("Dịch vụ");
@@ -207,14 +230,22 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                         new InvoiceFragment()).commit();
                 break;
             case R.id.nav_revenue:
-                mToolbar.setTitle("Doanh thu");
-                getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
-                        new RevenueFragment()).commit();
+                if(permission == 2){
+                    mToolbar.setTitle("Doanh thu");
+                    getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                            new RevenueFragment()).commit();
+                } else {
+                    StyleableToast.makeText(this, "Chức năng này chỉ dành cho người quản lý!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
+                }
                 break;
             case R.id.nav_manage:
-                mToolbar.setTitle("Quản lý");
-                getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                if(permission == 2){
+                    mToolbar.setTitle("Quản lý");
+                    getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
                         new ManageFragment()).commit();
+                } else {
+                    StyleableToast.makeText(this, "Chức năng này chỉ dành cho người quản lý!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
+                }
                 break;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -247,6 +278,55 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    public void checkPermission(String url, String token){
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        StringRequest stringRequest= new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject obj = new JSONObject(response);
+//                            StyleableToast.makeText(Home.this, obj.toString(), Toast.LENGTH_SHORT, R.style.toastStyle).show();
+                            String status = obj.getString("status");
+                            JSONObject data = obj.getJSONObject("data");
+                            if(status.equals("success")){
+                                permission = data.getInt("role");
+                                SharedPreferences preferences = Home.this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = preferences.edit();
+                                editor.putInt("permission", permission);
+                                editor.apply();
+                                if(permission == 1){
+                                    getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                                            new StaffHomeFragment()).commit();
+                                }
+
+//                                StyleableToast.makeText(Home.this, String.valueOf(permission), Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
+                            } else {
+                                StyleableToast.makeText(Home.this, "Lỗi!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
+                            }
+                        } catch (Throwable t) {
+                            StyleableToast.makeText(Home.this,"Could not parse malformed JSON: \"" + response + "\"" , Toast.LENGTH_SHORT, R.style.toastStyle).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        StyleableToast.makeText(Home.this, error.toString(), Toast.LENGTH_SHORT, R.style.toastError).show();
+                    }
+                }
+        ){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("token",token);
+                return params;
+            }
+        };
+        requestQueue.add(stringRequest);
     }
 
     public void setActionBarTitle(String title) {

@@ -47,11 +47,14 @@ import com.example.hotelapp.Activities.Home;
 import com.example.hotelapp.Activities.ServiceEdit;
 import com.example.hotelapp.Fragment.listRoom.CheckInFragment;
 import com.example.hotelapp.Fragment.listRoom.ListRoomFragment;
+import com.example.hotelapp.Fragment.listRoom.ListRoomStaffFragment;
 import com.example.hotelapp.Fragment.service.AddServiceFragment;
 import com.example.hotelapp.Fragment.service.ServiceFragment;
 import com.example.hotelapp.LoginActivity;
+import com.example.hotelapp.Model.Service;
 import com.example.hotelapp.R;
 import com.example.hotelapp.Model.Room;
+import com.github.mikephil.charting.data.Entry;
 import com.google.android.material.textfield.TextInputLayout;
 import com.muddzdev.styleabletoast.StyleableToast;
 
@@ -75,15 +78,20 @@ public class  RoomAdapter extends BaseAdapter {
     String urlCheckIn = "http://192.168.60.1/severApp/createPay";
     String urlCheckOut = "http://192.168.60.1/severApp/checkoutPay";
     String urlGetInvoiceInfo = "http://192.168.60.1/severApp/pays/";
-    String tokenCheck = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJJRCI6IjEiLCJ1c2VyTmFtZSI6ImFkbWluIiwiSG9UZW4iOiJhZG1pbiJ9.234-aSxbQPO_Ozd4kcffsavH1FRWBgBx61dga5ZrAWE";
+    String urlGetServiceInfo = "http://192.168.60.1/severApp/services";
+    String urlAddService = "http://192.168.60.1/severApp/updatePay";
+
     public static final String SHARED_ID_INVOICE = "idInvoice";
     int vt= -1;
-    EditText maPhongEdt, tenEdt, cmtEdt, sdtEdt, diachiEdt, maPhongEdtCO, tenEdtCO, cmtEdtCO, sdtEdtCO, diachiEdtCO, thanhtoanEdt;
-    String ten, cmt, sdt, diachi;
+    int optionServiceID, permission;
+    EditText maPhongEdt, tenEdt, cmtEdt, sdtEdt, diachiEdt, maPhongEdtCO, tenEdtCO, cmtEdtCO, sdtEdtCO, diachiEdtCO, thanhtoanEdt, maPhongAddService;
+    String token, ten, cmt, sdt, diachi;
+    String option = "TheoPhong";
     TextInputLayout layoutOption;
-    AutoCompleteTextView optionCheckIn;
-    ArrayList<String> arrayList_option;
-    ArrayAdapter<String> arrayAdapter_option;
+    AutoCompleteTextView optionCheckIn, optionAddService;
+    ArrayList<String> arrayList_option, arrayListService;
+    ArrayList<Integer> arrayListIdService;
+    ArrayAdapter<String> arrayAdapter_option, arrayAdapterService;
 
 
     public RoomAdapter(Context context, int layout, List<Room> roomList) {
@@ -162,10 +170,13 @@ public class  RoomAdapter extends BaseAdapter {
             gradientDrawable.setColor(Color.parseColor("#C3EFEB"));
         }
 
-         holder.imageEdit.setOnClickListener(new View.OnClickListener() {
+        SharedPreferences preferences = context.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
+        permission = preferences.getInt("permission", 0);
+        token = preferences.getString("token", "");
+
+        holder.imageEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                PopupMenu popup = new PopupMenu(context, v, Gravity.RIGHT);
                 PopupMenu popup = null;
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
                     popup = new PopupMenu(context, v, Gravity.RIGHT);
@@ -201,7 +212,7 @@ public class  RoomAdapter extends BaseAdapter {
                                 } else if (room.getTrangThai() == 0){
                                     AlertRoomIsEmpty();
                                 }  else {
-                                    DialogAddService(Gravity.CENTER);
+                                    DialogAddService(Gravity.CENTER, room);
                                 }
                                 return true;
                         }
@@ -214,6 +225,7 @@ public class  RoomAdapter extends BaseAdapter {
 
         return convertView;
     }
+
     private void DialogCheckIn(int gravity, Room room) {
         Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -241,7 +253,6 @@ public class  RoomAdapter extends BaseAdapter {
         cmtEdt = dialog.findViewById(R.id.editTextCMTCheckIn);
         sdtEdt = dialog.findViewById(R.id.editTextSDTCheckIn);
         diachiEdt = dialog.findViewById(R.id.editTextDiaChiCheckIn);
-        layoutOption = (TextInputLayout) dialog.findViewById(R.id.optionLayout);
         optionCheckIn = (AutoCompleteTextView) dialog.findViewById(R.id.optionsCheckInMenu);
 
         arrayList_option = new ArrayList<>();
@@ -254,8 +265,13 @@ public class  RoomAdapter extends BaseAdapter {
         optionCheckIn.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String st = parent.getItemAtPosition(position).toString();
-                Toast.makeText(parent.getContext(), st, Toast.LENGTH_SHORT).show();
+                String check = parent.getItemAtPosition(position).toString();
+                if (check.matches("Theo giờ")){
+                    option = "TheoGio";
+                } else{
+                    option = "TheoPhong";
+                }
+//                Toast.makeText(parent.getContext(), option, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -285,43 +301,6 @@ public class  RoomAdapter extends BaseAdapter {
 
     }
 
-
-    private void DialogAddService(int gravity) {
-        Dialog dialog = new Dialog(context);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.add_service_to_room);
-
-        Window window = dialog.getWindow();
-        if (window == null){
-            return;
-        }
-
-        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-        WindowManager.LayoutParams windowAttributes = window.getAttributes();
-        windowAttributes.gravity = gravity;
-        window.setAttributes(windowAttributes);
-        dialog.show();
-
-        Button btnAdd = dialog.findViewById(R.id.btn_add_service_room);
-        Button btnCannel = dialog.findViewById(R.id.btn_cancel_add_service);
-        btnCannel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-    }
-
     private void DialogCheckOut(int gravity, Room room) {
         Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -336,7 +315,7 @@ public class  RoomAdapter extends BaseAdapter {
         SharedPreferences.Editor editor = preferences.edit();
         editor.apply();
         int idInvoice = preferences.getInt(String.valueOf(idPhong), 0);
-        StyleableToast.makeText(context, String.valueOf(idInvoice), Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
+//        StyleableToast.makeText(context, String.valueOf(idInvoice), Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
 
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -384,14 +363,13 @@ public class  RoomAdapter extends BaseAdapter {
         });
 
     }
-
     public void confirmCheckOut(Dialog dialogCheckOut, int idInvoice, int idPhong){
         AlertDialog.Builder dialogDelInvoice = new AlertDialog.Builder(context);
-        dialogDelInvoice.setMessage("Xác nhận đã thanh toán, thực hiện lưu hóa đơn?");
+        dialogDelInvoice.setMessage("Xác nhận đã thanh toán và thực hiện lưu hóa đơn?");
         dialogDelInvoice.setNegativeButton("Xác nhận", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                CheckOut(urlCheckOut, idInvoice, idPhong, dialogCheckOut);
+                checkOut(urlCheckOut, idInvoice, idPhong, dialogCheckOut);
             }
         });
         dialogDelInvoice.setPositiveButton("Không", new DialogInterface.OnClickListener() {
@@ -402,28 +380,100 @@ public class  RoomAdapter extends BaseAdapter {
         });
         dialogDelInvoice.show();
     }
+
+    private void DialogAddService(int gravity, Room room) {
+        Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.add_service_to_room);
+
+        Window window = dialog.getWindow();
+        if (window == null){
+            return;
+        }
+
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = gravity;
+        window.setAttributes(windowAttributes);
+        dialog.show();
+
+
+        int idPhong = room.getId();
+        SharedPreferences preferences = context.getApplicationContext().getSharedPreferences(SHARED_ID_INVOICE, Context.MODE_PRIVATE);
+        int idInvoice = preferences.getInt(String.valueOf(idPhong), 0);
+        StyleableToast.makeText(context, String.valueOf(idInvoice), Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
+
+        maPhongAddService = dialog.findViewById(R.id.editTextSoPhongAddService);
+        optionAddService = (AutoCompleteTextView) dialog.findViewById(R.id.optionAddServiceMenu);
+        arrayListService = new ArrayList<>();
+        arrayListIdService = new ArrayList<>();
+//        arrayListService.add("Giặt ủi quần áo");
+//        arrayListService.add("Spa");
+
+        maPhongAddService.setText(room.getTenPhong());
+        getServiceInfo(urlGetServiceInfo);
+
+        arrayAdapterService = new ArrayAdapter<>(context.getApplicationContext(), R.layout.dropdown_item_ci, arrayListService);
+        optionAddService.setAdapter(arrayAdapterService);
+        optionAddService.setThreshold(1);
+
+        optionAddService.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String check = parent.getItemAtPosition(position).toString();
+                for (int i = 0; i < arrayListService.size(); i++){
+                    if(check.matches(arrayListService.get(i))){
+                        optionServiceID = arrayListIdService.get(i);
+                    };
+                }
+                Toast.makeText(parent.getContext(), String.valueOf(optionServiceID), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Button btnAdd = dialog.findViewById(R.id.btn_add_service_room);
+        Button btnCannel = dialog.findViewById(R.id.btn_cancel_add_service);
+        btnCannel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addService(urlAddService, idInvoice, dialog);
+            }
+        });
+
+    }
+
     public void AlertRoomIsUsed(){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage("Phòng đã được sử dụng!")
                 .setNegativeButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        dialog.dismiss();
                     }
                 })
                 .show();
     }
+
     public void AlertRoomIsEmpty(){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
          builder.setMessage("Phòng trống!")
                 .setNegativeButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        dialog.dismiss();
                     }
                 });
         builder.show();
     }
+
     public void AlertRoomIsFixed(){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Thông báo")
@@ -431,7 +481,7 @@ public class  RoomAdapter extends BaseAdapter {
                 .setNegativeButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        dialog.dismiss();
                     }
                 });
         builder.show();
@@ -454,21 +504,31 @@ public class  RoomAdapter extends BaseAdapter {
                             editor.putInt(String.valueOf(idPhong), idInvoice);
                             editor.apply();
                             if(status.equals("success")){
-                                Toast.makeText(context, msg.toString(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
-                                ListRoomFragment optionsFrag = new ListRoomFragment ();
-                                ((Home)context).getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, optionsFrag,"").addToBackStack(null).commit();
+                                if (permission == 2){
+                                    ListRoomFragment optionsFrag = new ListRoomFragment ();
+                                    ((Home)context).getSupportFragmentManager()
+                                            .beginTransaction()
+                                            .replace(R.id.nav_host_fragment, optionsFrag,"")
+                                            .addToBackStack(null)
+                                            .commit();
+                                } else {
+                                    ListRoomStaffFragment optionsFrag = new ListRoomStaffFragment();
+                                    ((Home)context).getSupportFragmentManager()
+                                            .beginTransaction()
+                                            .replace(R.id.nav_host_fragment, optionsFrag,"")
+                                            .addToBackStack(null)
+                                            .commit();
+                                }
+
                             } else {
-                                Toast.makeText(context, msg.toString(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
                             }
 
                         } catch (Throwable t) {
                             Toast.makeText(context, "Could not parse malformed JSON: \"" + response + "\"", Toast.LENGTH_SHORT).show();
                         }
-
-//                        ListRoomFragment optionsFrag = new ListRoomFragment ();
-//                        ((Home)context).getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, optionsFrag,"").addToBackStack(null).commit();
-//                        dialog.dismiss();
                     }
                 },
                 new Response.ErrorListener() {
@@ -482,19 +542,20 @@ public class  RoomAdapter extends BaseAdapter {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("token",tokenCheck);
+                params.put("token",token);
                 params.put("IDPhong", String.valueOf(idPhong));
                 params.put("Ten",tenEdt.getText().toString().trim());
                 params.put("CMT",cmtEdt.getText().toString().trim());
                 params.put("DiaChi",diachiEdt.getText().toString().trim());
                 params.put("SDT",sdtEdt.getText().toString().trim());
                 params.put("DichVu","5");
-                params.put("Option","TheoPhong");
+                params.put("Option",option);
                 return params;
             }
         };
         requestQueue.add(stringRequest);
     }
+
     public void getInvoiceInfo(String url){
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -510,8 +571,8 @@ public class  RoomAdapter extends BaseAdapter {
                             cmtEdtCO.setText(infoKhach.getString("CMT"));
                             sdtEdtCO.setText(infoKhach.getString("SDT"));
                             diachiEdtCO.setText(infoKhach.getString("DiaChi"));
-                            Toast.makeText(context, infoKhach.toString(), Toast.LENGTH_SHORT).show();
-                            Toast.makeText(context, json.toString(), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(context, infoKhach.toString(), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(context, json.toString(), Toast.LENGTH_SHORT).show();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -527,8 +588,7 @@ public class  RoomAdapter extends BaseAdapter {
         );
         requestQueue.add(request);
     }
-
-    private void CheckOut(String url, int idInvoice, int idPhong, Dialog dialog) {
+    private void checkOut(String url, int idInvoice, int idPhong, Dialog dialog) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         StringRequest stringRequest= new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -546,8 +606,21 @@ public class  RoomAdapter extends BaseAdapter {
                                 editor.remove(String.valueOf(idPhong));
                                 editor.apply();
                                 dialog.dismiss();
-                                ListRoomFragment optionsFrag = new ListRoomFragment ();
-                                ((Home)context).getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, optionsFrag,"").addToBackStack(null).commit();
+                                if (permission == 2){
+                                    ListRoomFragment optionsFrag = new ListRoomFragment ();
+                                    ((Home)context).getSupportFragmentManager()
+                                            .beginTransaction()
+                                            .replace(R.id.nav_host_fragment, optionsFrag,"")
+                                            .addToBackStack(null)
+                                            .commit();
+                                } else {
+                                    ListRoomStaffFragment optionsFrag = new ListRoomStaffFragment();
+                                    ((Home)context).getSupportFragmentManager()
+                                            .beginTransaction()
+                                            .replace(R.id.nav_host_fragment, optionsFrag,"")
+                                            .addToBackStack(null)
+                                            .commit();
+                                }
                             } else {
                                 Toast.makeText(context, msg.toString(), Toast.LENGTH_SHORT).show();
                             }
@@ -569,11 +642,105 @@ public class  RoomAdapter extends BaseAdapter {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("token",tokenCheck);
+                params.put("token",token);
                 params.put("ID", String.valueOf(idInvoice));
                 return params;
             }
         };
         requestQueue.add(stringRequest);
     }
+
+    private void getServiceInfo(String url) {
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray jsonArray = response.getJSONArray("data");
+                            for (int i = 0; i < jsonArray.length(); i++){
+                                try {
+                                    JSONObject data = jsonArray.getJSONObject(i);
+                                    arrayListService.add(data.getString("TenDV"));
+                                    arrayListIdService.add(data.getInt("ID"));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+//                                Toast.makeText(context, arrayListIdService.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
+        requestQueue.add(request);
+    }
+
+    private void addService(String url, int idInvoice, Dialog dialog) {
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        StringRequest stringRequest= new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject obj = new JSONObject(response);
+                            String msg = obj.getString("msg");
+                            String status = obj.getString("status");
+                            if(status.equals("success")){
+                                StyleableToast.makeText(context, "Thêm dịch vụ vào hóa đơn thành công!", Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
+                                dialog.dismiss();
+                                if (permission == 2){
+                                    ListRoomFragment optionsFrag = new ListRoomFragment ();
+                                    ((Home)context).getSupportFragmentManager()
+                                            .beginTransaction()
+                                            .replace(R.id.nav_host_fragment, optionsFrag,"")
+                                            .addToBackStack(null)
+                                            .commit();
+                                } else {
+                                    ListRoomStaffFragment optionsFrag = new ListRoomStaffFragment();
+                                    ((Home)context).getSupportFragmentManager()
+                                            .beginTransaction()
+                                            .replace(R.id.nav_host_fragment, optionsFrag,"")
+                                            .addToBackStack(null)
+                                            .commit();
+                                }
+
+                            } else {
+                                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (Throwable t) {
+                            Toast.makeText(context, "Could not parse malformed JSON: \"" + response + "\"", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("AAA", "Lỗi:\n" + error.toString());
+                        Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+        ){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("token",token);
+                params.put("ID", String.valueOf(idInvoice));
+                params.put("DichVu", "5");
+                return params;
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
+
 }

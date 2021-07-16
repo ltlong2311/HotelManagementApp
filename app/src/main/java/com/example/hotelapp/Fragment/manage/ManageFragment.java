@@ -22,10 +22,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.hotelapp.Activities.Home;
+import com.example.hotelapp.Fragment.listRoom.AddRoomFragment;
 import com.example.hotelapp.R;
 import com.example.hotelapp.Activities.ServiceEdit;
 import com.example.hotelapp.Model.User;
 import com.example.hotelapp.Adapters.UserAdapter;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -62,6 +64,19 @@ public class ManageFragment extends Fragment {
         adapter = new UserAdapter(getActivity(), R.layout.user_item, userList);
         listViewUser.setAdapter(adapter);
         getData(urlGetDataUser);
+
+        FloatingActionButton fab = root.findViewById(R.id.add_user);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AddRoomFragment addRoom= new AddRoomFragment();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.drawer_layout, addRoom, "Thêm Phòng")
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
 
         listViewUser.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

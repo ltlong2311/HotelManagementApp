@@ -82,7 +82,6 @@
                     android:layout_marginBottom="10dp"
                     android:text=""
                     android:hint="Số điện thoại"
-                    android:textColor="#D80C0C"
                     />
 
                 <com.google.android.material.textfield.TextInputLayout

@@ -106,13 +106,14 @@ public class AddServiceFragment extends Fragment {
                         try {
                             JSONObject obj = new JSONObject(response);
                             String status = obj.getString("status");
+                            String msg = obj.getString("msg");
                             if(status.equals("success")){
                                 StyleableToast.makeText(getActivity(), "Thêm dịch vụ thành công!", Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
                                 getFragmentManager().beginTransaction().remove(AddServiceFragment.this).commit();
                                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
                                         new ServiceFragment()).commit();
                             } else {
-                                StyleableToast.makeText(getActivity(), "Không thể thêm dịch vụ!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
+                                StyleableToast.makeText(getActivity(), msg, Toast.LENGTH_SHORT, R.style.toastStyle).show();
                             }
                         } catch (Throwable t) {
                             StyleableToast.makeText(getActivity(), "Kiểm tra lại quyền chỉnh sửa!", Toast.LENGTH_SHORT, R.style.toastStyle).show();

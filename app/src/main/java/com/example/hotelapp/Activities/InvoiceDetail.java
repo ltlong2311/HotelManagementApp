@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,6 +29,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.hotelapp.R;
 import com.google.android.material.appbar.AppBarLayout;
+import com.muddzdev.styleabletoast.StyleableToast;
+
+import org.json.JSONObject;
 
 import java.text.NumberFormat;
 import java.util.HashMap;
@@ -39,8 +44,9 @@ public class InvoiceDetail extends AppCompatActivity {
     AppBarLayout appBarLayout;
     public static Toolbar toolbar;
     int ID = 0;
-
+    int permission;
     String urlDeleteInvoice =  "http://192.168.60.1/severApp/deletePay";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +78,9 @@ public class InvoiceDetail extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        SharedPreferences preferences = this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
+        permission = preferences.getInt("permission", 0);
+
         Intent intent = getIntent();
 
         //        Invoice invoice = (Invoice) intent.getSerializableExtra("dataInvoice");
@@ -99,6 +108,7 @@ public class InvoiceDetail extends AppCompatActivity {
         edtPhiDichVu.setText(""+ NumberFormat.getNumberInstance(Locale.US).format(phidichvu));
         edtThanhToan.setText(""+ NumberFormat.getNumberInstance(Locale.US).format(thanhtoan));
         edtNgayTao.setText(""+ createDate);
+
 
 
 //        Toast.makeText(this, invoice.getID(), Toast.LENGTH_SHORT).show();
@@ -149,7 +159,9 @@ public class InvoiceDetail extends AppCompatActivity {
         dialogDelInvoice.setNegativeButton("Có", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                deleteInvoice(urlDeleteInvoice);
+                SharedPreferences preferences = InvoiceDetail.this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
+                String token = preferences.getString("token", "");
+                deleteInvoice(urlDeleteInvoice, token);
             }
         });
         dialogDelInvoice.setPositiveButton("Không", new DialogInterface.OnClickListener() {
@@ -160,19 +172,26 @@ public class InvoiceDetail extends AppCompatActivity {
         });
         dialogDelInvoice.show();
     }
-    public void deleteInvoice(String url){
+    public void deleteInvoice(String url, String token){
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest= new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        if (response.trim().equals("404")){
-                            Toast.makeText(InvoiceDetail.this, "Lỗi xóa đối tượng", Toast.LENGTH_SHORT).show();
-                        } else  {
-                            Toast.makeText(InvoiceDetail.this, "Xóa thành công!", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(InvoiceDetail.this, Home.class);
-                            intent.putExtra("invoice", "invoice");
-                            startActivity(intent);
+                        try {
+                            JSONObject obj = new JSONObject(response);
+                            String status = obj.getString("status");
+                            String msg = obj.getString("msg");
+                            if(status.equals("success")){
+                                StyleableToast.makeText(InvoiceDetail.this, "Xóa hóa đơn thành công!", Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
+                                Intent intent = new Intent(InvoiceDetail.this, Home.class);
+                                intent.putExtra("invoice", "invoice");
+                                startActivity(intent);
+                            } else {
+                                StyleableToast.makeText(InvoiceDetail.this, msg, Toast.LENGTH_SHORT, R.style.toastStyle).show();
+                            }
+                        } catch (Throwable t) {
+                            StyleableToast.makeText(InvoiceDetail.this, "Kiểm tra lại quyền chỉnh sửa!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
                         }
                     }
                 },
@@ -186,7 +205,7 @@ public class InvoiceDetail extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("token","eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJJRCI6IjEiLCJ1c2VyTmFtZSI6ImFkbWluIiwiSG9UZW4iOiJhZG1pbiJ9.234-aSxbQPO_Ozd4kcffsavH1FRWBgBx61dga5ZrAWE");
+                params.put("token",token);
                 params.put("ID",String.valueOf(ID));
                 return params;
             }

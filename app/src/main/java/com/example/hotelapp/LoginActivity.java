@@ -47,6 +47,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText edtUsername, edtPassword;
     private Button button_login;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,13 +116,15 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject obj = new JSONObject(response);
                             String msg = obj.getString("msg");
                             String status = obj.getString("status");
-                            JSONObject data = obj.getJSONObject("data");
-                            String token = data.getString("token");
-                            SharedPreferences preferences = LoginActivity.this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = preferences.edit();
-                            editor.putString("token", token);
-                            editor.apply();
+
+
                             if(status.equals("success")){
+                                JSONObject data = obj.getJSONObject("data");
+                                String token = data.getString("token");
+                                SharedPreferences preferences = LoginActivity.this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = preferences.edit();
+                                editor.putString("token", token);
+                                editor.apply();
                                 openHomePage();
                                 StyleableToast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT, R.style.toastBlueLight).show();
                             } else {
@@ -129,6 +133,8 @@ public class LoginActivity extends AppCompatActivity {
                         } catch (Throwable t) {
                             Toast.makeText(LoginActivity.this, "Could not parse malformed JSON: \"" + response + "\"", Toast.LENGTH_SHORT).show();
                         }
+
+
                     }
                 },
                 new Response.ErrorListener() {

@@ -35,19 +35,28 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:inputType="none"
+                android:focusable="false"
+                android:clickable="false"
                 android:hint="Số phòng"
                 android:text="Phòng 101"
                 />
-            <EditText
-                android:id="@+id/editDichVuCheckIn"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:inputType="text"
                 android:layout_marginBottom="20dp"
-                android:text=""
-                android:hint=""
-                />
+                android:theme="@style/TextLabel">
+                <AutoCompleteTextView
+                    android:id="@+id/optionAddServiceMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:dropDownHeight="290dp"
+                    android:text="Dịch vụ"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
         <RelativeLayout

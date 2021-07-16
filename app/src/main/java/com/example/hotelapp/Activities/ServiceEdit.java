@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,10 +30,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.hotelapp.Adapters.ServiceAdapter;
+import com.example.hotelapp.Fragment.service.AddServiceFragment;
+import com.example.hotelapp.Fragment.service.ServiceFragment;
 import com.example.hotelapp.R;
 import com.example.hotelapp.Model.Service;
 import com.google.android.material.appbar.AppBarLayout;
 import com.muddzdev.styleabletoast.StyleableToast;
+
+import org.json.JSONObject;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -118,10 +124,12 @@ public class ServiceEdit extends AppCompatActivity {
                 if (tenDV.matches("") || giaDV.length() == 0){
                     StyleableToast.makeText(ServiceEdit.this, "Vui lòng điền đẩy đủ thông tin!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
                 } else  {
-                    UpdateService(urlUpdateService);
-                    Intent intent = new Intent(ServiceEdit.this, Home.class);
-                    intent.putExtra("service", "service");
-                    startActivity(intent);
+                    SharedPreferences preferences = ServiceEdit.this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
+                    String token = preferences.getString("token", "");
+                    UpdateService(urlUpdateService, token);
+//                    Intent intent = new Intent(ServiceEdit.this, Home.class);
+//                    intent.putExtra("service", "service");
+//                    startActivity(intent);
                 }
             }
         });
@@ -142,13 +150,27 @@ public class ServiceEdit extends AppCompatActivity {
         rbnNgungPhucVu = (RadioButton) findViewById(R.id.rbnServiceIsStopServing);
     }
 
-    public void UpdateService(String url){
+    public void UpdateService(String url, String token){
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest= new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-//                          Toast.makeText(ServiceEdit.this, response.toString(), Toast.LENGTH_SHORT).show();
+                        try {
+                            JSONObject obj = new JSONObject(response);
+                            String status = obj.getString("status");
+                            String msg = obj.getString("msg");
+                            if(status.equals("success")){
+                                StyleableToast.makeText(ServiceEdit.this, "Cập nhật dịch vụ thành công!", Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
+                                Intent intent = new Intent(ServiceEdit.this, Home.class);
+                                intent.putExtra("service", "service");
+                                startActivity(intent);
+                            } else {
+                                StyleableToast.makeText(ServiceEdit.this, msg, Toast.LENGTH_SHORT, R.style.toastStyle).show();
+                            }
+                        } catch (Throwable t) {
+                            StyleableToast.makeText(ServiceEdit.this, "Kiểm tra lại quyền chỉnh sửa!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -162,7 +184,7 @@ public class ServiceEdit extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> params = new HashMap<>();
-                params.put("token",tokenAdmin);
+                params.put("token",token);
                 params.put("ID", String.valueOf(ID));
                 params.put("TenDV",edtTenDV.getText().toString().trim());
                 params.put("Gia",edtGiaDV.getText().toString().trim());
@@ -179,7 +201,9 @@ public class ServiceEdit extends AppCompatActivity {
         dialogDelService.setNegativeButton("Có", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                deleteService(urlDeleteService);
+                SharedPreferences preferences = ServiceEdit.this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
+                String token = preferences.getString("token", "");
+                deleteService(urlDeleteService, token);
             }
         });
         dialogDelService.setPositiveButton("Không", new DialogInterface.OnClickListener() {
@@ -190,19 +214,26 @@ public class ServiceEdit extends AppCompatActivity {
         });
         dialogDelService.show();
     }
-    public void deleteService(String url){
+    public void deleteService(String url, String token){
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest= new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        if (response.trim().equals("404")){
-                            StyleableToast.makeText(ServiceEdit.this, "Lỗi xóa đối tượng!", Toast.LENGTH_SHORT, R.style.toastError).show();
-                        } else  {
-                            StyleableToast.makeText(ServiceEdit.this, "Xóa thành công!", Toast.LENGTH_SHORT, R.style.toastSuccess).show();
-                            Intent intent = new Intent(ServiceEdit.this, Home.class);
-                            intent.putExtra("service", "service");
-                            startActivity(intent);
+                        try {
+                            JSONObject obj = new JSONObject(response);
+                            String status = obj.getString("status");
+                            String msg = obj.getString("msg");
+                            if(status.equals("success")){
+                                StyleableToast.makeText(ServiceEdit.this, "Xóa dịch vụ thành công!", Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
+                                Intent intent = new Intent(ServiceEdit.this, Home.class);
+                                intent.putExtra("service", "service");
+                                startActivity(intent);
+                            } else {
+                                StyleableToast.makeText(ServiceEdit.this, msg, Toast.LENGTH_SHORT, R.style.toastStyle).show();
+                            }
+                        } catch (Throwable t) {
+                            StyleableToast.makeText(ServiceEdit.this, "Kiểm tra lại quyền chỉnh sửa!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
                         }
                     }
                 },
@@ -216,7 +247,7 @@ public class ServiceEdit extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("token",tokenAdmin);
+                params.put("token",token);
                 params.put("ID", String.valueOf(ID));
                 return params;
             }
