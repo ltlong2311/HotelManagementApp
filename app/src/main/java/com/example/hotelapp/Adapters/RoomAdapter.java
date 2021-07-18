@@ -1,17 +1,17 @@
 package com.example.hotelapp.Adapters;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -25,15 +25,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -44,35 +40,25 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.hotelapp.Activities.Home;
-import com.example.hotelapp.Activities.ServiceEdit;
-import com.example.hotelapp.Fragment.listRoom.CheckInFragment;
 import com.example.hotelapp.Fragment.listRoom.ListRoomFragment;
 import com.example.hotelapp.Fragment.listRoom.ListRoomStaffFragment;
-import com.example.hotelapp.Fragment.service.AddServiceFragment;
-import com.example.hotelapp.Fragment.service.ServiceFragment;
-import com.example.hotelapp.LoginActivity;
-import com.example.hotelapp.Model.Service;
 import com.example.hotelapp.R;
 import com.example.hotelapp.Model.Room;
-import com.github.mikephil.charting.data.Entry;
 import com.google.android.material.textfield.TextInputLayout;
 import com.muddzdev.styleabletoast.StyleableToast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 public class  RoomAdapter extends BaseAdapter {
 
-    private Context context;
-    private int layout;
+    private final Context context;
+    private final int layout;
     private List<Room> RoomList;
 
     String urlCheckIn = "http://192.168.60.1/severApp/createPay";
@@ -115,7 +101,7 @@ public class  RoomAdapter extends BaseAdapter {
         return 0;
     }
 
-    private class ViewHolder{
+    private static class ViewHolder{
         TextView txtTenPhong, txtTang, txtTrangThai, txtGiaPhong;
         ImageView imageEdit;
         RelativeLayout layoutRoom;
@@ -126,6 +112,7 @@ public class  RoomAdapter extends BaseAdapter {
         return RoomList;
     }
 
+    @SuppressLint({"SetTextI18n", "RtlHardcoded", "NonConstantResourceId"})
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -134,11 +121,11 @@ public class  RoomAdapter extends BaseAdapter {
             holder = new ViewHolder();
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(layout,null);
-            holder.txtTenPhong = (TextView) convertView.findViewById(R.id.textViewTenPhongCustom);
-            holder.txtTang = (TextView) convertView.findViewById(R.id.textViewTangCustom);
-            holder.txtTrangThai = (TextView) convertView.findViewById(R.id.textViewTrangThaiCustom);
-            holder.txtGiaPhong = (TextView) convertView.findViewById(R.id.textViewGiaPhongCustom);
-            holder.imageEdit = (ImageView) convertView.findViewById(R.id.imageViewEditRoom);
+            holder.txtTenPhong = convertView.findViewById(R.id.textViewTenPhongCustom);
+            holder.txtTang = convertView.findViewById(R.id.textViewTangCustom);
+            holder.txtTrangThai = convertView.findViewById(R.id.textViewTrangThaiCustom);
+            holder.txtGiaPhong = convertView.findViewById(R.id.textViewGiaPhongCustom);
+            holder.imageEdit = convertView.findViewById(R.id.imageViewEditRoom);
 //            holder.imageDelete = (ImageView) convertView.findViewById(R.id.imageViewDeleteRoom);
             holder.layoutRoom = convertView.findViewById(R.id.layoutRoom);
             convertView.setTag(holder);
@@ -149,22 +136,19 @@ public class  RoomAdapter extends BaseAdapter {
         holder.txtTenPhong.setText(room.getTenPhong());
         holder.txtTang.setText("" + room.getTang());
         holder.txtGiaPhong.setText(room.getGia() + "");
-
-
         if (room.getTrangThai() == 0){
             holder.txtTrangThai.setText("Trống");
 //            holder.layoutRoom.setBackgroundColor(Color.parseColor("#DBF1FB"));
             GradientDrawable gradientDrawable = (GradientDrawable) holder.layoutRoom.getBackground().mutate();
             gradientDrawable.setColor(Color.parseColor("#F9FEFF"));
         } else {
-            holder.txtTrangThai.setText("Đã Dùng");
+            holder.txtTrangThai.setText("Đã dùng");
 //            holder.layoutRoom.setBackgroundColor(Color.parseColor("#a9ffeb"));
             GradientDrawable gradientDrawable = (GradientDrawable) holder.layoutRoom.getBackground().mutate();
             gradientDrawable.setColor(Color.parseColor("#F4DFDF"));
         }
-
         if(room.getTuSua() == 1){
-            holder.txtTrangThai.setText("Tạm dừng!");
+            holder.txtTrangThai.setText("Đang sửa!");
 //            holder.layoutRoom.setBackgroundColor(Color.parseColor("#65c6bb#8ce3da#AEEAE4"));
             GradientDrawable gradientDrawable = (GradientDrawable) holder.layoutRoom.getBackground().mutate();
             gradientDrawable.setColor(Color.parseColor("#C3EFEB"));
@@ -174,59 +158,53 @@ public class  RoomAdapter extends BaseAdapter {
         permission = preferences.getInt("permission", 0);
         token = preferences.getString("token", "");
 
-        holder.imageEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popup = null;
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-                    popup = new PopupMenu(context, v, Gravity.RIGHT);
-                }
-                popup.inflate(R.menu.menu_manage_room);
-                popup.show();
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        int id = item.getItemId();
-                        switch (id){
-                            case R.id.checkin:
-                                if (room.getTuSua() == 1){
-                                    AlertRoomIsFixed();
-                                } else if (room.getTrangThai() == 1){
-                                    AlertRoomIsUsed();
-                                } else {
-                                    DialogCheckIn(Gravity.CENTER, room);
-                                }
-                                return true;
-                            case R.id.checkout:
-                                if (room.getTuSua() == 1){
-                                    AlertRoomIsFixed();
-                                } else if (room.getTrangThai() == 0){
-                                    AlertRoomIsEmpty();
-                                }  else {
-                                    DialogCheckOut(Gravity.CENTER, room);
-                                }
-                                return true;
-                            case R.id.addService:
-                                if (room.getTuSua() == 1){
-                                    AlertRoomIsFixed();
-                                } else if (room.getTrangThai() == 0){
-                                    AlertRoomIsEmpty();
-                                }  else {
-                                    DialogAddService(Gravity.CENTER, room);
-                                }
-                                return true;
+        holder.imageEdit.setOnClickListener(v -> {
+            PopupMenu popup = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                popup = new PopupMenu(context, v, Gravity.RIGHT);
+            }
+            popup.inflate(R.menu.menu_manage_room);
+            popup.show();
+            popup.setOnMenuItemClickListener(item -> {
+                int id = item.getItemId();
+                switch (id){
+                    case R.id.checkin:
+                        if (room.getTuSua() == 1){
+                            AlertRoomIsFixed();
+                        } else if (room.getTrangThai() == 1){
+                            AlertRoomIsUsed();
+                        } else {
+                            DialogCheckIn(room);
                         }
                         return true;
-                    }
-                });
-            }
+                    case R.id.checkout:
+                        if (room.getTuSua() == 1){
+                            AlertRoomIsFixed();
+                        } else if (room.getTrangThai() == 0){
+                            AlertRoomIsEmpty();
+                        }  else {
+                            DialogCheckOut(room);
+                        }
+                        return true;
+                    case R.id.addService:
+                        if (room.getTuSua() == 1){
+                            AlertRoomIsFixed();
+                        } else if (room.getTrangThai() == 0){
+                            AlertRoomIsEmpty();
+                        }  else {
+                            DialogAddService(room);
+                        }
+                        return true;
+                }
+                return true;
+            });
         });
 
 
         return convertView;
     }
 
-    private void DialogCheckIn(int gravity, Room room) {
+    private void DialogCheckIn(Room room) {
         Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.check_in_room);
@@ -240,7 +218,7 @@ public class  RoomAdapter extends BaseAdapter {
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         WindowManager.LayoutParams windowAttributes = window.getAttributes();
-        windowAttributes.gravity = gravity;
+        windowAttributes.gravity = Gravity.CENTER;
         window.setAttributes(windowAttributes);
         dialog.show();
 
@@ -253,7 +231,7 @@ public class  RoomAdapter extends BaseAdapter {
         cmtEdt = dialog.findViewById(R.id.editTextCMTCheckIn);
         sdtEdt = dialog.findViewById(R.id.editTextSDTCheckIn);
         diachiEdt = dialog.findViewById(R.id.editTextDiaChiCheckIn);
-        optionCheckIn = (AutoCompleteTextView) dialog.findViewById(R.id.optionsCheckInMenu);
+        optionCheckIn = dialog.findViewById(R.id.optionsCheckInMenu);
 
         arrayList_option = new ArrayList<>();
         arrayList_option.add("Theo ngày");
@@ -277,31 +255,23 @@ public class  RoomAdapter extends BaseAdapter {
 
         maPhongEdt.setText(room.getTenPhong());
 
-        btnCannel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+        btnCannel.setOnClickListener(v -> dialog.dismiss());
 
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ten = tenEdt.getText().toString().trim();
-                cmt = cmtEdt.getText().toString().trim();
-                sdt = sdtEdt.getText().toString().trim();
-                diachi = diachiEdt.getText().toString().trim();
-                if (ten.matches("") || cmt.length() == 0 || sdt.length() == 0 || diachi.matches("")){
-                    StyleableToast.makeText(context, "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
-                } else  {
-                    checkIn(urlCheckIn, room.getId(), dialog);
-                }
+        btnAdd.setOnClickListener(v -> {
+            ten = tenEdt.getText().toString().trim();
+            cmt = cmtEdt.getText().toString().trim();
+            sdt = sdtEdt.getText().toString().trim();
+            diachi = diachiEdt.getText().toString().trim();
+            if (ten.matches("") || cmt.length() == 0 || sdt.length() == 0 || diachi.matches("")){
+                StyleableToast.makeText(context, "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
+            } else  {
+                checkIn(urlCheckIn, room.getId(), dialog);
             }
         });
 
     }
 
-    private void DialogCheckOut(int gravity, Room room) {
+    private void DialogCheckOut(Room room) {
         Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.check_out_room);
@@ -321,7 +291,7 @@ public class  RoomAdapter extends BaseAdapter {
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         WindowManager.LayoutParams windowAttributes = window.getAttributes();
-        windowAttributes.gravity = gravity;
+        windowAttributes.gravity = Gravity.CENTER;
         window.setAttributes(windowAttributes);
         dialog.show();
 
@@ -340,25 +310,17 @@ public class  RoomAdapter extends BaseAdapter {
 
         Button btnSubmitCheckOut = dialog.findViewById(R.id.btn_submit_checkout);
         Button btnCancel = dialog.findViewById(R.id.btn_cancel_checkout);
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
 
-        btnSubmitCheckOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ten = tenEdtCO.getText().toString().trim();
-                cmt = cmtEdtCO.getText().toString().trim();
-                sdt = sdtEdtCO.getText().toString().trim();
-                diachi = diachiEdtCO.getText().toString().trim();
-                if (ten.matches("") || cmt.length() == 0 || sdt.length() == 0 || diachi.matches("")){
-                    StyleableToast.makeText(context, "Không thể để trống thông tin checkout!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
-                } else  {
-                    confirmCheckOut(dialog, idInvoice, idPhong);
-                }
+        btnSubmitCheckOut.setOnClickListener(v -> {
+            ten = tenEdtCO.getText().toString().trim();
+            cmt = cmtEdtCO.getText().toString().trim();
+            sdt = sdtEdtCO.getText().toString().trim();
+            diachi = diachiEdtCO.getText().toString().trim();
+            if (ten.matches("") || cmt.length() == 0 || sdt.length() == 0 || diachi.matches("")){
+                StyleableToast.makeText(context, "Không thể để trống thông tin checkout!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
+            } else  {
+                confirmCheckOut(dialog, idInvoice, idPhong);
             }
         });
 
@@ -381,7 +343,7 @@ public class  RoomAdapter extends BaseAdapter {
         dialogDelInvoice.show();
     }
 
-    private void DialogAddService(int gravity, Room room) {
+    private void DialogAddService(Room room) {
         Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.add_service_to_room);
@@ -395,7 +357,7 @@ public class  RoomAdapter extends BaseAdapter {
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         WindowManager.LayoutParams windowAttributes = window.getAttributes();
-        windowAttributes.gravity = gravity;
+        windowAttributes.gravity = Gravity.CENTER;
         window.setAttributes(windowAttributes);
         dialog.show();
 
@@ -406,7 +368,7 @@ public class  RoomAdapter extends BaseAdapter {
         StyleableToast.makeText(context, String.valueOf(idInvoice), Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
 
         maPhongAddService = dialog.findViewById(R.id.editTextSoPhongAddService);
-        optionAddService = (AutoCompleteTextView) dialog.findViewById(R.id.optionAddServiceMenu);
+        optionAddService = dialog.findViewById(R.id.optionAddServiceMenu);
         arrayListService = new ArrayList<>();
         arrayListIdService = new ArrayList<>();
 //        arrayListService.add("Giặt ủi quần áo");
@@ -428,7 +390,7 @@ public class  RoomAdapter extends BaseAdapter {
                         optionServiceID = arrayListIdService.get(i);
                     };
                 }
-                Toast.makeText(parent.getContext(), String.valueOf(optionServiceID), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(parent.getContext(), String.valueOf(optionServiceID), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -464,7 +426,7 @@ public class  RoomAdapter extends BaseAdapter {
 
     public void AlertRoomIsEmpty(){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-         builder.setMessage("Phòng trống!")
+        builder.setMessage("Phòng trống!")
                 .setNegativeButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -571,8 +533,6 @@ public class  RoomAdapter extends BaseAdapter {
                             cmtEdtCO.setText(infoKhach.getString("CMT"));
                             sdtEdtCO.setText(infoKhach.getString("SDT"));
                             diachiEdtCO.setText(infoKhach.getString("DiaChi"));
-//                            Toast.makeText(context, infoKhach.toString(), Toast.LENGTH_SHORT).show();
-//                            Toast.makeText(context, json.toString(), Toast.LENGTH_SHORT).show();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -598,7 +558,7 @@ public class  RoomAdapter extends BaseAdapter {
                             JSONObject obj = new JSONObject(response);
                             String msg = obj.getString("msg");
                             String status = obj.getString("status");
-                            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
                             if(status.equals("success")){
                                 StyleableToast.makeText(context, msg, Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
                                 SharedPreferences preferences = context.getApplicationContext().getSharedPreferences(SHARED_ID_INVOICE, Context.MODE_PRIVATE);
@@ -640,7 +600,7 @@ public class  RoomAdapter extends BaseAdapter {
                 }
         ){
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("token",token);
                 params.put("ID", String.valueOf(idInvoice));
@@ -650,35 +610,33 @@ public class  RoomAdapter extends BaseAdapter {
         requestQueue.add(stringRequest);
     }
 
+
     private void getServiceInfo(String url) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONArray jsonArray = response.getJSONArray("data");
-                            for (int i = 0; i < jsonArray.length(); i++){
-                                try {
-                                    JSONObject data = jsonArray.getJSONObject(i);
+                response -> {
+                    try {
+                        JSONArray jsonArray = response.getJSONArray("data");
+                        for (int i = 0; i < jsonArray.length(); i++){
+                            try {
+                                JSONObject data = jsonArray.getJSONObject(i);
+                                int status = data.getInt("TrangThai");
+                                if (status == 1){                    //lay service hien co
                                     arrayListService.add(data.getString("TenDV"));
                                     arrayListIdService.add(data.getInt("ID"));
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
                                 }
-//                                Toast.makeText(context, arrayListIdService.toString(), Toast.LENGTH_SHORT).show();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                            StyleableToast.makeText(context, arrayListService.toString(), Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
                         }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
-                    }
+                error -> {
+                    error.printStackTrace();
+                    Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
                 }
         );
         requestQueue.add(request);
@@ -732,11 +690,11 @@ public class  RoomAdapter extends BaseAdapter {
                 }
         ){
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("token",token);
                 params.put("ID", String.valueOf(idInvoice));
-                params.put("DichVu", "5");
+                params.put("DichVu", String.valueOf(optionServiceID));
                 return params;
             }
         };

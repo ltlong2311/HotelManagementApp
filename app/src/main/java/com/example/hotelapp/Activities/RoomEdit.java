@@ -44,7 +44,7 @@ public class RoomEdit extends AppCompatActivity {
     RadioButton rbnTuSua, rbnHoatDong;
     Button btnUpdateRoom, btnDeleteRoom;
     AppBarLayout appBarLayout;
-    public static Toolbar toolbar;
+    Toolbar toolbar;
     int ID = 0;
     int Status = 0;
     int isRepair = 0;

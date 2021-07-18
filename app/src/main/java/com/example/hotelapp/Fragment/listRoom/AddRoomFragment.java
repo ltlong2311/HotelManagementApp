@@ -51,44 +51,35 @@ public class AddRoomFragment extends Fragment{
         View root = inflater.inflate(R.layout.fragment_add_room, container, false);
         btnHuy = root.findViewById(R.id.btn_back);
         btnThemPhong = root.findViewById(R.id.btn_add_room);
-        edtTenPhong= (EditText) root.findViewById(R.id.editTextTenPhong);
-        edtTang= (EditText) root.findViewById(R.id.editTextTang);
-        edtGiaPhong= (EditText) root.findViewById(R.id.editTextGiaPhong);
-        btnHuy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        edtTenPhong= root.findViewById(R.id.editTextTenPhong);
+        edtTang= root.findViewById(R.id.editTextTang);
+        edtGiaPhong= root.findViewById(R.id.editTextGiaPhong);
+        btnHuy.setOnClickListener(view -> {
 //                getActivity().onBackPressed();
 //                getFragmentManager().popBackStack();     //back to home, sau do mới thoát
-                getFragmentManager().beginTransaction().remove(AddRoomFragment.this).commit();
-            }
+            getFragmentManager().beginTransaction().remove(AddRoomFragment.this).commit();
         });
 
-        btnThemPhong.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String tenPhong = edtTenPhong.getText().toString().trim();
-                String tang = edtTang.getText().toString().trim();
-                String giaPhong = edtGiaPhong.getText().toString().trim();
-                  if (tenPhong.isEmpty() || tang.isEmpty() || giaPhong.isEmpty()){
-                      Toast.makeText(getActivity(), "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
-                      hideKeyBoard(v);
-                  } else if (Integer.parseInt(tang) > 10){
-                    Toast.makeText(getActivity(), "Hãy nhập đúng số tầng!", Toast.LENGTH_SHORT).show();
-                    hideKeyBoard(v);
-                  } else {
-                      ThemPhong(urlAddRoom);
-                      hideKeyBoard(v);
-                  }
-            }
+        btnThemPhong.setOnClickListener(v -> {
+            String tenPhong = edtTenPhong.getText().toString().trim();
+            String tang = edtTang.getText().toString().trim();
+            String giaPhong = edtGiaPhong.getText().toString().trim();
+              if (tenPhong.isEmpty() || tang.isEmpty() || giaPhong.isEmpty()){
+                  Toast.makeText(getActivity(), "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
+                  hideKeyBoard(v);
+              } else if (Integer.parseInt(tang) > 10){
+                Toast.makeText(getActivity(), "Hãy nhập đúng số tầng!", Toast.LENGTH_SHORT).show();
+                hideKeyBoard(v);
+              } else {
+                  ThemPhong(urlAddRoom);
+                  hideKeyBoard(v);
+              }
         });
 
-        layoutHideKeyboard = (LinearLayout) root.findViewById(R.id.layoutHideKeyboard);
-        layoutHideKeyboard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
-            }
+        layoutHideKeyboard = root.findViewById(R.id.layoutHideKeyboard);
+        layoutHideKeyboard.setOnClickListener(v -> {
+            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
         });
 
         return root;
@@ -97,30 +88,24 @@ public class AddRoomFragment extends Fragment{
     private void ThemPhong(String url){
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         StringRequest stringRequest= new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        if (response.trim().equals("success")){
-                            StyleableToast.makeText(getActivity(), "Thêm phòng thành công!", Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
-                            getFragmentManager().beginTransaction().remove(AddRoomFragment.this).commit();
-                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
-                                    new ListRoomFragment()).commit();
-                        } else  {
-                            StyleableToast.makeText(getActivity(), "Error!", Toast.LENGTH_SHORT, R.style.toastError).show();
-                            getFragmentManager().beginTransaction().remove(AddRoomFragment.this).commit();
-                        }
+                response -> {
+                    if (response.trim().equals("success")){
+                        StyleableToast.makeText(getActivity(), "Thêm phòng thành công!", Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
+                        getFragmentManager().beginTransaction().remove(AddRoomFragment.this).commit();
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                                new ListRoomFragment()).commit();
+                    } else  {
+                        StyleableToast.makeText(getActivity(), "Error!", Toast.LENGTH_SHORT, R.style.toastError).show();
+                        getFragmentManager().beginTransaction().remove(AddRoomFragment.this).commit();
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("AAA", "Lỗi:\n" + error.toString());
-                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
-                    }
+                error -> {
+                    Log.d("AAA", "Lỗi:\n" + error.toString());
+                    Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
                 }
         ){
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("IDTang",edtTang.getText().toString().trim());
                 params.put("TenPhong",edtTenPhong.getText().toString().trim());
@@ -136,9 +121,5 @@ public class AddRoomFragment extends Fragment{
         InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
-
-//    private void Map() {
-//        btnThemPhong = (Button) findViewById(R.id.btn_add_room);
-//    }
 
 }

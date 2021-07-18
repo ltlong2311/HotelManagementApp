@@ -92,7 +92,6 @@ public class InvoiceFragment extends Fragment {
                         tenDV = listTenDV.toString();
                         tenDV = tenDV.replace("[", "")
                                 .replace("]", "");
-
                         giaDV += dichvu.getInt("Gia");
                     } catch (JSONException e) {
                         e.printStackTrace();

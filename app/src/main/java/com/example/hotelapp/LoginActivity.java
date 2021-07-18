@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     String urlTest = "http://192.168.1.4:4000/getData";
     String urlLogin = "http://192.168.60.1/severApp/login";
     EditText edtUsername, edtPassword;
-    private Button button_login;
+    Button button_login;
 
 
 
@@ -73,17 +73,14 @@ public class LoginActivity extends AppCompatActivity {
         edtUsername = findViewById(R.id.editTextUsername);
         edtPassword = findViewById(R.id.editTextPassword);
 
-        button_login = (Button) findViewById(R.id.button_login);
-        button_login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String username = edtUsername.getText().toString().trim();
-                String password = edtPassword.getText().toString().trim();
-                if (username.matches("") || password.matches("") ){
-                    StyleableToast.makeText(LoginActivity.this, "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
-                } else {
-                    login(urlLogin);
-                }
+        button_login = findViewById(R.id.button_login);
+        button_login.setOnClickListener(v -> {
+            String username = edtUsername.getText().toString().trim();
+            String password = edtPassword.getText().toString().trim();
+            if (username.matches("") || password.matches("") ){
+                StyleableToast.makeText(LoginActivity.this, "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
+            } else {
+                login(urlLogin);
             }
         });
         getData(urlTest);
@@ -109,44 +106,36 @@ public class LoginActivity extends AppCompatActivity {
     private void login(String url) {
         RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
         StringRequest stringRequest= new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject obj = new JSONObject(response);
-                            String msg = obj.getString("msg");
-                            String status = obj.getString("status");
+                response -> {
+                    try {
+                        JSONObject obj = new JSONObject(response);
+                        String msg = obj.getString("msg");
+                        String status = obj.getString("status");
 
 
-                            if(status.equals("success")){
-                                JSONObject data = obj.getJSONObject("data");
-                                String token = data.getString("token");
-                                SharedPreferences preferences = LoginActivity.this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
-                                SharedPreferences.Editor editor = preferences.edit();
-                                editor.putString("token", token);
-                                editor.apply();
-                                openHomePage();
-                                StyleableToast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT, R.style.toastBlueLight).show();
-                            } else {
-                                DialogError(Gravity.CENTER);
-                            }
-                        } catch (Throwable t) {
-                            Toast.makeText(LoginActivity.this, "Could not parse malformed JSON: \"" + response + "\"", Toast.LENGTH_SHORT).show();
+                        if(status.equals("success")){
+                            JSONObject data = obj.getJSONObject("data");
+                            String token = data.getString("token");
+                            SharedPreferences preferences = LoginActivity.this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putString("token", token);
+                            editor.apply();
+                            openHomePage();
+                            StyleableToast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT, R.style.toastBlueLight).show();
+                        } else {
+                            DialogError(Gravity.CENTER);
                         }
-
-
+                    } catch (Throwable t) {
+                        Toast.makeText(LoginActivity.this, "Could not parse malformed JSON: \"" + response + "\"", Toast.LENGTH_SHORT).show();
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("AAA", "Lỗi:\n" + error.toString());
-                        Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-                    }
+                error -> {
+                    Log.d("AAA", "Lỗi:\n" + error.toString());
+                    Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
                 }
         ){
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("username", edtUsername.getText().toString().trim());
                 params.put("password", edtPassword.getText().toString().trim());
@@ -158,17 +147,9 @@ public class LoginActivity extends AppCompatActivity {
     private void getData(String url){
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        Toast.makeText(LoginActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
+                response -> Toast.makeText(LoginActivity.this, response.toString(), Toast.LENGTH_SHORT).show(),
+                error -> {
 //                        Toast.makeText(LoginActivity.this, "Đăng nhập!", Toast.LENGTH_SHORT).show();
-                    }
                 }
         );
         requestQueue.add(jsonArrayRequest);
@@ -193,18 +174,12 @@ public class LoginActivity extends AppCompatActivity {
         dialog.show();
 
         Button btnCannel = dialog.findViewById(R.id.btn_ok);
-        btnCannel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+        btnCannel.setOnClickListener(v -> dialog.dismiss());
 
     }
 
     public void hideKeyBoard(View view) {
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-
     }
 }

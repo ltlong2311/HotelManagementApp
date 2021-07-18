@@ -10,23 +10,10 @@ public class Invoice implements Serializable{
     private int ID;
     private int IDPhong;
     private int IDUser;
-//    private Customer InfoKhach;
-//    private List<ServiceUsed> DichVu;
     private JSONObject InfoKhach;
     private JSONArray DichVu;
     private int ThanhToan;
     private String createDate;
-
-//    public Invoice(int ID, int IDPhong, int IDUser, Customer infoKhach, List<ServiceUsed> dichVu, int thanhToan, String createDate) {
-//        this.ID = ID;
-//        this.IDPhong = IDPhong;
-//        this.IDUser = IDUser;
-//        InfoKhach = infoKhach;
-//        DichVu = dichVu;
-//        ThanhToan = thanhToan;
-//        this.createDate = createDate;
-//    }
-
 
     public Invoice(int ID, int IDPhong, int IDUser, JSONObject infoKhach, JSONArray dichVu, int thanhToan, String createDate) {
         this.ID = ID;

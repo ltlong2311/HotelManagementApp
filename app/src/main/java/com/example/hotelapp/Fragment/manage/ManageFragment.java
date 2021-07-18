@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -129,18 +130,25 @@ public class ManageFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
-
     }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        if (item.getItemId() == R.id.menu_add_service) {
-//            AddServiceFragment add= new AddServiceFragment();
-//            getActivity().getSupportFragmentManager().beginTransaction()
-//                    .replace(R.id.drawer_layout, add)
-//                    .addToBackStack(null)
-//                    .commit();
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.changePassword) {
+            ChangePasswordFragment frg1 = new ChangePasswordFragment();
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .remove(ManageFragment.this)
+                    .replace(R.id.drawer_layout, frg1)
+                    .addToBackStack(null)
+                    .commit();
+        } else if (item.getItemId() == R.id.personalInfo) {
+            InfoManageFragment frg2 = new InfoManageFragment();
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .remove(ManageFragment.this)
+                    .replace(R.id.drawer_layout, frg2)
+                    .addToBackStack(null)
+                    .commit();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

@@ -11,10 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.hotelapp.Fragment.invoice.InvoiceFragment;
-import com.example.hotelapp.Fragment.listRoom.ListRoomFragment;
 import com.example.hotelapp.Fragment.listRoom.ListRoomStaffFragment;
-import com.example.hotelapp.Fragment.manage.ManageFragment;
-import com.example.hotelapp.Fragment.revenue.RevenueFragment;
 import com.example.hotelapp.Fragment.service.ServiceFragment;
 import com.example.hotelapp.Fragment.support.SupportFragment;
 import com.example.hotelapp.R;
@@ -35,54 +32,35 @@ public class StaffHomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_staff_home, container, false);
-        cardViewListRoom = (CardView) root.findViewById(R.id.cardViewStaffListRoom);
-        cardViewService = (CardView) root.findViewById(R.id.cardViewStaffService);
-        cardViewInvoice = (CardView) root.findViewById(R.id.cardViewStaffInvoice);
-        cardViewInfo = (CardView) root.findViewById(R.id.cardViewStaffInfo);
-        cardViewApp = (CardView) root.findViewById(R.id.cardViewStaffApp);
-        cardViewSupport = (CardView) root.findViewById(R.id.cardViewStaffSupport);
+        cardViewListRoom = root.findViewById(R.id.cardViewStaffListRoom);
+        cardViewService = root.findViewById(R.id.cardViewStaffService);
+        cardViewInvoice = root.findViewById(R.id.cardViewStaffInvoice);
+        cardViewInfo = root.findViewById(R.id.cardViewStaffInfo);
+        cardViewApp = root.findViewById(R.id.cardViewStaffApp);
+        cardViewSupport = root.findViewById(R.id.cardViewStaffSupport);
 
-        cardViewListRoom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        cardViewListRoom.setOnClickListener((View v) ->
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                    new ListRoomStaffFragment()).commit()
+        );
+        cardViewService.setOnClickListener((View v) ->
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
-                        new ListRoomStaffFragment()).commit();
-            }
-        });
-        cardViewService.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                        new ServiceFragment()).addToBackStack(null).commit()
+         );
+        cardViewInvoice.setOnClickListener((View v) ->
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
-                        new ServiceFragment()).addToBackStack(null).commit();
-            }
-        });
-        cardViewInvoice.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                        new InvoiceFragment()).addToBackStack(null).commit()
+        );
+        cardViewInfo.setOnClickListener((View v) ->
+                Toast.makeText(getActivity(),"Thông tin",Toast.LENGTH_SHORT)
+        );
+        cardViewApp.setOnClickListener((View v) ->
+                Toast.makeText(getActivity(),"App quản lý khách sạn",Toast.LENGTH_SHORT)
+        );
+        cardViewSupport.setOnClickListener((View v) ->
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
-                        new InvoiceFragment()).addToBackStack(null).commit();
-            }
-        });
-        cardViewInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
-                        new RevenueFragment()).addToBackStack(null).commit();
-            }
-        });
-        cardViewApp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(),"App quản lý khách sạn",Toast.LENGTH_SHORT);
-            }
-        });
-        cardViewSupport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
-                        new SupportFragment()).addToBackStack(null).commit();
-            }
-        });
+                        new SupportFragment()).addToBackStack(null).commit()
+        );
         return root;
     }
 }

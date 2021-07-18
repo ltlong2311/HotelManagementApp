@@ -22,7 +22,7 @@
                 android:background="@color/light_blue"
                 android:textColor="#FDFDFD"
                 android:textStyle="bold"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:text="Check in" />
 
             <LinearLayout

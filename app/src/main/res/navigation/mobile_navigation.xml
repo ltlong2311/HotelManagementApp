@@ -36,4 +36,5 @@
         android:name="com.example.hotelapp.Fragment.revenue.RevenueFragment"
         android:label="Doanh thu"
         tools:layout="@layout/fragment_revenue" />
+
 </navigation>

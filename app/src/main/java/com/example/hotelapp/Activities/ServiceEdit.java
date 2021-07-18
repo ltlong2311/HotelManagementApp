@@ -51,13 +51,11 @@ public class ServiceEdit extends AppCompatActivity {
     Button btnUpdateService, btnDeleteService;
     AppBarLayout appBarLayout;
 
-    public static Toolbar toolbar;
+    Toolbar toolbar;
     int ID = 0;
-    int isActive = 0;
-    ArrayList<Service> arrayService;
-    ServiceAdapter adapter;
+    int isActive;
 
-    String tokenAdmin = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJJRCI6IjEiLCJ1c2VyTmFtZSI6ImFkbWluIiwiSG9UZW4iOiJhZG1pbiJ9.234-aSxbQPO_Ozd4kcffsavH1FRWBgBx61dga5ZrAWE";
+
     String urlUpdateService =  "http://192.168.60.1/severApp/updateServices";
     String urlDeleteService =  "http://192.168.60.1/severApp/deleteServices";
     @Override
@@ -81,7 +79,7 @@ public class ServiceEdit extends AppCompatActivity {
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
 
-        appBarLayout = (AppBarLayout) findViewById(R.id.appBarUpdateService);
+        appBarLayout = findViewById(R.id.appBarUpdateService);
         setContentView(R.layout.activity_service_edit);
         toolbar = findViewById(R.id.toolbar_ER);
         toolbar.setTitle("Thông tin dịch vụ");
@@ -93,10 +91,10 @@ public class ServiceEdit extends AppCompatActivity {
 
         getDataService();
         ID = service.getID();
-//        Status = service.getTrangThai();
-        Toast.makeText(this, String.valueOf(service.getID()), Toast.LENGTH_SHORT).show();
+        isActive = service.getTrangThai();
+//        Toast.makeText(this, String.valueOf(service.getID()), Toast.LENGTH_SHORT).show();
         edtTenDV.setText(service.getTenDV());
-        edtGiaDV.setText(""+ service.getGia());
+        edtGiaDV.setText(String.valueOf(service.getGia()));
         if(service.getTrangThai() == 1){
             rbnPhucVu.setChecked(true);
         } else {
@@ -161,7 +159,7 @@ public class ServiceEdit extends AppCompatActivity {
                             String status = obj.getString("status");
                             String msg = obj.getString("msg");
                             if(status.equals("success")){
-                                StyleableToast.makeText(ServiceEdit.this, "Cập nhật dịch vụ thành công!", Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
+                                StyleableToast.makeText(ServiceEdit.this, "Cập nhật dịch vụ thành công!", Toast.LENGTH_SHORT, R.style.toastBlueLight).show();
                                 Intent intent = new Intent(ServiceEdit.this, Home.class);
                                 intent.putExtra("service", "service");
                                 startActivity(intent);

@@ -16,7 +16,7 @@
     <string name="menu_revenue">Doanh thu</string>
     <string name="menu_manage">Quản lý</string>
     <string name="menu_slideshow">Slideshow</string>
-
+    <string name="welcome">Welcome!</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
@@ -30,7 +30,18 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-
+    <string name="image_room">image_room</string>
+    <string name="image_service">image_room</string>
+    <string name="image_invoice">image_invoice</string>
+    <string name="image_info">image_info</string>
+    <string name="image_app">image_app</string>
+    <string name="image_help">image_help</string>
+    <string name="room_plan_card">SƠ ĐỒ PHÒNG</string>
+    <string name="service_card">DỊCH VỤ</string>
+    <string name="invoice_card">HÓA ĐƠN</string>
+    <string name="info_card">THÔNG TIN</string>
+    <string name="app_card">ỨNG DỤNG</string>
+    <string name="help_card">TRỢ GIÚP</string>
     <string-array name="optionCheckIn">
         <item>Theo ngày</item>
         <item>Theo giờ</item>

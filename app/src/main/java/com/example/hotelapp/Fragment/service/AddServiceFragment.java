@@ -41,7 +41,6 @@ public class AddServiceFragment extends Fragment {
     Button btnThemDV, btnHuy;
 
     String urlAddService = "http://192.168.60.1/severApp/createServices";
-    String tokenAddService = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJJRCI6IjEiLCJ1c2VyTmFtZSI6ImFkbWluIiwiSG9UZW4iOiJhZG1pbiJ9.234-aSxbQPO_Ozd4kcffsavH1FRWBgBx61dga5ZrAWE";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,29 +54,23 @@ public class AddServiceFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_add_service, container, false);
         btnHuy = root.findViewById(R.id.btn_back);
         btnThemDV = root.findViewById(R.id.btn_add_room);
-        edtTenDV= (EditText) root.findViewById(R.id.editTextTenDichVu);
-        edtGiaDV= (EditText) root.findViewById(R.id.editTextGiaDichVu);
-        btnHuy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getFragmentManager().beginTransaction().remove(AddServiceFragment.this).commit();
-                hideKeyBoard(view);
-            }
+        edtTenDV= root.findViewById(R.id.editTextTenDichVu);
+        edtGiaDV= root.findViewById(R.id.editTextGiaDichVu);
+        btnHuy.setOnClickListener(view -> {
+            getFragmentManager().beginTransaction().remove(AddServiceFragment.this).commit();
+            hideKeyBoard(view);
         });
 
-        btnThemDV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String tendv = edtTenDV.getText().toString().trim();
-                String giadv = edtGiaDV.getText().toString().trim();
-                if (tendv.isEmpty() || giadv.isEmpty()){
-                    StyleableToast.makeText(getActivity(), "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
-                } else {
-                    SharedPreferences preferences = getActivity().getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
-                    String token = preferences.getString("token", "");
-                    ThemDV(urlAddService, token);
-                    hideKeyBoard(v);
-                }
+        btnThemDV.setOnClickListener(v -> {
+            String tendv = edtTenDV.getText().toString().trim();
+            String giadv = edtGiaDV.getText().toString().trim();
+            if (tendv.isEmpty() || giadv.isEmpty()){
+                StyleableToast.makeText(getActivity(), "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
+            } else {
+                SharedPreferences preferences = getActivity().getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
+                String token = preferences.getString("token", "");
+                ThemDV(urlAddService, token);
+                hideKeyBoard(v);
             }
         });
 

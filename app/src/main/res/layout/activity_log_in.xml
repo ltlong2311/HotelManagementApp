@@ -39,8 +39,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
+            android:layout_marginBottom="10dp"
             android:text="Tài khoản: "
-            android:textColor="@color/teal_200"
+            android:textColor="@color/teal_700"
             android:textSize="15dp" />
 
         <EditText
@@ -49,7 +50,7 @@
             android:id="@+id/editTextUsername"
             android:inputType="text"
             android:layout_marginHorizontal="30dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="20dp"
             android:textColor="#2F3745" />
 
         <TextView
@@ -57,17 +58,29 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
             android:text="Mật khẩu: "
-            android:textColor="@color/teal_200"
-            android:textSize="15dp" />
-
-        <EditText
+            android:textColor="@color/teal_700"
+            android:textSize="15sp" />
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editTextPassword"
-            android:layout_marginHorizontal="30dp"
             android:layout_marginBottom="50dp"
-            android:inputType="textPassword"
-            android:textColor="#2F3745" />
+            android:layout_marginTop="0dp"
+            android:padding="0dp"
+            android:orientation="vertical"
+            app:endIconTint="@color/teal_700"
+            app:endIconMode="password_toggle"
+            app:endIconDrawable="@drawable/custom_password_eye"
+            >
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editTextPassword"
+                android:paddingTop="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginHorizontal="30dp"
+                android:inputType="textPassword"
+                android:textColor="#2F3745" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/button_login"

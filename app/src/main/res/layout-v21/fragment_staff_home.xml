@@ -106,16 +106,14 @@
                     android:layout_gravity="fill"
                     android:layout_margin="8dp"
                     app:cardCornerRadius="8dp"
-                    app:cardElevation="8dp"
-                    tools:ignore="UnusedAttribute">
+                    app:cardElevation="8dp">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|center_horizontal"
                         android:gravity="center"
-                        android:orientation="vertical"
-                        tools:ignore="UseCompoundDrawables">
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="75dp"
@@ -147,16 +145,14 @@
                     android:layout_gravity="fill"
                     android:layout_margin="8dp"
                     app:cardCornerRadius="8dp"
-                    app:cardElevation="8dp"
-                    tools:ignore="UnusedAttribute">
+                    app:cardElevation="8dp">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|center_horizontal"
                         android:gravity="center"
-                        android:orientation="vertical"
-                        tools:ignore="UseCompoundDrawables">
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="75dp"
@@ -170,7 +166,7 @@
                             android:layout_marginTop="10dp"
                             android:text="@string/invoice_card"
                             android:textColor="#000"
-                            android:textSize="15sp"
+                            android:textSize="15dp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -187,16 +183,14 @@
                     android:layout_gravity="fill"
                     android:layout_margin="8dp"
                     app:cardCornerRadius="8dp"
-                    app:cardElevation="8dp"
-                    tools:ignore="UnusedAttribute">
+                    app:cardElevation="8dp">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|center_horizontal"
                         android:gravity="center"
-                        android:orientation="vertical"
-                        tools:ignore="UseCompoundDrawables">
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="75dp"
@@ -210,7 +204,7 @@
                             android:layout_marginTop="10dp"
                             android:text="@string/info_card"
                             android:textColor="#000"
-                            android:textSize="15sp"
+                            android:textSize="15dp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -227,16 +221,14 @@
                     android:layout_gravity="fill"
                     android:layout_margin="8dp"
                     app:cardCornerRadius="8dp"
-                    app:cardElevation="8dp"
-                    tools:ignore="UnusedAttribute">
+                    app:cardElevation="8dp">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|center_horizontal"
                         android:gravity="center"
-                        android:orientation="vertical"
-                        tools:ignore="UseCompoundDrawables">
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="75dp"
@@ -250,7 +242,7 @@
                             android:layout_marginTop="10dp"
                             android:text="@string/app_card"
                             android:textColor="#000"
-                            android:textSize="15sp"
+                            android:textSize="15dp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -267,16 +259,14 @@
                     android:layout_gravity="fill"
                     android:layout_margin="8dp"
                     app:cardCornerRadius="8dp"
-                    app:cardElevation="8dp"
-                    tools:ignore="UnusedAttribute">
+                    app:cardElevation="8dp">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|center_horizontal"
                         android:gravity="center"
-                        android:orientation="vertical"
-                        tools:ignore="UseCompoundDrawables">
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="75dp"
@@ -290,7 +280,7 @@
                             android:layout_marginTop="10dp"
                             android:text="@string/help_card"
                             android:textColor="#000"
-                            android:textSize="15sp"
+                            android:textSize="15dp"
                             android:textStyle="bold" />
                     </LinearLayout>
 

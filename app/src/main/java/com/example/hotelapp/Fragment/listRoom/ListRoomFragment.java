@@ -73,19 +73,6 @@ public class ListRoomFragment extends Fragment {
         ((Home) getActivity())
                 .setActionBarTitle("Sơ đồ phòng");
 
-        FloatingActionButton fab = root.findViewById(R.id.add_room);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AddRoomFragment addRoom= new AddRoomFragment();
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.drawer_layout, addRoom, "Thêm Phòng")
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });
-
-
         gvRoom = root.findViewById(R.id.gridViewRoom);
         arrayRoom = new ArrayList<>();
         adapter = new RoomAdapter(getActivity(), R.layout.room_item, arrayRoom);

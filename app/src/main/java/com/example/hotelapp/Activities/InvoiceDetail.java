@@ -109,101 +109,62 @@ public class InvoiceDetail extends AppCompatActivity {
         edtThanhToan.setText(""+ NumberFormat.getNumberInstance(Locale.US).format(thanhtoan));
         edtNgayTao.setText(""+ createDate);
 
-
-
-//        Toast.makeText(this, invoice.getID(), Toast.LENGTH_SHORT).show();
-
-
-//        ID = invoice.getID();
-//        edtMaHD.setText(""+invoice.getID());
-//        edtSoPhong.setText(""+invoice.getIDPhong());
-//
-//        edtTenKhachHang.setText(""+invoice.getIDPhong());
-//        edtCMND.setText(""+invoice.getIDPhong());
-//        edtSDT.setText(""+invoice.getIDPhong());
-//        edtDiaChi.setText(""+invoice.getIDPhong());
-//
-//        edtThanhToan.setText(""+invoice.getThanhToan());
-//        edtNgayTao.setText(""+invoice.getCreateDate());
-
-
-        btnDeleteInvoice.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                confirmDeleteInvoice(String.valueOf(invoice.getID()));
-                confirmDeleteInvoice(String.valueOf(id));
-            }
+        btnDeleteInvoice.setOnClickListener(v -> {
+            confirmDeleteInvoice(String.valueOf(id));
         });
     }
 
-
     private void getDataInvoice() {
-        btnDeleteInvoice = (Button) findViewById(R.id.btn_delete_invoice);
-        edtMaHD = (EditText) findViewById(R.id.edtMaHD);
-        edtSoPhong = (EditText) findViewById(R.id.edtSoPhong);
-        edtTenKhachHang = (EditText) findViewById(R.id.edtTenKhachHang);
-        edtCMND = (EditText) findViewById(R.id.edtCMND);
-        edtSDT = (EditText) findViewById(R.id.edtSoDienThoai);
-        edtDiaChi = (EditText) findViewById(R.id.edtDiaChi);
-        edtDichVu = (EditText) findViewById(R.id.edtDichVuSuDung);
-        edtPhiDichVu = (EditText) findViewById(R.id.edtPhiDichVu);
-        edtThanhToan = (EditText) findViewById(R.id.edtThanhToan);
-        edtNgayTao = (EditText) findViewById(R.id.edtNgayTao);
-
-
+        btnDeleteInvoice = findViewById(R.id.btn_delete_invoice);
+        edtMaHD = findViewById(R.id.edtMaHD);
+        edtSoPhong = findViewById(R.id.edtSoPhong);
+        edtTenKhachHang = findViewById(R.id.edtTenKhachHang);
+        edtCMND = findViewById(R.id.edtCMND);
+        edtSDT = findViewById(R.id.edtSoDienThoai);
+        edtDiaChi = findViewById(R.id.edtDiaChi);
+        edtDichVu = findViewById(R.id.edtDichVuSuDung);
+        edtPhiDichVu = findViewById(R.id.edtPhiDichVu);
+        edtThanhToan = findViewById(R.id.edtThanhToan);
+        edtNgayTao = findViewById(R.id.edtNgayTao);
     }
 
     public void confirmDeleteInvoice(String maHoaDon){
         AlertDialog.Builder dialogDelInvoice = new AlertDialog.Builder(InvoiceDetail.this);
         dialogDelInvoice.setMessage("Xác nhận xóa hóa đơn "+ maHoaDon + " ?");
-        dialogDelInvoice.setNegativeButton("Có", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                SharedPreferences preferences = InvoiceDetail.this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
-                String token = preferences.getString("token", "");
-                deleteInvoice(urlDeleteInvoice, token);
-            }
+        dialogDelInvoice.setNegativeButton("Có", (dialog, which) -> {
+            SharedPreferences preferences = InvoiceDetail.this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
+            String token = preferences.getString("token", "");
+            deleteInvoice(urlDeleteInvoice, token);
         });
-        dialogDelInvoice.setPositiveButton("Không", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        dialogDelInvoice.setPositiveButton("Không", (dialog, which) -> {
 
-            }
         });
         dialogDelInvoice.show();
     }
     public void deleteInvoice(String url, String token){
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest= new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject obj = new JSONObject(response);
-                            String status = obj.getString("status");
-                            String msg = obj.getString("msg");
-                            if(status.equals("success")){
-                                StyleableToast.makeText(InvoiceDetail.this, "Xóa hóa đơn thành công!", Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
-                                Intent intent = new Intent(InvoiceDetail.this, Home.class);
-                                intent.putExtra("invoice", "invoice");
-                                startActivity(intent);
-                            } else {
-                                StyleableToast.makeText(InvoiceDetail.this, msg, Toast.LENGTH_SHORT, R.style.toastStyle).show();
-                            }
-                        } catch (Throwable t) {
-                            StyleableToast.makeText(InvoiceDetail.this, "Kiểm tra lại quyền chỉnh sửa!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
+                response -> {
+                    try {
+                        JSONObject obj = new JSONObject(response);
+                        String status = obj.getString("status");
+                        String msg = obj.getString("msg");
+                        if(status.equals("success")){
+                            StyleableToast.makeText(InvoiceDetail.this, "Xóa hóa đơn thành công!", Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
+                            Intent intent = new Intent(InvoiceDetail.this, Home.class);
+                            intent.putExtra("invoice", "invoice");
+                            startActivity(intent);
+                        } else {
+                            StyleableToast.makeText(InvoiceDetail.this, msg, Toast.LENGTH_SHORT, R.style.toastStyle).show();
                         }
+                    } catch (Throwable t) {
+                        StyleableToast.makeText(InvoiceDetail.this, "Kiểm tra lại quyền chỉnh sửa!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(InvoiceDetail.this, error.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                }
+                error -> Toast.makeText(InvoiceDetail.this, error.toString(), Toast.LENGTH_SHORT).show()
         ){
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("token",token);
                 params.put("ID",String.valueOf(ID));

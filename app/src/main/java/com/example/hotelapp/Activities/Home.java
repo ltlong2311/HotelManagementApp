@@ -1,5 +1,6 @@
 package com.example.hotelapp.Activities;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -57,11 +59,11 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private AppBarConfiguration mAppBarConfiguration;
-    public static final String APICheck = "http://192.168.60.1/severApp/permissions";
     String checkPermission = "http://192.168.60.1/severApp/permissions";
     int permission;
     public static Toolbar mToolbar;
 
+    @SuppressLint("CutPasteId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -168,6 +170,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         requestQueue.add(jsonArrayRequest);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 //        if(drawerToggle.onOptionsItemSelected(item)) {
@@ -283,43 +286,35 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     public void checkPermission(String url, String token){
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest= new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject obj = new JSONObject(response);
+                response -> {
+                    try {
+                        JSONObject obj = new JSONObject(response);
 //                            StyleableToast.makeText(Home.this, obj.toString(), Toast.LENGTH_SHORT, R.style.toastStyle).show();
-                            String status = obj.getString("status");
-                            JSONObject data = obj.getJSONObject("data");
-                            if(status.equals("success")){
-                                permission = data.getInt("role");
-                                SharedPreferences preferences = Home.this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
-                                SharedPreferences.Editor editor = preferences.edit();
-                                editor.putInt("permission", permission);
-                                editor.apply();
-                                if(permission == 1){
-                                    getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
-                                            new StaffHomeFragment()).commit();
-                                }
+                        String status = obj.getString("status");
+                        JSONObject data = obj.getJSONObject("data");
+                        if(status.equals("success")){
+                            permission = data.getInt("role");
+                            SharedPreferences preferences = Home.this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putInt("permission", permission);
+                            editor.apply();
+                            if(permission == 1){
+                                getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                                        new StaffHomeFragment()).commit();
+                            }
 
 //                                StyleableToast.makeText(Home.this, String.valueOf(permission), Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
-                            } else {
-                                StyleableToast.makeText(Home.this, "Lỗi!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
-                            }
-                        } catch (Throwable t) {
-                            StyleableToast.makeText(Home.this,"Could not parse malformed JSON: \"" + response + "\"" , Toast.LENGTH_SHORT, R.style.toastStyle).show();
+                        } else {
+                            StyleableToast.makeText(Home.this, "Lỗi!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
                         }
+                    } catch (Throwable t) {
+                        StyleableToast.makeText(Home.this,"Could not parse malformed JSON: \"" + response + "\"" , Toast.LENGTH_SHORT, R.style.toastStyle).show();
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        StyleableToast.makeText(Home.this, error.toString(), Toast.LENGTH_SHORT, R.style.toastError).show();
-                    }
-                }
+                error -> StyleableToast.makeText(Home.this, error.toString(), Toast.LENGTH_SHORT, R.style.toastError).show()
         ){
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
 
                 Map<String, String> params = new HashMap<>();
                 params.put("token",token);
@@ -331,5 +326,9 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
     public void setActionBarTitle(String title) {
         getSupportActionBar().setTitle(title);
+    }
+    private void hideKeyBoard(View v) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 }

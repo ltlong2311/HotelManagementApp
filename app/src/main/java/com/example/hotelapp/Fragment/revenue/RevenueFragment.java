@@ -78,7 +78,7 @@ public class RevenueFragment extends Fragment {
         lastMonthRevenue = root.findViewById(R.id.lastMonthRevenue);
         thisMonthRevenue = root.findViewById(R.id.thisMonthRevenue);
         thisWeekRevenue = root.findViewById(R.id.thisWeekRevenue);
-        lineChart = (LineChart) root.findViewById(R.id.lineChart);
+        lineChart = root.findViewById(R.id.lineChart);
         lineChart.setBackgroundColor(Color.WHITE);
         lineChart.setDrawGridBackground(true);
         lineChart.animateXY(1500, 0);
@@ -87,7 +87,6 @@ public class RevenueFragment extends Fragment {
         lineChart.setNoDataTextColor(Color.RED);
         lineChart.setGridBackgroundColor(128);
         lineChart.setBorderColor(0);
-
 //        lineChart.setViewPortOffsets(0, 0, 0,0);
 //        lineChart.getXAxis().setAxisMinValue(0f);
         YAxis yAxis = lineChart.getAxisLeft();
@@ -97,10 +96,7 @@ public class RevenueFragment extends Fragment {
         yAxis.setTextSize(9f);
         YAxis rightYAxis = lineChart.getAxisRight();
         rightYAxis.setEnabled(false);
-
 //        ArrayList<Entry> yValues = new ArrayList<>();
-
-
         getLastMonthRevenue(urlGetRevenue);
         getThisMonthRevenue(urlGetRevenue);
         getThisWeekRevenue(urlGetRevenue);
@@ -142,40 +138,30 @@ public class RevenueFragment extends Fragment {
     public void getLastMonthRevenue(String url){
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         StringRequest stringRequest= new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject obj = new JSONObject(response);
-                            JSONArray revenueData = obj.getJSONArray("data");
+                response -> {
+                    try {
+                        JSONObject obj = new JSONObject(response);
+                        JSONArray revenueData = obj.getJSONArray("data");
 //                            Toast.makeText(getActivity(), revenueData.toString(), Toast.LENGTH_SHORT).show();
-                            String startTime = "";
-                            String endTime = "";
-                            int revenue = 0;
-                            ArrayList<String> listRevenuePoint = new ArrayList<String>();
-                            for (int i = 0; i < revenueData.length(); i++){
-                                try {
-                                    JSONObject revenuePoint = revenueData.getJSONObject(i);
-                                    revenue += revenuePoint.getInt("summary");
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
+                        int revenue = 0;
+                        for (int i = 0; i < revenueData.length(); i++){
+                            try {
+                                JSONObject revenuePoint = revenueData.getJSONObject(i);
+                                revenue += revenuePoint.getInt("summary");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                            lastMonthRevenue.setText(NumberFormat.getNumberInstance(Locale.US).format(revenue) + " vnd" );
-                        } catch (Throwable t) {
-                            Toast.makeText(getActivity(), "Could not parse malformed JSON: \"" + response + "\"", Toast.LENGTH_SHORT).show();
                         }
+                        String lastMonthR = NumberFormat.getNumberInstance(Locale.US).format(revenue) + " vnd";
+                        lastMonthRevenue.setText(lastMonthR);
+                    } catch (Throwable t) {
+                        Toast.makeText(getActivity(), "Could not parse malformed JSON: \"" + response + "\"", Toast.LENGTH_SHORT).show();
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                }
+                error -> Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show()
         ){
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("token", token);
                 params.put("filter","lastMonth");
@@ -187,36 +173,26 @@ public class RevenueFragment extends Fragment {
     public void getThisMonthRevenue(String url){
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         StringRequest stringRequest= new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject obj = new JSONObject(response);
-                            JSONArray revenueData = obj.getJSONArray("data");
-                            String startTime = "";
-                            String endTime = "";
-                            int revenue = 0;
-                            ArrayList<String> listRevenuePoint = new ArrayList<String>();
-                            for (int i = 0; i < revenueData.length(); i++){
-                                try {
-                                    JSONObject revenuePoint = revenueData.getJSONObject(i);
-                                    revenue += revenuePoint.getInt("summary");
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
+                response -> {
+                    try {
+                        JSONObject obj = new JSONObject(response);
+                        JSONArray revenueData = obj.getJSONArray("data");
+                        int revenue = 0;
+                        for (int i = 0; i < revenueData.length(); i++){
+                            try {
+                                JSONObject revenuePoint = revenueData.getJSONObject(i);
+                                revenue += revenuePoint.getInt("summary");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                            thisMonthRevenue.setText(NumberFormat.getNumberInstance(Locale.US).format(revenue)+ " vnd");
-                        } catch (Throwable t) {
-                            Toast.makeText(getActivity(), "Could not parse malformed JSON: \"" + response + "\"", Toast.LENGTH_SHORT).show();
                         }
+                        String thisMonthR = NumberFormat.getNumberInstance(Locale.US).format(revenue)+ " vnd";
+                        thisMonthRevenue.setText(thisMonthR);
+                    } catch (Throwable t) {
+                        Toast.makeText(getActivity(), "Could not parse malformed JSON: \"" + response + "\"", Toast.LENGTH_SHORT).show();
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                }
+                error -> Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show()
         ){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
@@ -231,36 +207,26 @@ public class RevenueFragment extends Fragment {
     public void getThisWeekRevenue(String url){
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         StringRequest stringRequest= new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject obj = new JSONObject(response);
-                            JSONArray revenueData = obj.getJSONArray("data");
-                            String startTime = "";
-                            String endTime = "";
-                            int revenue = 0;
-                            ArrayList<String> listRevenuePoint = new ArrayList<String>();
-                            for (int i = 0; i < revenueData.length(); i++){
-                                try {
-                                    JSONObject revenuePoint = revenueData.getJSONObject(i);
-                                    revenue += revenuePoint.getInt("summary");
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
+                response -> {
+                    try {
+                        JSONObject obj = new JSONObject(response);
+                        JSONArray revenueData = obj.getJSONArray("data");
+                        int revenue = 0;
+                        for (int i = 0; i < revenueData.length(); i++){
+                            try {
+                                JSONObject revenuePoint = revenueData.getJSONObject(i);
+                                revenue += revenuePoint.getInt("summary");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                            thisWeekRevenue.setText(NumberFormat.getNumberInstance(Locale.US).format(revenue) + " vnd");
-                        } catch (Throwable t) {
-                            Toast.makeText(getActivity(), "Could not parse malformed JSON: \"" + response + "\"", Toast.LENGTH_SHORT).show();
                         }
+                        String thisWeekR = NumberFormat.getNumberInstance(Locale.US).format(revenue) + " vnd";
+                        thisWeekRevenue.setText(thisWeekR);
+                    } catch (Throwable t) {
+                        Toast.makeText(getActivity(), "Could not parse malformed JSON: \"" + response + "\"", Toast.LENGTH_SHORT).show();
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                }
+                error -> Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show()
         ){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
@@ -276,44 +242,34 @@ public class RevenueFragment extends Fragment {
     public void getLastWeekRevenue(String url){
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         StringRequest stringRequest= new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject obj = new JSONObject(response);
-                            JSONArray revenueData = obj.getJSONArray("data");
-                            String startTime = "";
-                            String endTime = "";
-                            int revenue = 0;
-                            for (int i = 0; i < revenueData.length(); i++){
-                                try {
-                                    JSONObject revenuePoint = revenueData.getJSONObject(i);
-                                    timeLinesList.add(revenuePoint.getString("from").substring(5)); //rm year
-                                    timeLinesList.toArray(timeLines);
-                                    revenueMList.add(revenuePoint.getInt("summary"));
-                                    revenue += revenuePoint.getInt("summary");
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
+                response -> {
+                    try {
+                        JSONObject obj = new JSONObject(response);
+                        JSONArray revenueData = obj.getJSONArray("data");
+                        int revenue = 0;
+                        for (int i = 0; i < revenueData.length(); i++){
+                            try {
+                                JSONObject revenuePoint = revenueData.getJSONObject(i);
+                                timeLinesList.add(revenuePoint.getString("from").substring(5)); //rm year
+                                timeLinesList.toArray(timeLines);
+                                revenueMList.add(revenuePoint.getInt("summary"));
+                                revenue += revenuePoint.getInt("summary");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                            Toast.makeText(getActivity(), timeLinesList.toString(), Toast.LENGTH_SHORT).show();
-                            Toast.makeText(getActivity(), revenueMList.toString(), Toast.LENGTH_SHORT).show();
-                        } catch (Throwable t) {
-                            Toast.makeText(getActivity(), "Could not parse malformed JSON: \"" + response + "\"", Toast.LENGTH_SHORT).show();
                         }
-                        showChart();
+                        Toast.makeText(getActivity(), timeLinesList.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), revenueMList.toString(), Toast.LENGTH_SHORT).show();
+                    } catch (Throwable t) {
+                        Toast.makeText(getActivity(), "Could not parse malformed JSON: \"" + response + "\"", Toast.LENGTH_SHORT).show();
                     }
+                    showChart();
                 },
 
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                }
+                error -> Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show()
         ){
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("token", token);
                 params.put("filter","lastWeek");
