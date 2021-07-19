@@ -56,7 +56,7 @@ public class AddRoomFragment extends Fragment{
         edtGiaPhong= root.findViewById(R.id.editTextGiaPhong);
         btnHuy.setOnClickListener(view -> {
 //                getActivity().onBackPressed();
-//                getFragmentManager().popBackStack();     //back to home, sau do mới thoát
+//                getFragmentManager().popBackStack();     //back to home, sau do moi thoat
             getFragmentManager().beginTransaction().remove(AddRoomFragment.this).commit();
         });
 

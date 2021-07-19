@@ -1,9 +1,206 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:onClick="hideKeyBoard"
+    android:background="#f7f7f7"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.CreateStaffAccount">
+    tools:context=".Activities.InvoiceDetail">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gradient_status_bar"
+        android:paddingTop="32dp"
+        android:id="@+id/appBar"
+        android:theme="@style/Theme.HotelApp.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:gravity="center"
+            android:id="@+id/toolbar_ER"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/gradient_status_bar"
+            app:popupTheme="@style/Theme.HotelApp.PopupOverlay">
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/appBar"
+        android:fadeScrollbars="false"
+        android:fastScrollEnabled="true"
+        android:onClick="hideKeyBoard"
+        android:scrollbarThumbVertical="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/layoutAddUser"
+            android:onClick="hideKeyBoard"
+            android:paddingHorizontal="25dp"
+            android:paddingTop="7dp"
+            android:paddingBottom="9dp"
+            android:layout_below="@+id/title_add_user"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:id="@+id/title_add_user"
+                android:layout_centerHorizontal="true"
+                tools:ignore="ObsoleteLayoutParam">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textCreateUser"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    android:textColor="#483d8b"
+                    android:textStyle="bold"
+                    android:textSize="23sp"
+                    android:text="Tạo tài khoản" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/textCreateUser"
+                    android:textColor="#686678"
+                    android:textSize="16sp"
+                    android:text="Thêm tài khoản nhân viên" />
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:paddingHorizontal="1dp"
+                android:layout_below="@+id/title_add_user"
+                android:id="@+id/formCreateUser"
+                android:background="#f7f7f7"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/editTextUsernameS"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:padding="10dp"
+                    android:background="@drawable/custom_input"
+                    android:layout_marginBottom="10dp"
+                    android:inputType="text"
+                    android:hint="Username"
+                    />
+                <EditText
+                    android:id="@+id/editTextPasswordS"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:padding="10dp"
+                    android:background="@drawable/custom_input"
+                    android:layout_marginBottom="10dp"
+                    android:inputType="textPassword"
+                    android:hint="Password"
+                    />
+                <EditText
+                    android:id="@+id/editTextStaffName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:padding="10dp"
+                    android:background="@drawable/custom_input"
+                    android:layout_marginBottom="10dp"
+                    android:inputType="text"
+                    android:hint="Họ tên nhân viên"
+                    />
+                <EditText
+                    android:id="@+id/editTextCMTS"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:padding="10dp"
+                    android:background="@drawable/custom_input"
+                    android:layout_marginBottom="10dp"
+                    android:inputType="number"
+                    android:hint="CMT"
+                    />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:id="@id/textNS"
+                        android:textColor="#686678"
+                        android:textSize="19sp"
+                        android:text="Ngày sinh:"
+                        android:layout_alignParentStart="true" />
+
+                    <EditText
+                        android:id="@+id/editTextNgaySinhS"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_toRightOf="@+id/textNS"
+                        android:background="@drawable/custom_input"
+                        android:ems="10"
+                        android:hint="Chọn ngày"
+                        android:inputType="none"
+                        android:focusable="false"
+                        android:clickable="false"
+                        android:padding="10dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_toEndOf="@+id/textNS" />
+                </RelativeLayout>
+
+                <EditText
+                    android:id="@+id/editTextDiaChiS"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:padding="10dp"
+                    android:background="@drawable/custom_input"
+                    android:layout_marginBottom="10dp"
+                    android:inputType="text"
+                    android:hint="Địa chỉ"
+                    />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:gravity="center"
+                android:layout_alignParentBottom="false"
+                android:layout_below="@+id/formCreateUser"
+                >
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:background="@drawable/button_change_password"
+                    android:textColor="#F4EDED"
+                    android:layout_marginBottom="15dp"
+                    android:layout_gravity="bottom"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:textAllCaps="false"
+                    android:id="@+id/btn_create_account"
+                    android:text="Tạo tài khoản" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+
+
+
+</RelativeLayout>

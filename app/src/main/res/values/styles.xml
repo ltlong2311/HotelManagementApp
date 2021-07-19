@@ -84,4 +84,8 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="HidePaddingEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/edit_text_material</item>
+    </style>
+
 </resources>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -19,7 +20,7 @@
         android:padding="15dp"
         android:orientation="vertical">
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tên"
             android:paddingLeft="8dp"
@@ -28,7 +29,7 @@
             android:textSize="19sp"
             android:id="@+id/textViewNameUser"/>
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textViewNameUser"
             android:paddingLeft="8dp"
@@ -37,6 +38,17 @@
             android:textColor="#645E70"
             android:textSize="15sp"
             android:id="@+id/textViewRole"/>
+
+
+        <ImageView
+            android:id="@+id/imageViewUserInfo"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/dots_vertical"
+            tools:ignore="RtlHardcoded"
+            app:tint="@color/teal_700" />
 
     </RelativeLayout>
 </LinearLayout>

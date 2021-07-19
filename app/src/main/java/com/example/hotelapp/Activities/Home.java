@@ -29,6 +29,7 @@ import com.example.hotelapp.Fragment.home.StaffHomeFragment;
 import com.example.hotelapp.Fragment.listRoom.ListRoomFragment;
 import com.example.hotelapp.Fragment.invoice.InvoiceFragment;
 import com.example.hotelapp.Fragment.listRoom.ListRoomStaffFragment;
+import com.example.hotelapp.Fragment.manage.ChangePasswordFragment;
 import com.example.hotelapp.Fragment.manage.ManageFragment;
 import com.example.hotelapp.Fragment.revenue.RevenueFragment;
 import com.example.hotelapp.Fragment.service.ServiceFragment;
@@ -103,7 +104,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         navigationView.setNavigationItemSelectedListener(this);
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_room_list, R.id.nav_invoice, R.id.nav_service, R.id.nav_revenue)
+                R.id.nav_home, R.id.nav_room_list, R.id.nav_invoice, R.id.nav_service, R.id.nav_change_password,
+                R.id.nav_revenue, R.id.nav_log_out, R.id.nav_manage, R.id.info_app)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -135,6 +137,12 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         if (toInvoice != null){
             getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
                     new InvoiceFragment()).commit();
+        }
+
+        String toManage = intent.getStringExtra("manage");
+        if (toManage != null){
+            getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                    new ManageFragment()).commit();
         }
 
     }
@@ -250,8 +258,13 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                     StyleableToast.makeText(this, "Chức năng này chỉ dành cho người quản lý!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
                 }
                 break;
+            case R.id.nav_change_password:
+                mToolbar.setTitle("Đổi mật khẩu");
+                getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                        new ChangePasswordFragment()).commit();
+                break;
         }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
         return true;

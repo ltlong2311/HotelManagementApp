@@ -36,5 +36,9 @@
         android:name="com.example.hotelapp.Fragment.revenue.RevenueFragment"
         android:label="Doanh thu"
         tools:layout="@layout/fragment_revenue" />
-
+    <fragment
+        android:id="@+id/nav_change_password"
+        android:name="com.example.hotelapp.Fragment.manage.ChangePasswordFragment"
+        android:label="Đổi mật khẩu"
+        tools:layout="@layout/fragment_change_password" />
 </navigation>

@@ -50,7 +50,6 @@ public class ServiceEdit extends AppCompatActivity {
     RadioButton rbnPhucVu, rbnNgungPhucVu;
     Button btnUpdateService, btnDeleteService;
     AppBarLayout appBarLayout;
-
     Toolbar toolbar;
     int ID = 0;
     int isActive;
@@ -61,7 +60,6 @@ public class ServiceEdit extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Window window = getWindow();
         setContentView(R.layout.activity_service_edit);
 
         if(Build.VERSION.SDK_INT>=19 && Build.VERSION.SDK_INT<21 )
@@ -80,7 +78,6 @@ public class ServiceEdit extends AppCompatActivity {
         }
 
         appBarLayout = findViewById(R.id.appBarUpdateService);
-        setContentView(R.layout.activity_service_edit);
         toolbar = findViewById(R.id.toolbar_ER);
         toolbar.setTitle("Thông tin dịch vụ");
         setSupportActionBar(toolbar);
@@ -92,7 +89,6 @@ public class ServiceEdit extends AppCompatActivity {
         getDataService();
         ID = service.getID();
         isActive = service.getTrangThai();
-//        Toast.makeText(this, String.valueOf(service.getID()), Toast.LENGTH_SHORT).show();
         edtTenDV.setText(service.getTenDV());
         edtGiaDV.setText(String.valueOf(service.getGia()));
         if(service.getTrangThai() == 1){
@@ -125,9 +121,6 @@ public class ServiceEdit extends AppCompatActivity {
                     SharedPreferences preferences = ServiceEdit.this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
                     String token = preferences.getString("token", "");
                     UpdateService(urlUpdateService, token);
-//                    Intent intent = new Intent(ServiceEdit.this, Home.class);
-//                    intent.putExtra("service", "service");
-//                    startActivity(intent);
                 }
             }
         });
@@ -259,6 +252,7 @@ public class ServiceEdit extends AppCompatActivity {
         };
         requestQueue.add(stringRequest);
     }
+
     private static void SetWindowFlag(ServiceEdit serviceEdit, final int Bits, Boolean on) {
         Window win =  serviceEdit.getWindow();
         WindowManager.LayoutParams Winparams = win.getAttributes();

@@ -39,55 +39,25 @@ public class HomeFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
-        cardViewListRoom = (CardView) root.findViewById(R.id.cardViewListRoom);
-        cardViewService = (CardView) root.findViewById(R.id.cardViewService);
-        cardViewInvoice = (CardView) root.findViewById(R.id.cardViewInvoice);
-        cardViewRevenue = (CardView) root.findViewById(R.id.cardViewRevenue);
-        cardViewManage = (CardView) root.findViewById(R.id.cardViewManage);
-        cardViewSupport = (CardView) root.findViewById(R.id.cardViewSupport);
+        cardViewListRoom = root.findViewById(R.id.cardViewListRoom);
+        cardViewService = root.findViewById(R.id.cardViewService);
+        cardViewInvoice = root.findViewById(R.id.cardViewInvoice);
+        cardViewRevenue = root.findViewById(R.id.cardViewRevenue);
+        cardViewManage = root.findViewById(R.id.cardViewManage);
+        cardViewSupport = root.findViewById(R.id.cardViewSupport);
 
-        cardViewListRoom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
-                        new ListRoomFragment()).commit();
-            }
-        });
-        cardViewService.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
-                        new ServiceFragment()).addToBackStack(null).commit();
-            }
-        });
-        cardViewInvoice.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
-                        new InvoiceFragment()).addToBackStack(null).commit();
-            }
-        });
-        cardViewRevenue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
-                        new RevenueFragment()).addToBackStack(null).commit();
-            }
-        });
-        cardViewManage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
-                        new ManageFragment()).addToBackStack(null).commit();
-            }
-        });
-        cardViewSupport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
-                        new SupportFragment()).addToBackStack(null).commit();
-            }
-        });
+        cardViewListRoom.setOnClickListener(v -> getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                new ListRoomFragment()).commit());
+        cardViewService.setOnClickListener(v -> getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                new ServiceFragment()).addToBackStack(null).commit());
+        cardViewInvoice.setOnClickListener(v -> getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                new InvoiceFragment()).addToBackStack(null).commit());
+        cardViewRevenue.setOnClickListener(v -> getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                new RevenueFragment()).addToBackStack(null).commit());
+        cardViewManage.setOnClickListener(v -> getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                new ManageFragment()).addToBackStack(null).commit());
+        cardViewSupport.setOnClickListener(v -> getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                new SupportFragment()).addToBackStack(null).commit());
 
         return root;
     }

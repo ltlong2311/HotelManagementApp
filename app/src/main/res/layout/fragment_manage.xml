@@ -14,13 +14,14 @@
         <TextView
             android:text="User &amp; profiles"
             android:paddingLeft="12dp"
-            android:textSize="14dp"
+            android:textSize="14sp"
             android:textColor="#737373"
             android:textStyle="bold"
             android:paddingTop="10dp"
             android:paddingBottom="3dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            tools:ignore="HardcodedText" />
         <ListView
             android:id="@+id/listViewUser"
             android:layout_width="match_parent"

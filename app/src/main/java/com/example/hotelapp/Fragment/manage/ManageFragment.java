@@ -22,7 +22,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.hotelapp.Activities.CreateStaffAccount;
 import com.example.hotelapp.Activities.Home;
+import com.example.hotelapp.Activities.InvoiceDetail;
+import com.example.hotelapp.Activities.UserEdit;
 import com.example.hotelapp.Fragment.listRoom.AddRoomFragment;
 import com.example.hotelapp.R;
 import com.example.hotelapp.Activities.ServiceEdit;
@@ -70,11 +73,13 @@ public class ManageFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddRoomFragment addRoom= new AddRoomFragment();
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.drawer_layout, addRoom, "Thêm Phòng")
-                        .addToBackStack(null)
-                        .commit();
+//                AddUserFragment addUser = new AddUserFragment();
+//                getActivity().getSupportFragmentManager().beginTransaction()
+//                        .replace(R.id.drawer_layout, addUser)
+//                        .addToBackStack(null)
+//                        .commit();
+                Intent intent = new Intent(getActivity(), CreateStaffAccount.class);
+                startActivity(intent);
             }
         });
 
@@ -82,7 +87,7 @@ public class ManageFragment extends Fragment {
         listViewUser.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), ServiceEdit.class);
+                Intent intent = new Intent(getActivity(), UserEdit.class);
                 intent.putExtra("dataUser", (Serializable) userList.get(position));
                 startActivity(intent);
             }
@@ -134,18 +139,11 @@ public class ManageFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.changePassword) {
-            ChangePasswordFragment frg1 = new ChangePasswordFragment();
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .remove(ManageFragment.this)
-                    .replace(R.id.drawer_layout, frg1)
-                    .addToBackStack(null)
-                    .commit();
-        } else if (item.getItemId() == R.id.personalInfo) {
+        if (item.getItemId() == R.id.personalInfo) {
             InfoManageFragment frg2 = new InfoManageFragment();
             getActivity().getSupportFragmentManager().beginTransaction()
                     .remove(ManageFragment.this)
-                    .replace(R.id.drawer_layout, frg2)
+                    .add(R.id.drawer_layout, frg2)
                     .addToBackStack(null)
                     .commit();
         }

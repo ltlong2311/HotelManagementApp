@@ -12,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HotelApp"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activities.ServiceEdit"></activity>
+        <activity android:name=".Activities.UserEdit"></activity>
+        <activity android:name=".Activities.CreateStaffAccount" />
+        <activity android:name=".Activities.ServiceEdit" />
         <activity android:name=".Activities.InvoiceDetail" />
         <activity android:name=".Activities.RoomEdit" />
         <activity

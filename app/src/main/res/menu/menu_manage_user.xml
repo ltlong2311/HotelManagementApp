@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/infoUser"
+        android:title="Thông tin" />
+    <item android:id="@+id/deleteUser"
+        android:title="Xóa nhân viên" />
 </menu>

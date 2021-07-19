@@ -628,7 +628,7 @@ public class  RoomAdapter extends BaseAdapter {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            StyleableToast.makeText(context, arrayListService.toString(), Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
+//                            StyleableToast.makeText(context, arrayListService.toString(), Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
