@@ -1,6 +1,7 @@
 package com.example.hotelapp.Adapters;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -51,6 +53,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,6 +75,8 @@ public class  RoomAdapter extends BaseAdapter {
     int optionServiceID, permission;
     EditText maPhongEdt, tenEdt, cmtEdt, sdtEdt, diachiEdt, maPhongEdtCO, tenEdtCO, cmtEdtCO, sdtEdtCO, diachiEdtCO, thanhtoanEdt, maPhongAddService;
     String token, ten, cmt, sdt, diachi;
+    TextView multiSelectService;
+    boolean[] selectedService;
     String option = "TheoPhong";
     TextInputLayout layoutOption;
     AutoCompleteTextView optionCheckIn, optionAddService;
@@ -79,6 +84,9 @@ public class  RoomAdapter extends BaseAdapter {
     ArrayList<Integer> arrayListIdService;
     ArrayAdapter<String> arrayAdapter_option, arrayAdapterService;
 
+    ArrayList<Integer> serviceList = new ArrayList<>();
+    String[] serviceArr;
+    String serviceIdArr;
 
     public RoomAdapter(Context context, int layout, List<Room> roomList) {
         this.context = context;
@@ -365,10 +373,11 @@ public class  RoomAdapter extends BaseAdapter {
         int idPhong = room.getId();
         SharedPreferences preferences = context.getApplicationContext().getSharedPreferences(SHARED_ID_INVOICE, Context.MODE_PRIVATE);
         int idInvoice = preferences.getInt(String.valueOf(idPhong), 0);
-        StyleableToast.makeText(context, String.valueOf(idInvoice), Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
+//        StyleableToast.makeText(context, String.valueOf(idInvoice), Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
 
         maPhongAddService = dialog.findViewById(R.id.editTextSoPhongAddService);
         optionAddService = dialog.findViewById(R.id.optionAddServiceMenu);
+        multiSelectService = dialog.findViewById(R.id.btnAddMultiService);
         arrayListService = new ArrayList<>();
         arrayListIdService = new ArrayList<>();
 //        arrayListService.add("Giặt ủi quần áo");
@@ -381,6 +390,7 @@ public class  RoomAdapter extends BaseAdapter {
         optionAddService.setAdapter(arrayAdapterService);
         optionAddService.setThreshold(1);
 
+
         optionAddService.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -388,27 +398,81 @@ public class  RoomAdapter extends BaseAdapter {
                 for (int i = 0; i < arrayListService.size(); i++){
                     if(check.matches(arrayListService.get(i))){
                         optionServiceID = arrayListIdService.get(i);
+                        serviceIdArr = String.valueOf(optionServiceID);
                     };
                 }
 //                Toast.makeText(parent.getContext(), String.valueOf(optionServiceID), Toast.LENGTH_SHORT).show();
             }
         });
 
-        Button btnAdd = dialog.findViewById(R.id.btn_add_service_room);
-        Button btnCannel = dialog.findViewById(R.id.btn_cancel_add_service);
-        btnCannel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
+//        selectedService = new boolean[serviceArr.length];
+
+        multiSelectService.setOnClickListener(v -> {
+                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                 builder.setTitle("Chọn dịch vụ")
+                         .setCancelable(false)
+                         .setMultiChoiceItems(serviceArr, selectedService, new DialogInterface.OnMultiChoiceClickListener() {
+                             @Override
+                             public void onClick(DialogInterface dialog, int i, boolean isChecked) {
+                                 if(isChecked) {
+                                     if (!serviceList.contains(i)) {
+                                         serviceList.add(i);
+                                     }
+                                 } else {
+                                     for( int j = 0; j< serviceList.size(); j++ ){
+                                         if(serviceList.get(j) == i){
+                                             serviceList.remove(j);
+                                         };
+                                     }
+                                 }
+                             }
+                         });
+                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                     @Override
+                     public void onClick(DialogInterface dialog, int which) {
+                         String item = "";
+                         serviceIdArr = "";
+                         for (int i = 0; i< serviceList.size(); i++){
+                             int position = serviceList.get(i);
+                             item = item + serviceArr[position];
+                             serviceIdArr = serviceIdArr + arrayListIdService.get(position);
+                             if (i != serviceList.size() - 1){
+                                item = item + ", ";
+                                serviceIdArr = serviceIdArr + ", ";
+                             }
+                         }
+                         optionAddService.setText(item);
+//                         Toast.makeText(context, serviceIdArr, Toast.LENGTH_SHORT).show();
+                         StyleableToast.makeText(context, serviceIdArr, Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
+
+                     }
+                 });
+                 builder.setNegativeButton("Cannel", new DialogInterface.OnClickListener() {
+                     @Override
+                     public void onClick(DialogInterface dialog, int which) {
+                         dialog.dismiss();
+                     }
+                 });
+
+                 builder.setNeutralButton("Clear All", new DialogInterface.OnClickListener() {
+                     @Override
+                     public void onClick(DialogInterface dialog, int which) {
+                         for (int j = 0; j < selectedService.length; j++){
+                             selectedService[j] = false;
+                             serviceList.clear();
+                             serviceIdArr = "";
+                             optionAddService.setText("");
+                         }
+                     }
+                 });
+                 builder.show();
         });
 
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addService(urlAddService, idInvoice, dialog);
-            }
-        });
+        Button btnAdd = dialog.findViewById(R.id.btn_add_service_room);
+        Button btnCannel = dialog.findViewById(R.id.btn_cancel_add_service);
+        btnCannel.setOnClickListener(v -> dialog.dismiss());
+
+        btnAdd.setOnClickListener(v -> addService(urlAddService, idInvoice, dialog));
 
     }
 
@@ -630,6 +694,8 @@ public class  RoomAdapter extends BaseAdapter {
                             }
 //                            StyleableToast.makeText(context, arrayListService.toString(), Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
                         }
+                        serviceArr = arrayListService.toArray(new String[0]);
+                        selectedService = new boolean[serviceArr.length];
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -694,11 +760,15 @@ public class  RoomAdapter extends BaseAdapter {
                 Map<String, String> params = new HashMap<>();
                 params.put("token",token);
                 params.put("ID", String.valueOf(idInvoice));
-                params.put("DichVu", String.valueOf(optionServiceID));
+                params.put("DichVu", serviceIdArr);
                 return params;
             }
         };
         requestQueue.add(stringRequest);
+    }
+    public void hideKeyBoard(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
 }

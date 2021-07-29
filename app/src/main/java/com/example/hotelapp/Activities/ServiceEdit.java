@@ -133,12 +133,12 @@ public class ServiceEdit extends AppCompatActivity {
     }
 
     private void getDataService() {
-        btnUpdateService = (Button) findViewById(R.id.btn_update_service);
-        btnDeleteService = (Button) findViewById(R.id.btn_delete_service);
-        edtTenDV = (EditText) findViewById(R.id.edtUpdateTenDV);
-        edtGiaDV = (EditText) findViewById(R.id.edtUpdateGiaDV);
-        rbnPhucVu = (RadioButton) findViewById(R.id.rbnServiceIsActive);
-        rbnNgungPhucVu = (RadioButton) findViewById(R.id.rbnServiceIsStopServing);
+        btnUpdateService = findViewById(R.id.btn_update_service);
+        btnDeleteService = findViewById(R.id.btn_delete_service);
+        edtTenDV = findViewById(R.id.edtUpdateTenDV);
+        edtGiaDV = findViewById(R.id.edtUpdateGiaDV);
+        rbnPhucVu = findViewById(R.id.rbnServiceIsActive);
+        rbnNgungPhucVu = findViewById(R.id.rbnServiceIsStopServing);
     }
 
     public void UpdateService(String url, String token){

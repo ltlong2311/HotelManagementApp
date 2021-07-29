@@ -12,292 +12,358 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/drawerLayout">
-
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="700dp"
-                android:layout_height="330dp"
-                android:layout_marginLeft="-90dp"
-                android:layout_marginTop="-150dp"
-                android:layout_marginRight="-90dp"
-                android:layout_marginBottom="40dp"
-                android:background="@drawable/background_home"
-                android:fontFamily="cursive"
-                android:gravity="center_horizontal"
-                android:paddingVertical="70dp"
-                android:textColor="#CFD7D8"
-                android:textSize="30sp" />
-
-            <TextView
-                android:id="@+id/title_home"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:fontFamily="cursive"
-                android:gravity="center_horizontal"
-                android:text="@string/welcome"
-                android:textColor="#CFD7D8"
-                android:textSize="39sp"
-                android:textStyle="bold" />
+                android:orientation="vertical">
+                <TextView
+                    android:text="Chức năng"
+                    android:layout_marginLeft="20dp"
+                    android:textSize="16sp"
+                    android:textColor="#343434"
+                    android:textStyle="bold"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="3dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:ignore="HardcodedText,RtlHardcoded" />
 
-            <GridLayout
-                android:id="@+id/grid_view2"
+                <GridLayout
+                    android:id="@+id/grid_view2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="30dp"
+                    android:columnCount="2"
+                    android:paddingBottom="10dp"
+                    android:rowCount="3">
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardViewStaffListRoom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_row="0"
+                        android:layout_rowWeight="0"
+                        android:layout_column="0"
+                        android:layout_columnWeight="1"
+                        android:layout_gravity="fill"
+                        android:layout_margin="8dp"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="8dp"
+                        tools:ignore="UnusedAttribute">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            tools:ignore="UseCompoundDrawables">
+                            <ImageView
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:contentDescription="@string/image_room"
+                                android:backgroundTint="@color/blue_beauty"
+                                android:src="@drawable/double_bed" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:text="@string/room_plan_card"
+                                android:textColor="#000"
+                                android:textSize="13sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardViewStaffService"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_row="0"
+                        android:layout_rowWeight="1"
+                        android:layout_column="1"
+                        android:layout_columnWeight="1.5"
+                        android:layout_gravity="fill"
+                        android:layout_margin="8dp"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="8dp"
+                        tools:ignore="UnusedAttribute">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            tools:ignore="UseCompoundDrawables">
+                            <ImageView
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:contentDescription="@string/image_service"
+                                android:src="@drawable/tray" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:text="@string/service_card"
+                                android:textColor="#000"
+                                android:textSize="13sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardViewStaffApp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_row="2"
+                        android:layout_rowWeight="1"
+                        android:layout_column="0"
+                        android:layout_columnWeight="1"
+                        android:layout_gravity="fill"
+                        android:layout_margin="8dp"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="8dp"
+                        tools:ignore="UnusedAttribute">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            tools:ignore="UseCompoundDrawables">
+                            <ImageView
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:contentDescription="@string/image_app"
+                                android:src="@drawable/app" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:text="@string/app_card"
+                                android:textColor="#000"
+                                android:textSize="13sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardViewStaffSupport"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_row="2"
+                        android:layout_rowWeight="1"
+                        android:layout_column="1"
+                        android:layout_columnWeight="1.5"
+                        android:layout_gravity="fill"
+                        android:layout_margin="8dp"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="8dp"
+                        tools:ignore="UnusedAttribute">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            tools:ignore="UseCompoundDrawables">
+
+                            <ImageView
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:contentDescription="@string/image_help"
+                                android:src="@drawable/help" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:text="@string/help_card"
+                                android:textColor="#000"
+                                android:textSize="13sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+                </GridLayout>
+            </LinearLayout>
+            <com.denzcoskun.imageslider.ImageSlider
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/title_home"
-                android:layout_margin="20dp"
-                android:columnCount="2"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:rowCount="4">
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardViewStaffListRoom"
-                    android:layout_width="wrap_content"
-                    android:layout_height="67dp"
-                    android:layout_row="0"
-                    android:layout_rowWeight="0"
-                    android:layout_column="0"
-                    android:layout_columnWeight="1"
-                    android:layout_gravity="fill"
-                    android:layout_margin="8dp"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="8dp"
-                    tools:ignore="UnusedAttribute">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|center_horizontal"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        tools:ignore="UseCompoundDrawables">
-
-                        <ImageView
-                            android:layout_width="75dp"
-                            android:layout_height="75dp"
-                            android:contentDescription="@string/image_room"
-                            android:src="@drawable/double_bed" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/room_plan_card"
-                            android:textColor="#000"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardViewStaffService"
-                    android:layout_width="wrap_content"
+                android:background="@drawable/the_overlay"
+                android:layout_height="210dp"
+                android:layout_marginVertical="10dp"
+                android:layout_marginHorizontal="20dp"
+                android:id="@+id/slider"
+                app:iss_auto_cycle="true"
+                app:iss_placeholder="@drawable/the_overlay"
+                app:iss_error_image="@drawable/the_overlay"
+                app:iss_delay="0"
+                app:iss_period="1000"
+                app:iss_corner_radius="5">
+            </com.denzcoskun.imageslider.ImageSlider>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:text="Thông tin liên hệ"
+                    android:layout_marginLeft="20dp"
+                    android:textSize="16sp"
+                    android:textColor="#343434"
+                    android:textStyle="bold"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="3dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_row="0"
-                    android:layout_rowWeight="1"
-                    android:layout_column="1"
-                    android:layout_columnWeight="1.5"
-                    android:layout_gravity="fill"
-                    android:layout_margin="8dp"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="8dp"
-                    tools:ignore="UnusedAttribute">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|center_horizontal"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        tools:ignore="UseCompoundDrawables">
-
-                        <ImageView
-                            android:layout_width="75dp"
-                            android:layout_height="75dp"
-                            android:contentDescription="@string/image_service"
-                            android:src="@drawable/tray" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/service_card"
-                            android:textColor="#000"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardViewStaffInvoice"
-                    android:layout_width="wrap_content"
+                    tools:ignore="HardcodedText,RtlHardcoded" />
+                <GridLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_row="1"
-                    android:layout_rowWeight="1"
-                    android:layout_column="0"
-                    android:layout_columnWeight="1"
-                    android:layout_gravity="fill"
-                    android:layout_margin="8dp"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="8dp"
-                    tools:ignore="UnusedAttribute">
-
-                    <LinearLayout
+                    android:layout_marginHorizontal="20dp"
+                    android:columnCount="2"
+                    android:paddingBottom="10dp"
+                    android:rowCount="4">
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|center_horizontal"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        tools:ignore="UseCompoundDrawables">
-
-                        <ImageView
-                            android:layout_width="75dp"
-                            android:layout_height="75dp"
-                            android:contentDescription="@string/image_invoice"
-                            android:src="@drawable/bill2" />
-
-                        <TextView
+                        android:layout_row="0"
+                        android:layout_rowWeight="0"
+                        android:layout_column="0"
+                        android:layout_marginBottom="1dp"
+                        android:layout_columnWeight="1"
+                        android:layout_gravity="fill"
+                        app:cardElevation="8dp"
+                        tools:ignore="UnusedAttribute">
+                        <RelativeLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/invoice_card"
-                            android:textColor="#000"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
+                            android:padding="10dp"
+                            tools:ignore="UseCompoundDrawables">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:id="@+id/titleContact1"
+                                android:layout_height="wrap_content"
+                                android:text="Số điện thoại"
+                                android:paddingBottom="3dp"
+                                android:textColor="@color/blue_beauty"
+                                android:textSize="11sp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/titleContact1"
+                                android:text="(123) 456-xxxx"
+                                android:textColor="#000"
+                                android:textSize="13sp"
+                                android:textStyle="bold" />
+                            <ImageView
+                                android:layout_alignParentRight="true"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:contentDescription="@string/image_room"
+                                android:backgroundTint="@color/blue_beauty"
+                                android:src="@drawable/phone4"
+                                tools:ignore="RtlHardcoded" />
 
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardViewStaffInfo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_row="1"
-                    android:layout_rowWeight="1"
-                    android:layout_column="1"
-                    android:layout_columnWeight="1"
-                    android:layout_gravity="fill"
-                    android:layout_margin="8dp"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="8dp"
-                    tools:ignore="UnusedAttribute">
-
-                    <LinearLayout
+                        </RelativeLayout>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|center_horizontal"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        tools:ignore="UseCompoundDrawables">
-
-                        <ImageView
-                            android:layout_width="75dp"
-                            android:layout_height="75dp"
-                            android:contentDescription="@string/image_info"
-                            android:src="@drawable/admin2" />
-
-                        <TextView
+                        android:layout_row="1"
+                        android:layout_rowWeight="0"
+                        android:layout_marginBottom="1dp"
+                        android:layout_column="0"
+                        android:layout_columnWeight="1"
+                        android:layout_gravity="fill"
+                        app:cardElevation="8dp"
+                        tools:ignore="UnusedAttribute">
+                        <RelativeLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/info_card"
-                            android:textColor="#000"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardViewStaffApp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_row="2"
-                    android:layout_rowWeight="1"
-                    android:layout_column="0"
-                    android:layout_columnWeight="1"
-                    android:layout_gravity="fill"
-                    android:layout_margin="8dp"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="8dp"
-                    tools:ignore="UnusedAttribute">
-
-                    <LinearLayout
+                            android:padding="10dp"
+                            tools:ignore="UseCompoundDrawables">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:id="@+id/titleContact2"
+                                android:layout_height="wrap_content"
+                                android:text="Email"
+                                android:textColor="@color/blue_beauty"
+                                android:textSize="11sp"
+                                tools:ignore="HardcodedText,SmallSp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/titleContact2"
+                                android:text="ltlong2311@gmail.com"
+                                android:textColor="#000"
+                                android:textSize="13sp"
+                                android:textStyle="bold" />
+                            <ImageView
+                                android:layout_alignParentRight="true"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:contentDescription="@string/image_room"
+                                android:backgroundTint="@color/blue_beauty"
+                                android:src="@drawable/mail5" />
+                        </RelativeLayout>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|center_horizontal"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        tools:ignore="UseCompoundDrawables">
-
-                        <ImageView
-                            android:layout_width="75dp"
-                            android:layout_height="75dp"
-                            android:contentDescription="@string/image_app"
-                            android:src="@drawable/app" />
-
-                        <TextView
+                        android:layout_row="2"
+                        android:layout_rowWeight="0"
+                        android:layout_column="0"
+                        android:layout_columnWeight="1"
+                        android:layout_marginBottom="1dp"
+                        android:layout_gravity="fill"
+                        app:cardElevation="8dp"
+                        tools:ignore="UnusedAttribute">
+                        <RelativeLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/app_card"
-                            android:textColor="#000"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
+                            android:padding="10dp"
+                            tools:ignore="UseCompoundDrawables">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:id="@+id/titleContact3"
+                                android:layout_height="wrap_content"
+                                android:text="Địa chỉ"
+                                android:textColor="@color/blue_beauty"
+                                android:textSize="11sp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/titleContact3"
+                                android:text="141 Chiến Thắng, Tân Triều, Thanh Trì, Hà Nội"
+                                android:textColor="#000"
+                                android:textSize="13sp"
+                                android:textStyle="bold" />
+                            <ImageView
+                                android:layout_alignParentRight="true"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:contentDescription="@string/image_room"
+                                android:backgroundTint="@color/blue_beauty"
+                                android:src="@drawable/a" />
+                        </RelativeLayout>
+                    </androidx.cardview.widget.CardView>
 
-                </androidx.cardview.widget.CardView>
+                </GridLayout>
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardViewStaffSupport"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_row="2"
-                    android:layout_rowWeight="1"
-                    android:layout_column="1"
-                    android:layout_columnWeight="1.5"
-                    android:layout_gravity="fill"
-                    android:layout_margin="8dp"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="8dp"
-                    tools:ignore="UnusedAttribute">
+            </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|center_horizontal"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        tools:ignore="UseCompoundDrawables">
+        </LinearLayout>
 
-                        <ImageView
-                            android:layout_width="75dp"
-                            android:layout_height="75dp"
-                            android:contentDescription="@string/image_help"
-                            android:src="@drawable/help" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/help_card"
-                            android:textColor="#000"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
-            </GridLayout>
-
-        </RelativeLayout>
 
     </androidx.drawerlayout.widget.DrawerLayout>
 

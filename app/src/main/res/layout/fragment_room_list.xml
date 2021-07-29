@@ -22,29 +22,18 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-<!--                <ImageView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="150dp"-->
-<!--                    android:background="@drawable/hotel_room7"-->
-<!--                    android:fontFamily="cursive"-->
-<!--                    android:id="@+id/imageLR"-->
-<!--                    android:gravity="center_horizontal"-->
-<!--                    android:src="@drawable/the_image_overlay"-->
-<!--                    android:text=""-->
-<!--                    android:textColor="#CFD7D8"-->
-<!--                    android:textSize="30sp" />-->
                 <GridView
                     android:id="@+id/gridViewRoom"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fadeScrollbars="false"
-                    android:fastScrollEnabled="true"
+                    android:fastScrollEnabled="false"
                     android:paddingLeft="10dp"
                     android:numColumns="2"
                     android:gravity="center"
                     android:weightSum="2"
                     android:scrollbarThumbVertical="@android:color/transparent"
-                    />
+                    tools:ignore="RtlHardcoded,RtlSymmetry" />
 
                 <TextView
                     android:id="@+id/text_gallery"

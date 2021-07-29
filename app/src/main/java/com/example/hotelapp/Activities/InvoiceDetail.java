@@ -27,6 +27,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.hotelapp.R;
 import com.google.android.material.appbar.AppBarLayout;
 import com.muddzdev.styleabletoast.StyleableToast;
@@ -34,7 +35,9 @@ import com.muddzdev.styleabletoast.StyleableToast;
 import org.json.JSONObject;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -71,7 +74,7 @@ public class InvoiceDetail extends AppCompatActivity {
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
 
-        appBarLayout = (AppBarLayout) findViewById(R.id.appBarUpdateInvoice);
+        appBarLayout = findViewById(R.id.appBarUpdateInvoice);
         toolbar = findViewById(R.id.toolbar_ER);
         toolbar.setTitle("Chi tiết hóa đơn");
         setSupportActionBar(toolbar);
@@ -84,16 +87,16 @@ public class InvoiceDetail extends AppCompatActivity {
         Intent intent = getIntent();
 
         //        Invoice invoice = (Invoice) intent.getSerializableExtra("dataInvoice");
-        int id = (int) intent.getIntExtra("invoiceID", 0);
-        int idPhong = (int) intent.getIntExtra("invoiceIDPhong", 0);
-        int thanhtoan = (int) intent.getIntExtra("invoiceThanhToan", 0);
-        String createDate = (String) intent.getStringExtra("invoiceCreateDate");
-        String ten = (String) intent.getStringExtra("invoiceTenKhach");
-        String cmnd = (String) intent.getStringExtra("invoiceCMNDKhach");
-        String sdt = (String) intent.getStringExtra("invoiceSDTKhach");
-        String diachi = (String) intent.getStringExtra("invoiceDiaChiKhach");
-        String dichvu = (String) intent.getStringExtra("invoiceDichVu");
-        int phidichvu = (int) intent.getIntExtra("invoicePhiDichVu", 0);
+        int id = intent.getIntExtra("invoiceID", 0);
+        int idPhong = intent.getIntExtra("invoiceIDPhong", 0);
+        int thanhtoan = intent.getIntExtra("invoiceThanhToan", 0);
+        String createDate = intent.getStringExtra("invoiceCreateDate");
+        String ten = intent.getStringExtra("invoiceTenKhach");
+        String cmnd = intent.getStringExtra("invoiceCMNDKhach");
+        String sdt = intent.getStringExtra("invoiceSDTKhach");
+        String diachi = intent.getStringExtra("invoiceDiaChiKhach");
+        String dichvu = intent.getStringExtra("invoiceDichVu");
+        int phidichvu = intent.getIntExtra("invoicePhiDichVu", 0);
 //        Toast.makeText(InvoiceDetail.this, String.valueOf(id), Toast.LENGTH_SHORT).show();
 
         getDataInvoice();

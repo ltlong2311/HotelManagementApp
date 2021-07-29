@@ -10,6 +10,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +49,7 @@ import org.json.JSONObject;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -57,11 +61,21 @@ public class RevenueFragment extends Fragment {
     String urlGetRevenue = "http://192.168.60.1/severApp/statisticPay";
     String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJJRCI6IjEiLCJ1c2VyTmFtZSI6ImFkbWluIiwiSG9UZW4iOiJhZG1pbiJ9.234-aSxbQPO_Ozd4kcffsavH1FRWBgBx61dga5ZrAWE";
 
-    ArrayList<String> timeLinesList = new ArrayList<String>();
-    String[] timeLines = new String[]{"d1","d2","d3","d4","d5","d6","d7"};
-    ArrayList<Integer> revenueMList = new ArrayList<Integer>();
+    ArrayList<String> timeLinesList = new ArrayList<>();
+    ArrayList<String> timeLinesListThisWeek = new ArrayList<>();
+    ArrayList<String> timeLinesListLastMonth = new ArrayList<>();
+    String[] timeLines = new String[7];
+    String[] timeLinesThisWeek = new String[7];
+    String[] timeLinesLastMonth = new String[]{"Tuần 1", "Tuần 2", "Tuần 3", "Tuần 4", "Tuần 5"};
+    ArrayList<Integer> revenueMList = new ArrayList<>();
+    ArrayList<Integer> revenueMListThisWeek = new ArrayList<>();
+    ArrayList<Integer> revenueMListLastMonth = new ArrayList<>();
 
     ArrayList<Entry> yValues = new ArrayList<>();
+
+    ArrayList<String> arrayList_option;
+    ArrayAdapter<String> arrayAdapterOption;
+    AutoCompleteTextView optionSelect;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,6 +89,7 @@ public class RevenueFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_revenue, container, false);
         ((Home) getActivity())
                 .setActionBarTitle("Doanh thu");
+        optionSelect = root.findViewById(R.id.optionRevenueSelection);
         lastMonthRevenue = root.findViewById(R.id.lastMonthRevenue);
         thisMonthRevenue = root.findViewById(R.id.thisMonthRevenue);
         thisWeekRevenue = root.findViewById(R.id.thisWeekRevenue);
@@ -101,19 +116,48 @@ public class RevenueFragment extends Fragment {
         getThisMonthRevenue(urlGetRevenue);
         getThisWeekRevenue(urlGetRevenue);
         getLastWeekRevenue(urlGetRevenue);
+
+        optionSelect.setAdapter(arrayAdapterOption);
+        optionSelect.setThreshold(1);
+
+        arrayList_option = new ArrayList<>();
+        arrayList_option.add("Tuần trước");
+        arrayList_option.add("Tháng trước");
+        arrayList_option.add("Tuần này");
+        arrayAdapterOption = new ArrayAdapter<>(getActivity().getApplicationContext(), R.layout.dropdown_item_re, arrayList_option);
+        optionSelect.setAdapter(arrayAdapterOption);
+        optionSelect.setThreshold(1);
+
+        optionSelect.setOnItemClickListener((parent, view, position, id) -> {
+            String check = parent.getItemAtPosition(position).toString();
+            if (check.matches("Tuần trước")){
+//                lineChart.clear();
+                Toast.makeText(getActivity(), Arrays.toString(timeLines), Toast.LENGTH_SHORT).show();
+                showChart("Doanh thu tuần trước", revenueMList, timeLines);
+            } else if(check.matches("Tháng trước")){
+                Toast.makeText(getActivity(), timeLinesListLastMonth.toString(), Toast.LENGTH_SHORT).show();
+                showChart("Doanh thu tháng trước", revenueMListLastMonth, timeLinesLastMonth);
+            }else if(check.matches("Tuần này")){
+//                lineChart.clear();
+//                System.arraycopy(timeLines, 0, timeLinesListThisWeek.toArray(timeLines), 0, timeLines.length);
+                Toast.makeText(getActivity(), timeLinesListThisWeek.toString(), Toast.LENGTH_SHORT).show();
+                showChart("Doanh thu tuần này", revenueMListThisWeek, timeLinesThisWeek);
+            }
+        });
+
         return root;
     }
-    public void showChart(){
-
-        for (int i = 0; i < revenueMList.size(); i++){
-            yValues.add(new Entry(i, revenueMList.get(i)));
+    public void showChart(String titleChart, ArrayList<Integer> revenueList, String[] timeLine){
+        lineChart.clear();
+        yValues.clear();
+        for (int i = 0; i < revenueList.size(); i++){
+            yValues.add(new Entry(i, revenueList.get(i)));
         }
 //        yValues.add(new Entry(0, 1320000));
 //        yValues.add(new Entry(1, 1999000));
 //        yValues.add(new Entry(2, 1702000));
 
-
-        LineDataSet set1 = new LineDataSet(yValues, "Doanh thu tuần qua");
+        LineDataSet set1 = new LineDataSet(yValues, titleChart);
         set1.setFillAlpha(120);
         set1.setColor(Color.BLUE);
         set1.setValueTextSize(10f);
@@ -130,7 +174,7 @@ public class RevenueFragment extends Fragment {
         xAxis.setDrawAxisLine(false);
         xAxis.setDrawGridLines(false);
 
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(timeLines));
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(timeLine));
         xAxis.setGranularity(1);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
     }
@@ -148,11 +192,12 @@ public class RevenueFragment extends Fragment {
                             try {
                                 JSONObject revenuePoint = revenueData.getJSONObject(i);
                                 revenue += revenuePoint.getInt("summary");
+                                revenueMListLastMonth.add(revenuePoint.getInt("summary"));
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
-                        String lastMonthR = NumberFormat.getNumberInstance(Locale.US).format(revenue) + " vnd";
+                        String lastMonthR = NumberFormat.getNumberInstance(Locale.US).format(revenue);
                         lastMonthRevenue.setText(lastMonthR);
                     } catch (Throwable t) {
                         Toast.makeText(getActivity(), "Could not parse malformed JSON: \"" + response + "\"", Toast.LENGTH_SHORT).show();
@@ -186,7 +231,7 @@ public class RevenueFragment extends Fragment {
                                 e.printStackTrace();
                             }
                         }
-                        String thisMonthR = NumberFormat.getNumberInstance(Locale.US).format(revenue)+ " vnd";
+                        String thisMonthR = NumberFormat.getNumberInstance(Locale.US).format(revenue);
                         thisMonthRevenue.setText(thisMonthR);
                     } catch (Throwable t) {
                         Toast.makeText(getActivity(), "Could not parse malformed JSON: \"" + response + "\"", Toast.LENGTH_SHORT).show();
@@ -216,15 +261,19 @@ public class RevenueFragment extends Fragment {
                             try {
                                 JSONObject revenuePoint = revenueData.getJSONObject(i);
                                 revenue += revenuePoint.getInt("summary");
+                                timeLinesListThisWeek.add(revenuePoint.getString("from").substring(5)); //rm year
+                                timeLinesListThisWeek.toArray(timeLinesThisWeek);
+                                revenueMListThisWeek.add(revenuePoint.getInt("summary"));
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
-                        String thisWeekR = NumberFormat.getNumberInstance(Locale.US).format(revenue) + " vnd";
+                        String thisWeekR = NumberFormat.getNumberInstance(Locale.US).format(revenue);
                         thisWeekRevenue.setText(thisWeekR);
                     } catch (Throwable t) {
                         Toast.makeText(getActivity(), "Could not parse malformed JSON: \"" + response + "\"", Toast.LENGTH_SHORT).show();
                     }
+//                    showChart("Doanh thu tuần này", revenueMListThisWeek);
                 },
                 error -> Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show()
         ){
@@ -246,24 +295,22 @@ public class RevenueFragment extends Fragment {
                     try {
                         JSONObject obj = new JSONObject(response);
                         JSONArray revenueData = obj.getJSONArray("data");
-                        int revenue = 0;
                         for (int i = 0; i < revenueData.length(); i++){
                             try {
                                 JSONObject revenuePoint = revenueData.getJSONObject(i);
                                 timeLinesList.add(revenuePoint.getString("from").substring(5)); //rm year
                                 timeLinesList.toArray(timeLines);
                                 revenueMList.add(revenuePoint.getInt("summary"));
-                                revenue += revenuePoint.getInt("summary");
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
-                        Toast.makeText(getActivity(), timeLinesList.toString(), Toast.LENGTH_SHORT).show();
-                        Toast.makeText(getActivity(), revenueMList.toString(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getActivity(), timeLinesList.toString(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getActivity(), revenueMList.toString(), Toast.LENGTH_SHORT).show();
                     } catch (Throwable t) {
                         Toast.makeText(getActivity(), "Could not parse malformed JSON: \"" + response + "\"", Toast.LENGTH_SHORT).show();
                     }
-                    showChart();
+                    showChart("Doanh thu tuần trước", revenueMList, timeLines);
                 },
 
                 error -> Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show()

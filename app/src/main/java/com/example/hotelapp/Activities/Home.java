@@ -236,9 +236,14 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                         new ServiceFragment()).commit();
                 break;
             case R.id.nav_invoice:
-                mToolbar.setTitle("Hóa đơn");
-                getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
-                        new InvoiceFragment()).commit();
+                if(permission == 2){
+                    mToolbar.setTitle("Hóa đơn");
+                    getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                            new InvoiceFragment()).commit();
+                } else if (permission == 1){
+                    StyleableToast.makeText(this, "Chức năng này chỉ dành cho quản lý!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
+
+                }
                 break;
             case R.id.nav_revenue:
                 if(permission == 2){
@@ -246,7 +251,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                     getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
                             new RevenueFragment()).commit();
                 } else {
-                    StyleableToast.makeText(this, "Chức năng này chỉ dành cho người quản lý!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
+                    StyleableToast.makeText(this, "Chức năng này chỉ dành cho quản lý!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
                 }
                 break;
             case R.id.nav_manage:

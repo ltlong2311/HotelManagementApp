@@ -86,19 +86,6 @@ public class LoginActivity extends AppCompatActivity {
         getData(urlTest);
     }
 
-
-    private static void SetWindowFlag(Activity activity, final int Bits, Boolean on) {
-        Window win =  activity.getWindow();
-        WindowManager.LayoutParams Winparams = win.getAttributes();
-        if (on) {
-            Winparams.flags  |=Bits;
-        } else {
-            Winparams.flags &= ~Bits;
-        }
-        win.setAttributes(Winparams);
-
-    }
-
     public void openHomePage(){
         Intent intent = new Intent(this, Home.class);
         startActivity(intent);
@@ -175,6 +162,18 @@ public class LoginActivity extends AppCompatActivity {
 
         Button btnCannel = dialog.findViewById(R.id.btn_ok);
         btnCannel.setOnClickListener(v -> dialog.dismiss());
+
+    }
+
+    private static void SetWindowFlag(Activity activity, final int Bits, Boolean on) {
+        Window win =  activity.getWindow();
+        WindowManager.LayoutParams Winparams = win.getAttributes();
+        if (on) {
+            Winparams.flags  |=Bits;
+        } else {
+            Winparams.flags &= ~Bits;
+        }
+        win.setAttributes(Winparams);
 
     }
 

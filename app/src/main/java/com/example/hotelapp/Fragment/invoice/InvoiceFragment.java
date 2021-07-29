@@ -54,54 +54,51 @@ public class InvoiceFragment extends Fragment {
         invoiceList = new ArrayList<>();
         adapter = new InvoiceAdapter(getActivity(), R.layout.invoice_item, invoiceList);
         lvInvoice.setAdapter(adapter);
-        lvInvoice.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), InvoiceDetail.class);
-                Invoice invoice = invoiceList.get(position);
+        lvInvoice.setOnItemClickListener((parent, view, position, id) -> {
+            Intent intent = new Intent(getActivity(), InvoiceDetail.class);
+            Invoice invoice = invoiceList.get(position);
 //                Toast.makeText(getActivity(), invoiceList.get(position).getCreateDate(), Toast.LENGTH_SHORT).show();
-                intent.putExtra("invoiceID", invoiceList.get(position).getID());
-                intent.putExtra("invoiceIDPhong", invoiceList.get(position).getIDPhong());
-                intent.putExtra("invoiceThanhToan", invoiceList.get(position).getThanhToan());
-                intent.putExtra("invoiceCreateDate", invoiceList.get(position).getCreateDate());
-                JSONObject json = invoice.getInfoKhach();
-                JSONObject jsonAddress = null;
+            intent.putExtra("invoiceID", invoiceList.get(position).getID());
+            intent.putExtra("invoiceIDPhong", invoiceList.get(position).getIDPhong());
+            intent.putExtra("invoiceThanhToan", invoiceList.get(position).getThanhToan());
+            intent.putExtra("invoiceCreateDate", invoiceList.get(position).getCreateDate());
+            JSONObject json = invoice.getInfoKhach();
+            JSONObject jsonAddress = null;
+            try {
+                String ten = json.getString("Ten");
+                String cmt = json.getString("CMT");
+                String sdt = json.getString("SDT");
+                String diachi = json.getString("DiaChi");
+                intent.putExtra("invoiceTenKhach", ten);
+                intent.putExtra("invoiceCMNDKhach", cmt);
+                intent.putExtra("invoiceSDTKhach", sdt);
+                intent.putExtra("invoiceDiaChiKhach", diachi);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            JSONArray arr = invoice.getDichVu();
+            String tenDV = "";
+            int giaDV = 0;
+            ArrayList<String> listTenDV
+                    = new ArrayList<String>();
+            for (int i = 0; i < arr.length(); i++){
                 try {
-                    String ten = json.getString("Ten");
-                    String cmt = json.getString("CMT");
-                    String sdt = json.getString("SDT");
-                    String diachi = json.getString("DiaChi");
-                    intent.putExtra("invoiceTenKhach", ten);
-                    intent.putExtra("invoiceCMNDKhach", cmt);
-                    intent.putExtra("invoiceSDTKhach", sdt);
-                    intent.putExtra("invoiceDiaChiKhach", diachi);
+                    JSONObject dichvu = arr.getJSONObject(i);
+                    //dv += dichvu.getString("TenDV");
+                    listTenDV.add(dichvu.getString("TenDV"));
+                    tenDV = listTenDV.toString();
+                    tenDV = tenDV.replace("[", "")
+                            .replace("]", "");
+                    giaDV += dichvu.getInt("Gia");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-                JSONArray arr = invoice.getDichVu();
-                String tenDV = "";
-                int giaDV = 0;
-                ArrayList<String> listTenDV
-                        = new ArrayList<String>();
-                for (int i = 0; i < arr.length(); i++){
-                    try {
-                        JSONObject dichvu = arr.getJSONObject(i);
-                        //dv += dichvu.getString("TenDV");
-                        listTenDV.add(dichvu.getString("TenDV"));
-                        tenDV = listTenDV.toString();
-                        tenDV = tenDV.replace("[", "")
-                                .replace("]", "");
-                        giaDV += dichvu.getInt("Gia");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                intent.putExtra("invoiceDichVu", tenDV);
-                intent.putExtra("invoicePhiDichVu", giaDV);
-
-                startActivity(intent);
             }
+            intent.putExtra("invoiceDichVu", tenDV);
+            intent.putExtra("invoicePhiDichVu", giaDV);
+
+            startActivity(intent);
         });
 
         getData(urlGetData);

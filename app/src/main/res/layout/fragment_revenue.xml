@@ -25,8 +25,40 @@
                 android:textStyle="bold"
                 android:paddingTop="10dp"
                 android:paddingBottom="5dp"
+                android:layout_marginBottom="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:id="@+id/revenueSelection"
+                app:hintEnabled="false"
+                android:theme="@style/filterRevenue"
+                app:endIconMode="dropdown_menu">
+                <AutoCompleteTextView
+                    android:id="@+id/optionRevenueSelection"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:dropDownHeight="wrap_content"
+                    android:dropDownWidth="120dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/custom_input"
+                    android:dropDownVerticalOffset="0dp"
+                    android:dropDownHorizontalOffset="10dp"
+                    android:dropDownAnchor="@id/revenueSelection"
+                    android:scrollbars="horizontal"
+                    android:textSize="13sp"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:paddingLeft="10dp"
+                    android:text="@string/lastWeek"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -78,15 +110,25 @@
                         android:layout_marginRight="10dp"
                         android:text="Doanh thu tháng trước:"
                         android:textColor="#514B4B"
-                        android:textSize="17sp" />
+                        android:textSize="16sp" />
                     <TextView
                         android:id="@+id/lastMonthRevenue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="-"
-                        android:textColor="#682424"
-                        android:textSize="17sp" />
+                        android:textStyle="bold"
+                        android:textColor="#781B1B"
+                        android:textSize="15sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="3dp"
+                        android:text="vnd"
+                        android:textColor="#343434"
+                        android:textSize="15sp"
+                        tools:ignore="HardcodedText,RtlHardcoded" />
 
                 </LinearLayout>
                 <LinearLayout
@@ -99,7 +141,7 @@
                         android:layout_marginTop="10dp"
                         android:text="Doanh thu tháng này:"
                         android:textColor="#514B4B"
-                        android:textSize="17sp" />
+                        android:textSize="16sp" />
                     <TextView
                         android:id="@+id/thisMonthRevenue"
                         android:layout_width="wrap_content"
@@ -108,8 +150,19 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginLeft="10dp"
                         android:text="-"
-                        android:textColor="#682424"
-                        android:textSize="17sp" />
+                        android:textStyle="bold"
+                        android:textColor="#781B1B"
+                        android:textSize="15sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="3dp"
+                        android:text="vnd"
+                        android:textColor="#343434"
+                        android:textSize="15sp"
+                        tools:ignore="HardcodedText,RtlHardcoded" />
+
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -121,7 +174,7 @@
                         android:layout_marginTop="10dp"
                         android:text="Doanh thu tuần này:"
                         android:textColor="#514B4B"
-                        android:textSize="17sp" />
+                        android:textSize="16sp" />
                     <TextView
                         android:id="@+id/thisWeekRevenue"
                         android:layout_width="wrap_content"
@@ -130,8 +183,19 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginLeft="10dp"
                         android:text="-"
-                        android:textColor="#682424"
-                        android:textSize="17sp" />
+                        android:textStyle="bold"
+                        android:textColor="#781B1B"
+                        android:textSize="15sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="3dp"
+                        android:text="vnd"
+                        android:textColor="#343434"
+                        android:textSize="15sp"
+                        tools:ignore="HardcodedText,RtlHardcoded" />
+
                 </LinearLayout>
 
             </LinearLayout>

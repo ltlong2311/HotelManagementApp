@@ -42,6 +42,12 @@
     <string name="info_card">THÔNG TIN</string>
     <string name="app_card">ỨNG DỤNG</string>
     <string name="help_card">TRỢ GIÚP</string>
+    <string name="delete_invoice">Xóa hóa đơn</string>
+    <string name="add_service">Thêm dịch vụ</string>
+    <string name="submit">Xác nhận</string>
+    <string name="cancel">Hủy bỏ</string>
+    <string name="addService">Thêm dịch vụ</string>
+    <string name="lastWeek">Tuần trước</string>
     <string-array name="optionCheckIn">
         <item>Theo ngày</item>
         <item>Theo giờ</item>

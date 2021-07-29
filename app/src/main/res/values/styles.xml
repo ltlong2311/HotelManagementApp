@@ -70,6 +70,14 @@
         <item name="colorControlActivated">@color/colorPrimary</item>
     </style>
 
+    <style name="filterRevenue" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:textColorHint">@color/white</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:spinnerStyle">@style/spinner_style</item>
+        <item name="colorControlNormal">@color/black_overlay</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+    </style>
+
     <style name="spinner_style" parent="Widget.AppCompat.Spinner">
         <item name="android:dropDownVerticalOffset">40dip</item>
         <item name="overlapAnchor">false</item>
