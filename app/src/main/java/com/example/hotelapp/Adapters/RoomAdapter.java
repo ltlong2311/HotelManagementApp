@@ -327,7 +327,8 @@ public class RoomAdapter extends BaseAdapter {
             cmt = cmtEdtCO.getText().toString().trim();
             sdt = sdtEdtCO.getText().toString().trim();
             diachi = diachiEdtCO.getText().toString().trim();
-            if (ten.matches("") || cmt.length() == 0 || sdt.length() == 0 || diachi.matches("")) {
+//            if (ten.matches("") || cmt.length() == 0 || sdt.length() == 0 || diachi.matches("")) {
+            if (ten.matches("") || sdt.length() == 0 ) {
                 StyleableToast.makeText(context, "Không thể để trống thông tin checkout!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
             } else {
                 confirmCheckOut(dialog, idInvoice, idPhong);

@@ -27,6 +27,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.hotelapp.API.BaseUrl;
 import com.example.hotelapp.Fragment.home.HomeFragment;
 import com.example.hotelapp.Fragment.home.StaffHomeFragment;
+import com.example.hotelapp.Fragment.listBooking.ListBookingFragment;
 import com.example.hotelapp.Fragment.listRoom.ListRoomFragment;
 import com.example.hotelapp.Fragment.invoice.InvoiceFragment;
 import com.example.hotelapp.Fragment.listRoom.ListRoomStaffFragment;
@@ -102,7 +103,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         navigationView.setNavigationItemSelectedListener(this);
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_room_list, R.id.nav_invoice, R.id.nav_service, R.id.nav_change_password,
+                R.id.nav_home, R.id.nav_room_list, R.id.nav_invoice, R.id.nav_service, R.id.nav_booking_list, R.id.nav_change_password,
                 R.id.nav_revenue, R.id.nav_log_out, R.id.nav_manage, R.id.info_app)
                 .setDrawerLayout(drawer)
                 .build();
@@ -222,6 +223,11 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 mToolbar.setTitle("Dịch vụ");
                 getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
                         new ServiceFragment()).commit();
+                break;
+            case R.id.nav_booking_list:
+                mToolbar.setTitle("Danh sách đặt phòng");
+                getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                        new ListBookingFragment()).commit();
                 break;
             case R.id.nav_invoice:
                 if (permission == 2) {

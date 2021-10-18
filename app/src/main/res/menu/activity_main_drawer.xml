@@ -18,6 +18,10 @@
             android:icon="@drawable/coffee_maker"
             android:title="@string/menu_service" />
         <item
+            android:id="@+id/nav_booking_list"
+            android:icon="@drawable/calendar"
+            android:title="@string/danh_s_ch_t_ph_ng" />
+        <item
             android:id="@+id/nav_invoice"
             android:icon="@drawable/currency_usd"
             android:title="@string/menu_invoice" />

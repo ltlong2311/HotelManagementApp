@@ -27,6 +27,11 @@
         android:label="@string/menu_receipt"
         tools:layout="@layout/fragment_invoice" />
     <fragment
+        android:id="@+id/nav_booking_list"
+        android:name="com.example.hotelapp.Fragment.listBooking.ListBookingFragment"
+        android:label="Danh sách đặt phòng"
+        tools:layout="@layout/fragment_list_booking" />
+    <fragment
         android:id="@+id/nav_manage"
         android:name="com.example.hotelapp.Fragment.manage.ManageFragment"
         android:label="@string/menu_manage"

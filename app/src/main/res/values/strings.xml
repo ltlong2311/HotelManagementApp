@@ -63,6 +63,7 @@
     <string name="err">Error</string>
     <string name="loginError">Tài khoản hoặc mật khẩu không chính xác. Hãy thử lại!</string>
     <string name="OK">OK</string>
+    <string name="danh_s_ch_t_ph_ng">Danh sách đặt phòng</string>
     <string-array name="optionCheckIn">
         <item>Theo ngày</item>
         <item>Theo giờ</item>

@@ -106,8 +106,6 @@ public class InvoiceFragment extends Fragment {
         return root;
     }
 
-
-
     private void getData(String urlGetData) {
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, urlGetData, null,

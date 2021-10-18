@@ -2,16 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_list_room"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/fragment_list_room"
     android:background="#fff"
+    android:orientation="vertical"
     tools:context=".Fragment.listRoom.ListRoomFragment">
+
     <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/drawerLayout">
+        android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -28,11 +30,13 @@
                     android:layout_height="match_parent"
                     android:fadeScrollbars="false"
                     android:fastScrollEnabled="false"
-                    android:paddingLeft="10dp"
-                    android:numColumns="2"
                     android:gravity="center"
-                    android:weightSum="2"
+                    android:numColumns="2"
+                    android:paddingLeft="10dp"
+                    android:paddingBottom="50dp"
+                    android:clipToPadding="false"
                     android:scrollbarThumbVertical="@android:color/transparent"
+                    android:weightSum="2"
                     tools:ignore="RtlHardcoded,RtlSymmetry" />
 
                 <TextView
@@ -53,6 +57,18 @@
 
         </LinearLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/checkInQR"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/qr_code"/>
+        </RelativeLayout>
     </androidx.drawerlayout.widget.DrawerLayout>
 
 </LinearLayout>

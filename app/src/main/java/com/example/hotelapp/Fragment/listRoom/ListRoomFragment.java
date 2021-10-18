@@ -1,5 +1,6 @@
 package com.example.hotelapp.Fragment.listRoom;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,10 +14,12 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -29,12 +32,18 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.hotelapp.API.BaseUrl;
+import com.example.hotelapp.Activities.CreateStaffAccount;
 import com.example.hotelapp.Activities.Home;
+import com.example.hotelapp.Activities.ScanQR;
 import com.example.hotelapp.R;
 import com.example.hotelapp.Model.Room;
 import com.example.hotelapp.Adapters.RoomAdapter;
 import com.example.hotelapp.Activities.RoomEdit;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+//import com.google.zxing.integration.android.IntentIntegrator;
+//import com.google.zxing.integration.android.IntentResult;
 
 
 import org.json.JSONArray;
@@ -59,7 +68,6 @@ public class ListRoomFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         setRetainInstance(true);
-
         Bundle bundle = getArguments();
         if (bundle != null) {
             String value = bundle.getString("key");
@@ -87,7 +95,11 @@ public class ListRoomFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
+        ImageView checkInQR = root.findViewById(R.id.checkInQR);
+        checkInQR.setOnClickListener(view -> {
+            Intent intent = new Intent(getActivity(), ScanQR.class);
+            startActivity(intent);
+        });
         return root;
     }
 
@@ -137,6 +149,31 @@ public class ListRoomFragment extends Fragment {
                 getData(urlGetData);
             }
         };
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
+        IntentResult intentResult = IntentIntegrator.parseActivityResult(
+                requestCode,resultCode,data
+        );
+
+        if (intentResult.getContents() != null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("Result");
+            builder.setMessage(intentResult.getContents());
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.show();
+            Toast.makeText(getActivity(), intentResult.getContents(), Toast.LENGTH_SHORT).show();
+        } else  {
+            //when result content is  null
+            Toast.makeText(getActivity().getApplicationContext(), "none", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
