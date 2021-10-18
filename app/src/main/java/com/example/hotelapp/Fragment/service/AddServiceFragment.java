@@ -24,6 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.hotelapp.API.BaseUrl;
 import com.example.hotelapp.Activities.Home;
 import com.example.hotelapp.LoginActivity;
 import com.example.hotelapp.R;
@@ -39,8 +40,8 @@ public class AddServiceFragment extends Fragment {
     LinearLayout layoutHideKeyboard;
     EditText edtTenDV, edtGiaDV;
     Button btnThemDV, btnHuy;
-
-    String urlAddService = "http://192.168.60.1/severApp/createServices";
+    BaseUrl baseUrl = new BaseUrl();
+    String urlAddService = baseUrl.getBaseURL()+ "/createServices";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

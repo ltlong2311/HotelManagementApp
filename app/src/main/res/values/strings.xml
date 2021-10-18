@@ -48,6 +48,21 @@
     <string name="cancel">Hủy bỏ</string>
     <string name="addService">Thêm dịch vụ</string>
     <string name="lastWeek">Tuần trước</string>
+    <string name="change_password">Đổi mật khẩu</string>
+    <string name="username">username</string>
+    <string name="idText">(ID: ----- )</string>
+    <string name="selectDay">Chọn ngày</string>
+    <string name="forgotPassword">Quên mật khẩu? Lấy lại!</string>
+    <string name="Hotline">Hotline: 039326xxxx</string>
+    <string name="login">Đăng nhập</string>
+    <string name="hotel_code">Mã khách sạn</string>
+    <string name="icon_app">icon-app</string>
+    <string name="header">header</string>
+    <string name="usernameL">Tên đăng nhập</string>
+    <string name="passwordL">Mật khẩu</string>
+    <string name="err">Error</string>
+    <string name="loginError">Tài khoản hoặc mật khẩu không chính xác. Hãy thử lại!</string>
+    <string name="OK">OK</string>
     <string-array name="optionCheckIn">
         <item>Theo ngày</item>
         <item>Theo giờ</item>

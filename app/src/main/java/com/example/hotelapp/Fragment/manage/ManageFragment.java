@@ -22,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.hotelapp.API.BaseUrl;
 import com.example.hotelapp.Activities.CreateStaffAccount;
 import com.example.hotelapp.Activities.Home;
 import com.example.hotelapp.Activities.InvoiceDetail;
@@ -44,7 +45,8 @@ import java.util.ArrayList;
 public class ManageFragment extends Fragment {
 
     DrawerLayout drawerLayout;
-    String urlGetDataUser = "http://192.168.60.1/severApp/users";
+    BaseUrl baseUrl = new BaseUrl();
+    String urlGetDataUser = baseUrl.getBaseURL()+ "/users";
 
     ListView listViewUser;
     ArrayList<User> userList;
@@ -56,7 +58,7 @@ public class ManageFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
     }
- 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -95,6 +97,7 @@ public class ManageFragment extends Fragment {
         return root;
 
     }
+
     private void getData(String urlGetData) {
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, urlGetData, null,
@@ -103,7 +106,7 @@ public class ManageFragment extends Fragment {
                     public void onResponse(JSONObject response) {
                         try {
                             JSONArray jsonArray = response.getJSONArray("data");
-                            for (int i = 0; i < jsonArray.length(); i++){
+                            for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject data = jsonArray.getJSONObject(i);
                                 userList.add(new User(
                                         data.getInt("ID"),
@@ -131,6 +134,7 @@ public class ManageFragment extends Fragment {
         );
         requestQueue.add(request);
     }
+
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu, menu);

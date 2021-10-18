@@ -41,6 +41,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.hotelapp.API.BaseUrl;
 import com.example.hotelapp.Activities.Home;
 import com.example.hotelapp.Fragment.listRoom.ListRoomFragment;
 import com.example.hotelapp.Fragment.listRoom.ListRoomStaffFragment;
@@ -52,26 +53,27 @@ import com.muddzdev.styleabletoast.StyleableToast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class  RoomAdapter extends BaseAdapter {
+public class RoomAdapter extends BaseAdapter {
 
     private final Context context;
     private final int layout;
     private List<Room> RoomList;
-
-    String urlCheckIn = "http://192.168.60.1/severApp/createPay";
-    String urlCheckOut = "http://192.168.60.1/severApp/checkoutPay";
-    String urlGetInvoiceInfo = "http://192.168.60.1/severApp/pays/";
-    String urlGetServiceInfo = "http://192.168.60.1/severApp/services";
-    String urlAddService = "http://192.168.60.1/severApp/updatePay";
+    BaseUrl baseUrl = new BaseUrl();
+    String urlCheckIn = baseUrl.getBaseURL() + "/createPay";
+    String urlCheckOut = baseUrl.getBaseURL() + "/checkoutPay";
+    String urlGetInvoiceInfo = baseUrl.getBaseURL() + "/pays/";
+    String urlGetServiceInfo = baseUrl.getBaseURL() + "/services";
+    String urlAddService = baseUrl.getBaseURL() + "/updatePay";
 
     public static final String SHARED_ID_INVOICE = "idInvoice";
-    int vt= -1;
+    int vt = -1;
     int optionServiceID, permission;
     EditText maPhongEdt, tenEdt, cmtEdt, sdtEdt, diachiEdt, maPhongEdtCO, tenEdtCO, cmtEdtCO, sdtEdtCO, diachiEdtCO, thanhtoanEdt, maPhongAddService;
     String token, ten, cmt, sdt, diachi;
@@ -109,7 +111,7 @@ public class  RoomAdapter extends BaseAdapter {
         return 0;
     }
 
-    private static class ViewHolder{
+    private static class ViewHolder {
         TextView txtTenPhong, txtTang, txtTrangThai, txtGiaPhong;
         ImageView imageEdit;
         RelativeLayout layoutRoom;
@@ -125,10 +127,10 @@ public class  RoomAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder holder;
-        if (convertView == null){
+        if (convertView == null) {
             holder = new ViewHolder();
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(layout,null);
+            convertView = inflater.inflate(layout, null);
             holder.txtTenPhong = convertView.findViewById(R.id.textViewTenPhongCustom);
             holder.txtTang = convertView.findViewById(R.id.textViewTangCustom);
             holder.txtTrangThai = convertView.findViewById(R.id.textViewTrangThaiCustom);
@@ -144,7 +146,7 @@ public class  RoomAdapter extends BaseAdapter {
         holder.txtTenPhong.setText(room.getTenPhong());
         holder.txtTang.setText("" + room.getTang());
         holder.txtGiaPhong.setText(room.getGia() + "");
-        if (room.getTrangThai() == 0){
+        if (room.getTrangThai() == 0) {
             holder.txtTrangThai.setText("Trống");
 //            holder.layoutRoom.setBackgroundColor(Color.parseColor("#DBF1FB"));
             GradientDrawable gradientDrawable = (GradientDrawable) holder.layoutRoom.getBackground().mutate();
@@ -155,7 +157,7 @@ public class  RoomAdapter extends BaseAdapter {
             GradientDrawable gradientDrawable = (GradientDrawable) holder.layoutRoom.getBackground().mutate();
             gradientDrawable.setColor(Color.parseColor("#F4DFDF"));
         }
-        if(room.getTuSua() == 1){
+        if (room.getTuSua() == 1) {
             holder.txtTrangThai.setText("Đang sửa!");
 //            holder.layoutRoom.setBackgroundColor(Color.parseColor("#65c6bb#8ce3da#AEEAE4"));
             GradientDrawable gradientDrawable = (GradientDrawable) holder.layoutRoom.getBackground().mutate();
@@ -175,31 +177,31 @@ public class  RoomAdapter extends BaseAdapter {
             popup.show();
             popup.setOnMenuItemClickListener(item -> {
                 int id = item.getItemId();
-                switch (id){
+                switch (id) {
                     case R.id.checkin:
-                        if (room.getTuSua() == 1){
+                        if (room.getTuSua() == 1) {
                             AlertRoomIsFixed();
-                        } else if (room.getTrangThai() == 1){
+                        } else if (room.getTrangThai() == 1) {
                             AlertRoomIsUsed();
                         } else {
                             DialogCheckIn(room);
                         }
                         return true;
                     case R.id.checkout:
-                        if (room.getTuSua() == 1){
+                        if (room.getTuSua() == 1) {
                             AlertRoomIsFixed();
-                        } else if (room.getTrangThai() == 0){
+                        } else if (room.getTrangThai() == 0) {
                             AlertRoomIsEmpty();
-                        }  else {
+                        } else {
                             DialogCheckOut(room);
                         }
                         return true;
                     case R.id.addService:
-                        if (room.getTuSua() == 1){
+                        if (room.getTuSua() == 1) {
                             AlertRoomIsFixed();
-                        } else if (room.getTrangThai() == 0){
+                        } else if (room.getTrangThai() == 0) {
                             AlertRoomIsEmpty();
-                        }  else {
+                        } else {
                             DialogAddService(room);
                         }
                         return true;
@@ -218,7 +220,7 @@ public class  RoomAdapter extends BaseAdapter {
         dialog.setContentView(R.layout.check_in_room);
 
         Window window = dialog.getWindow();
-        if (window == null){
+        if (window == null) {
             return;
         }
 
@@ -252,9 +254,9 @@ public class  RoomAdapter extends BaseAdapter {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String check = parent.getItemAtPosition(position).toString();
-                if (check.matches("Theo giờ")){
+                if (check.matches("Theo giờ")) {
                     option = "TheoGio";
-                } else{
+                } else {
                     option = "TheoPhong";
                 }
 //                Toast.makeText(parent.getContext(), option, Toast.LENGTH_SHORT).show();
@@ -270,9 +272,9 @@ public class  RoomAdapter extends BaseAdapter {
             cmt = cmtEdt.getText().toString().trim();
             sdt = sdtEdt.getText().toString().trim();
             diachi = diachiEdt.getText().toString().trim();
-            if (ten.matches("") || cmt.length() == 0 || sdt.length() == 0 || diachi.matches("")){
+            if (ten.matches("") || cmt.length() == 0 || sdt.length() == 0 || diachi.matches("")) {
                 StyleableToast.makeText(context, "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
-            } else  {
+            } else {
                 checkIn(urlCheckIn, room.getId(), dialog);
             }
         });
@@ -285,7 +287,7 @@ public class  RoomAdapter extends BaseAdapter {
         dialog.setContentView(R.layout.check_out_room);
 
         Window window = dialog.getWindow();
-        if (window == null){
+        if (window == null) {
             return;
         }
         int idPhong = room.getId();
@@ -314,7 +316,7 @@ public class  RoomAdapter extends BaseAdapter {
 
         maPhongEdtCO.setText(room.getTenPhong());
 //        thanhtoanEdt.setText(payments+ " VND");
-        getInvoiceInfo(urlGetInvoiceInfo+ idInvoice);
+        getInvoiceInfo(urlGetInvoiceInfo + idInvoice);
 
         Button btnSubmitCheckOut = dialog.findViewById(R.id.btn_submit_checkout);
         Button btnCancel = dialog.findViewById(R.id.btn_cancel_checkout);
@@ -325,28 +327,21 @@ public class  RoomAdapter extends BaseAdapter {
             cmt = cmtEdtCO.getText().toString().trim();
             sdt = sdtEdtCO.getText().toString().trim();
             diachi = diachiEdtCO.getText().toString().trim();
-            if (ten.matches("") || cmt.length() == 0 || sdt.length() == 0 || diachi.matches("")){
+            if (ten.matches("") || cmt.length() == 0 || sdt.length() == 0 || diachi.matches("")) {
                 StyleableToast.makeText(context, "Không thể để trống thông tin checkout!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
-            } else  {
+            } else {
                 confirmCheckOut(dialog, idInvoice, idPhong);
             }
         });
 
     }
-    public void confirmCheckOut(Dialog dialogCheckOut, int idInvoice, int idPhong){
+
+    public void confirmCheckOut(Dialog dialogCheckOut, int idInvoice, int idPhong) {
         AlertDialog.Builder dialogDelInvoice = new AlertDialog.Builder(context);
         dialogDelInvoice.setMessage("Xác nhận đã thanh toán và thực hiện lưu hóa đơn?");
-        dialogDelInvoice.setNegativeButton("Xác nhận", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                checkOut(urlCheckOut, idInvoice, idPhong, dialogCheckOut);
-            }
-        });
-        dialogDelInvoice.setPositiveButton("Không", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        dialogDelInvoice.setNegativeButton("Xác nhận", (dialog, which) -> checkOut(urlCheckOut, idInvoice, idPhong, dialogCheckOut));
+        dialogDelInvoice.setPositiveButton("Không", (dialog, which) -> {
 
-            }
         });
         dialogDelInvoice.show();
     }
@@ -357,7 +352,7 @@ public class  RoomAdapter extends BaseAdapter {
         dialog.setContentView(R.layout.add_service_to_room);
 
         Window window = dialog.getWindow();
-        if (window == null){
+        if (window == null) {
             return;
         }
 
@@ -395,77 +390,78 @@ public class  RoomAdapter extends BaseAdapter {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String check = parent.getItemAtPosition(position).toString();
-                for (int i = 0; i < arrayListService.size(); i++){
-                    if(check.matches(arrayListService.get(i))){
+                for (int i = 0; i < arrayListService.size(); i++) {
+                    if (check.matches(arrayListService.get(i))) {
                         optionServiceID = arrayListIdService.get(i);
                         serviceIdArr = String.valueOf(optionServiceID);
-                    };
+                    }
+                    ;
                 }
 //                Toast.makeText(parent.getContext(), String.valueOf(optionServiceID), Toast.LENGTH_SHORT).show();
             }
         });
 
-//        selectedService = new boolean[serviceArr.length];
 
         multiSelectService.setOnClickListener(v -> {
-                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                 builder.setTitle("Chọn dịch vụ")
-                         .setCancelable(false)
-                         .setMultiChoiceItems(serviceArr, selectedService, new DialogInterface.OnMultiChoiceClickListener() {
-                             @Override
-                             public void onClick(DialogInterface dialog, int i, boolean isChecked) {
-                                 if(isChecked) {
-                                     if (!serviceList.contains(i)) {
-                                         serviceList.add(i);
-                                     }
-                                 } else {
-                                     for( int j = 0; j< serviceList.size(); j++ ){
-                                         if(serviceList.get(j) == i){
-                                             serviceList.remove(j);
-                                         };
-                                     }
-                                 }
-                             }
-                         });
-                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                     @Override
-                     public void onClick(DialogInterface dialog, int which) {
-                         String item = "";
-                         serviceIdArr = "";
-                         for (int i = 0; i< serviceList.size(); i++){
-                             int position = serviceList.get(i);
-                             item = item + serviceArr[position];
-                             serviceIdArr = serviceIdArr + arrayListIdService.get(position);
-                             if (i != serviceList.size() - 1){
-                                item = item + ", ";
-                                serviceIdArr = serviceIdArr + ", ";
-                             }
-                         }
-                         optionAddService.setText(item);
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle("Chọn dịch vụ")
+                    .setCancelable(false)
+                    .setMultiChoiceItems(serviceArr, selectedService, new DialogInterface.OnMultiChoiceClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int i, boolean isChecked) {
+                            if (isChecked) {
+                                if (!serviceList.contains(i)) {
+                                    serviceList.add(i);
+                                }
+                            } else {
+                                for (int j = 0; j < serviceList.size(); j++) {
+                                    if (serviceList.get(j) == i) {
+                                        serviceList.remove(j);
+                                    }
+                                    ;
+                                }
+                            }
+                        }
+                    });
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String item = "";
+                    serviceIdArr = "";
+                    for (int i = 0; i < serviceList.size(); i++) {
+                        int position = serviceList.get(i);
+                        item = item + serviceArr[position];
+                        serviceIdArr = serviceIdArr + arrayListIdService.get(position);
+                        if (i != serviceList.size() - 1) {
+                            item = item + ", ";
+                            serviceIdArr = serviceIdArr + ", ";
+                        }
+                    }
+                    optionAddService.setText(item);
 //                         Toast.makeText(context, serviceIdArr, Toast.LENGTH_SHORT).show();
-                         StyleableToast.makeText(context, serviceIdArr, Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
+                    StyleableToast.makeText(context, serviceIdArr, Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
 
-                     }
-                 });
-                 builder.setNegativeButton("Cannel", new DialogInterface.OnClickListener() {
-                     @Override
-                     public void onClick(DialogInterface dialog, int which) {
-                         dialog.dismiss();
-                     }
-                 });
+                }
+            });
+            builder.setNegativeButton("Cannel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
 
-                 builder.setNeutralButton("Clear All", new DialogInterface.OnClickListener() {
-                     @Override
-                     public void onClick(DialogInterface dialog, int which) {
-                         for (int j = 0; j < selectedService.length; j++){
-                             selectedService[j] = false;
-                             serviceList.clear();
-                             serviceIdArr = "";
-                             optionAddService.setText("");
-                         }
-                     }
-                 });
-                 builder.show();
+            builder.setNeutralButton("Clear All", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    for (int j = 0; j < selectedService.length; j++) {
+                        selectedService[j] = false;
+                        serviceList.clear();
+                        serviceIdArr = "";
+                        optionAddService.setText("");
+                    }
+                }
+            });
+            builder.show();
         });
 
         Button btnAdd = dialog.findViewById(R.id.btn_add_service_room);
@@ -476,7 +472,7 @@ public class  RoomAdapter extends BaseAdapter {
 
     }
 
-    public void AlertRoomIsUsed(){
+    public void AlertRoomIsUsed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage("Phòng đã được sử dụng!")
                 .setNegativeButton("OK", new DialogInterface.OnClickListener() {
@@ -488,7 +484,7 @@ public class  RoomAdapter extends BaseAdapter {
                 .show();
     }
 
-    public void AlertRoomIsEmpty(){
+    public void AlertRoomIsEmpty() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage("Phòng trống!")
                 .setNegativeButton("OK", new DialogInterface.OnClickListener() {
@@ -500,7 +496,7 @@ public class  RoomAdapter extends BaseAdapter {
         builder.show();
     }
 
-    public void AlertRoomIsFixed(){
+    public void AlertRoomIsFixed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Thông báo")
                 .setMessage("Phòng đang tạm dừng hoạt động!")
@@ -515,7 +511,7 @@ public class  RoomAdapter extends BaseAdapter {
 
     private void checkIn(String url, int idPhong, Dialog dialog) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-        StringRequest stringRequest= new StringRequest(Request.Method.POST, url,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -529,21 +525,21 @@ public class  RoomAdapter extends BaseAdapter {
                             SharedPreferences.Editor editor = preferences.edit();
                             editor.putInt(String.valueOf(idPhong), idInvoice);
                             editor.apply();
-                            if(status.equals("success")){
+                            if (status.equals("success")) {
                                 Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
-                                if (permission == 2){
-                                    ListRoomFragment optionsFrag = new ListRoomFragment ();
-                                    ((Home)context).getSupportFragmentManager()
+                                if (permission == 2) {
+                                    ListRoomFragment optionsFrag = new ListRoomFragment();
+                                    ((Home) context).getSupportFragmentManager()
                                             .beginTransaction()
-                                            .replace(R.id.nav_host_fragment, optionsFrag,"")
+                                            .replace(R.id.nav_host_fragment, optionsFrag, "")
                                             .addToBackStack(null)
                                             .commit();
                                 } else {
                                     ListRoomStaffFragment optionsFrag = new ListRoomStaffFragment();
-                                    ((Home)context).getSupportFragmentManager()
+                                    ((Home) context).getSupportFragmentManager()
                                             .beginTransaction()
-                                            .replace(R.id.nav_host_fragment, optionsFrag,"")
+                                            .replace(R.id.nav_host_fragment, optionsFrag, "")
                                             .addToBackStack(null)
                                             .commit();
                                 }
@@ -564,25 +560,25 @@ public class  RoomAdapter extends BaseAdapter {
                         Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }
-        ){
+        ) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("token",token);
+                params.put("token", token);
                 params.put("IDPhong", String.valueOf(idPhong));
-                params.put("Ten",tenEdt.getText().toString().trim());
-                params.put("CMT",cmtEdt.getText().toString().trim());
-                params.put("DiaChi",diachiEdt.getText().toString().trim());
-                params.put("SDT",sdtEdt.getText().toString().trim());
-                params.put("DichVu","5");
-                params.put("Option",option);
+                params.put("Ten", tenEdt.getText().toString().trim());
+                params.put("CMT", cmtEdt.getText().toString().trim());
+                params.put("DiaChi", diachiEdt.getText().toString().trim());
+                params.put("SDT", sdtEdt.getText().toString().trim());
+                params.put("DichVu", "5");
+                params.put("Option", option);
                 return params;
             }
         };
         requestQueue.add(stringRequest);
     }
 
-    public void getInvoiceInfo(String url){
+    public void getInvoiceInfo(String url) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -612,9 +608,10 @@ public class  RoomAdapter extends BaseAdapter {
         );
         requestQueue.add(request);
     }
+
     private void checkOut(String url, int idInvoice, int idPhong, Dialog dialog) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-        StringRequest stringRequest= new StringRequest(Request.Method.POST, url,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -623,25 +620,25 @@ public class  RoomAdapter extends BaseAdapter {
                             String msg = obj.getString("msg");
                             String status = obj.getString("status");
 //                            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-                            if(status.equals("success")){
+                            if (status.equals("success")) {
                                 StyleableToast.makeText(context, msg, Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
                                 SharedPreferences preferences = context.getApplicationContext().getSharedPreferences(SHARED_ID_INVOICE, Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = preferences.edit();
                                 editor.remove(String.valueOf(idPhong));
                                 editor.apply();
                                 dialog.dismiss();
-                                if (permission == 2){
-                                    ListRoomFragment optionsFrag = new ListRoomFragment ();
-                                    ((Home)context).getSupportFragmentManager()
+                                if (permission == 2) {
+                                    ListRoomFragment optionsFrag = new ListRoomFragment();
+                                    ((Home) context).getSupportFragmentManager()
                                             .beginTransaction()
-                                            .replace(R.id.nav_host_fragment, optionsFrag,"")
+                                            .replace(R.id.nav_host_fragment, optionsFrag, "")
                                             .addToBackStack(null)
                                             .commit();
                                 } else {
                                     ListRoomStaffFragment optionsFrag = new ListRoomStaffFragment();
-                                    ((Home)context).getSupportFragmentManager()
+                                    ((Home) context).getSupportFragmentManager()
                                             .beginTransaction()
-                                            .replace(R.id.nav_host_fragment, optionsFrag,"")
+                                            .replace(R.id.nav_host_fragment, optionsFrag, "")
                                             .addToBackStack(null)
                                             .commit();
                                 }
@@ -662,11 +659,11 @@ public class  RoomAdapter extends BaseAdapter {
                         Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }
-        ){
+        ) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("token",token);
+                params.put("token", token);
                 params.put("ID", String.valueOf(idInvoice));
                 return params;
             }
@@ -681,11 +678,11 @@ public class  RoomAdapter extends BaseAdapter {
                 response -> {
                     try {
                         JSONArray jsonArray = response.getJSONArray("data");
-                        for (int i = 0; i < jsonArray.length(); i++){
+                        for (int i = 0; i < jsonArray.length(); i++) {
                             try {
                                 JSONObject data = jsonArray.getJSONObject(i);
                                 int status = data.getInt("TrangThai");
-                                if (status == 1){                    //lay service hien co
+                                if (status == 1) {                    //lay service hien co
                                     arrayListService.add(data.getString("TenDV"));
                                     arrayListIdService.add(data.getInt("ID"));
                                 }
@@ -710,7 +707,7 @@ public class  RoomAdapter extends BaseAdapter {
 
     private void addService(String url, int idInvoice, Dialog dialog) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-        StringRequest stringRequest= new StringRequest(Request.Method.POST, url,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -718,21 +715,21 @@ public class  RoomAdapter extends BaseAdapter {
                             JSONObject obj = new JSONObject(response);
                             String msg = obj.getString("msg");
                             String status = obj.getString("status");
-                            if(status.equals("success")){
+                            if (status.equals("success")) {
                                 StyleableToast.makeText(context, "Thêm dịch vụ vào hóa đơn thành công!", Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
                                 dialog.dismiss();
-                                if (permission == 2){
-                                    ListRoomFragment optionsFrag = new ListRoomFragment ();
-                                    ((Home)context).getSupportFragmentManager()
+                                if (permission == 2) {
+                                    ListRoomFragment optionsFrag = new ListRoomFragment();
+                                    ((Home) context).getSupportFragmentManager()
                                             .beginTransaction()
-                                            .replace(R.id.nav_host_fragment, optionsFrag,"")
+                                            .replace(R.id.nav_host_fragment, optionsFrag, "")
                                             .addToBackStack(null)
                                             .commit();
                                 } else {
                                     ListRoomStaffFragment optionsFrag = new ListRoomStaffFragment();
-                                    ((Home)context).getSupportFragmentManager()
+                                    ((Home) context).getSupportFragmentManager()
                                             .beginTransaction()
-                                            .replace(R.id.nav_host_fragment, optionsFrag,"")
+                                            .replace(R.id.nav_host_fragment, optionsFrag, "")
                                             .addToBackStack(null)
                                             .commit();
                                 }
@@ -754,11 +751,11 @@ public class  RoomAdapter extends BaseAdapter {
                         Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }
-        ){
+        ) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("token",token);
+                params.put("token", token);
                 params.put("ID", String.valueOf(idInvoice));
                 params.put("DichVu", serviceIdArr);
                 return params;
@@ -766,6 +763,7 @@ public class  RoomAdapter extends BaseAdapter {
         };
         requestQueue.add(stringRequest);
     }
+
     public void hideKeyBoard(View view) {
         InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);

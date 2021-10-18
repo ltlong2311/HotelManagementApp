@@ -47,16 +47,32 @@
                 android:src="@drawable/user"
                 android:layout_gravity="center"/>
 
-            <TextView
-                android:id="@+id/txtUserNameInfo"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:text="username"
                 android:gravity="center_horizontal"
-                android:textColor="@color/purple_700"
-                android:layout_marginBottom="20dp"
-                android:textSize="25dp"/>
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/txtUserNameInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="@string/username"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/purple_700"
+                    android:layout_marginBottom="3dp"
+                    android:textSize="25sp"/>
+                <TextView
+                    android:id="@+id/txtIdUser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/idText"
+                    android:gravity="center_horizontal"
+                    android:textColor="#343434"
+                    android:layout_marginBottom="20dp"
+                    android:textSize="15sp"/>
+            </LinearLayout>
+
 
 
             <RelativeLayout
@@ -70,7 +86,7 @@
                 android:id="@+id/layoutRoom"
                 android:padding="8dp"
                 android:elevation="6dp"
-                tools:ignore="ObsoleteLayoutParam">
+                tools:ignore="ObsoleteLayoutParam,UnusedAttribute">
 
                 <TextView
                     android:id="@+id/textTen"

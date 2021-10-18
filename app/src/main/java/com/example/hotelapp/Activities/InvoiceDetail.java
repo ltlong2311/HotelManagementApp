@@ -28,6 +28,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.example.hotelapp.API.BaseUrl;
 import com.example.hotelapp.R;
 import com.google.android.material.appbar.AppBarLayout;
 import com.muddzdev.styleabletoast.StyleableToast;
@@ -42,13 +43,14 @@ import java.util.Locale;
 import java.util.Map;
 
 public class InvoiceDetail extends AppCompatActivity {
+    BaseUrl baseUrl = new BaseUrl();
     EditText edtMaHD, edtSoPhong, edtTenKhachHang, edtCMND, edtSDT, edtDiaChi, edtDichVu, edtPhiDichVu, edtThanhToan, edtNgayTao;
     Button btnDeleteInvoice;
     AppBarLayout appBarLayout;
     public static Toolbar toolbar;
     int ID = 0;
     int permission;
-    String urlDeleteInvoice =  "http://192.168.60.1/severApp/deletePay";
+    String urlDeleteInvoice = baseUrl.getBaseURL() + "/deletePay";
 
 
     @Override
@@ -59,17 +61,14 @@ public class InvoiceDetail extends AppCompatActivity {
         Window window = getWindow();
         setContentView(R.layout.activity_invoice_detail);
 
-        if(Build.VERSION.SDK_INT>=19 && Build.VERSION.SDK_INT<21 )
-        {
+        if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {
             SetWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, true);
         }
-        if(Build.VERSION.SDK_INT>=19)
-        {
+        if (Build.VERSION.SDK_INT >= 19) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
                     View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
-        if(Build.VERSION.SDK_INT>=21)
-        {
+        if (Build.VERSION.SDK_INT >= 21) {
             SetWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false);
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
@@ -102,15 +101,15 @@ public class InvoiceDetail extends AppCompatActivity {
         getDataInvoice();
         ID = id;
         edtMaHD.setText("" + id);
-        edtSoPhong.setText("Phòng "+idPhong);
-        edtTenKhachHang.setText(""+ ten);
-        edtCMND.setText(""+cmnd);
-        edtSDT.setText(""+sdt);
-        edtDiaChi.setText(""+diachi);
-        edtDichVu.setText(""+dichvu);
-        edtPhiDichVu.setText(""+ NumberFormat.getNumberInstance(Locale.US).format(phidichvu));
-        edtThanhToan.setText(""+ NumberFormat.getNumberInstance(Locale.US).format(thanhtoan));
-        edtNgayTao.setText(""+ createDate);
+        edtSoPhong.setText("Phòng " + idPhong);
+        edtTenKhachHang.setText("" + ten);
+        edtCMND.setText("" + cmnd);
+        edtSDT.setText("" + sdt);
+        edtDiaChi.setText("" + diachi);
+        edtDichVu.setText("" + dichvu);
+        edtPhiDichVu.setText("" + NumberFormat.getNumberInstance(Locale.US).format(phidichvu));
+        edtThanhToan.setText("" + NumberFormat.getNumberInstance(Locale.US).format(thanhtoan));
+        edtNgayTao.setText("" + createDate);
 
         btnDeleteInvoice.setOnClickListener(v -> {
             confirmDeleteInvoice(String.valueOf(id));
@@ -131,9 +130,9 @@ public class InvoiceDetail extends AppCompatActivity {
         edtNgayTao = findViewById(R.id.edtNgayTao);
     }
 
-    public void confirmDeleteInvoice(String maHoaDon){
+    public void confirmDeleteInvoice(String maHoaDon) {
         AlertDialog.Builder dialogDelInvoice = new AlertDialog.Builder(InvoiceDetail.this);
-        dialogDelInvoice.setMessage("Xác nhận xóa hóa đơn "+ maHoaDon + " ?");
+        dialogDelInvoice.setMessage("Xác nhận xóa hóa đơn " + maHoaDon + " ?");
         dialogDelInvoice.setNegativeButton("Có", (dialog, which) -> {
             SharedPreferences preferences = InvoiceDetail.this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
             String token = preferences.getString("token", "");
@@ -144,15 +143,16 @@ public class InvoiceDetail extends AppCompatActivity {
         });
         dialogDelInvoice.show();
     }
-    public void deleteInvoice(String url, String token){
+
+    public void deleteInvoice(String url, String token) {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        StringRequest stringRequest= new StringRequest(Request.Method.POST, url,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 response -> {
                     try {
                         JSONObject obj = new JSONObject(response);
                         String status = obj.getString("status");
                         String msg = obj.getString("msg");
-                        if(status.equals("success")){
+                        if (status.equals("success")) {
                             StyleableToast.makeText(InvoiceDetail.this, "Xóa hóa đơn thành công!", Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
                             Intent intent = new Intent(InvoiceDetail.this, Home.class);
                             intent.putExtra("invoice", "invoice");
@@ -165,28 +165,30 @@ public class InvoiceDetail extends AppCompatActivity {
                     }
                 },
                 error -> Toast.makeText(InvoiceDetail.this, error.toString(), Toast.LENGTH_SHORT).show()
-        ){
+        ) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("token",token);
-                params.put("ID",String.valueOf(ID));
+                params.put("token", token);
+                params.put("ID", String.valueOf(ID));
                 return params;
             }
         };
         requestQueue.add(stringRequest);
     }
+
     private static void SetWindowFlag(InvoiceDetail invoiceDetail, final int Bits, Boolean on) {
-        Window win =  invoiceDetail.getWindow();
+        Window win = invoiceDetail.getWindow();
         WindowManager.LayoutParams Winparams = win.getAttributes();
         if (on) {
-            Winparams.flags  |=Bits;
+            Winparams.flags |= Bits;
         } else {
             Winparams.flags &= ~Bits;
         }
         win.setAttributes(Winparams);
 
     }
+
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();

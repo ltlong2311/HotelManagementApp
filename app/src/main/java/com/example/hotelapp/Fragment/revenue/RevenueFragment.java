@@ -1,6 +1,8 @@
 package com.example.hotelapp.Fragment.revenue;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -24,6 +26,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.hotelapp.API.BaseUrl;
 import com.example.hotelapp.Activities.Home;
 import com.example.hotelapp.Activities.InvoiceDetail;
 import com.example.hotelapp.Activities.RoomEdit;
@@ -58,8 +61,8 @@ public class RevenueFragment extends Fragment {
 
     private LineChart lineChart;
     TextView lastMonthRevenue, thisMonthRevenue, thisWeekRevenue;
-    String urlGetRevenue = "http://192.168.60.1/severApp/statisticPay";
-    String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJJRCI6IjEiLCJ1c2VyTmFtZSI6ImFkbWluIiwiSG9UZW4iOiJhZG1pbiJ9.234-aSxbQPO_Ozd4kcffsavH1FRWBgBx61dga5ZrAWE";
+    BaseUrl baseUrl = new BaseUrl();
+    String urlGetRevenue = baseUrl.getBaseURL()+ "/statisticPay";
 
     ArrayList<String> timeLinesList = new ArrayList<>();
     ArrayList<String> timeLinesListThisWeek = new ArrayList<>();
@@ -111,11 +114,12 @@ public class RevenueFragment extends Fragment {
         yAxis.setTextSize(9f);
         YAxis rightYAxis = lineChart.getAxisRight();
         rightYAxis.setEnabled(false);
-//        ArrayList<Entry> yValues = new ArrayList<>();
-        getLastMonthRevenue(urlGetRevenue);
-        getThisMonthRevenue(urlGetRevenue);
-        getThisWeekRevenue(urlGetRevenue);
-        getLastWeekRevenue(urlGetRevenue);
+        SharedPreferences preferences = getActivity().getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
+        String token = preferences.getString("token", "");
+        getLastMonthRevenue(urlGetRevenue, token);
+        getThisMonthRevenue(urlGetRevenue, token);
+        getThisWeekRevenue(urlGetRevenue, token);
+        getLastWeekRevenue(urlGetRevenue, token);
 
         optionSelect.setAdapter(arrayAdapterOption);
         optionSelect.setThreshold(1);
@@ -127,6 +131,8 @@ public class RevenueFragment extends Fragment {
         arrayAdapterOption = new ArrayAdapter<>(getActivity().getApplicationContext(), R.layout.dropdown_item_re, arrayList_option);
         optionSelect.setAdapter(arrayAdapterOption);
         optionSelect.setThreshold(1);
+
+
 
         optionSelect.setOnItemClickListener((parent, view, position, id) -> {
             String check = parent.getItemAtPosition(position).toString();
@@ -179,7 +185,7 @@ public class RevenueFragment extends Fragment {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
     }
 
-    public void getLastMonthRevenue(String url){
+    public void getLastMonthRevenue(String url, String token){
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         StringRequest stringRequest= new StringRequest(Request.Method.POST, url,
                 response -> {
@@ -215,7 +221,7 @@ public class RevenueFragment extends Fragment {
         };
         requestQueue.add(stringRequest);
     }
-    public void getThisMonthRevenue(String url){
+    public void getThisMonthRevenue(String url, String token){
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         StringRequest stringRequest= new StringRequest(Request.Method.POST, url,
                 response -> {
@@ -249,7 +255,7 @@ public class RevenueFragment extends Fragment {
         };
         requestQueue.add(stringRequest);
     }
-    public void getThisWeekRevenue(String url){
+    public void getThisWeekRevenue(String url, String token){
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         StringRequest stringRequest= new StringRequest(Request.Method.POST, url,
                 response -> {
@@ -287,8 +293,7 @@ public class RevenueFragment extends Fragment {
         };
         requestQueue.add(stringRequest);
     }
-
-    public void getLastWeekRevenue(String url){
+    public void getLastWeekRevenue(String url, String token){
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         StringRequest stringRequest= new StringRequest(Request.Method.POST, url,
                 response -> {

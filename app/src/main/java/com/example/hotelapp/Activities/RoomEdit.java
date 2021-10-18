@@ -28,6 +28,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.hotelapp.API.BaseUrl;
 import com.example.hotelapp.Adapters.RoomAdapter;
 import com.example.hotelapp.R;
 import com.example.hotelapp.Model.Room;
@@ -39,6 +40,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RoomEdit extends AppCompatActivity {
+    BaseUrl baseUrl = new BaseUrl();
     EditText edtTenPhong, edtTang, edtGiaPhong;
     CheckBox cbxPhongTrong, cbxPhongDaDung;
     RadioButton rbnTuSua, rbnHoatDong;
@@ -51,8 +53,8 @@ public class RoomEdit extends AppCompatActivity {
     ArrayList<Room> arrayRoom;
     RoomAdapter adapter;
 
-    String urlUpdateRoom =  "http://192.168.60.1/serverApp/updateRoom.php";
-    String urlDeleteRoom =  "http://192.168.60.1/serverApp/deleteRoom.php";
+    String urlUpdateRoom =  "http://192.168.1.103/serverApp/updateRoom.php";
+    String urlDeleteRoom =  "http://192.168.1.103/serverApp/deleteRoom.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -275,3 +277,4 @@ public class RoomEdit extends AppCompatActivity {
     }
 
 }
+

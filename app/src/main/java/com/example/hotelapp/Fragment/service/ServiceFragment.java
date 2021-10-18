@@ -22,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.hotelapp.API.BaseUrl;
 import com.example.hotelapp.Activities.Home;
 import com.example.hotelapp.R;
 import com.example.hotelapp.Model.Service;
@@ -38,7 +39,8 @@ import java.util.ArrayList;
 public class ServiceFragment extends Fragment {
 
     DrawerLayout drawerLayout;
-    String urlGetData = "http://192.168.60.1/severApp/services";
+    BaseUrl baseUrl = new BaseUrl();
+    String urlGetData = baseUrl.getBaseURL() + "/services";
 
     ListView lvService;
     ArrayList<Service> arrayService;

@@ -22,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.hotelapp.API.BaseUrl;
 import com.example.hotelapp.Activities.RoomEdit;
 import com.example.hotelapp.R;
 import com.muddzdev.styleabletoast.StyleableToast;
@@ -34,8 +35,7 @@ public class AddRoomFragment extends Fragment{
     LinearLayout layoutHideKeyboard;
     EditText edtTenPhong, edtTang, edtGiaPhong;
     Button btnThemPhong, btnHuy;
-
-    String urlAddRoom = "http://192.168.60.1/serverApp/createRoom.php";
+    String urlAddRoom = "http://192.168.1.103/serverApp/createRoom.php";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

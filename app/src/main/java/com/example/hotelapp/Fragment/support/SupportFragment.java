@@ -14,7 +14,6 @@ import com.example.hotelapp.R;
 public class SupportFragment extends Fragment {
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

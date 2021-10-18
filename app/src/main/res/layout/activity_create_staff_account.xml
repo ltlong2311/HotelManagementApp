@@ -152,7 +152,7 @@
                         android:layout_toRightOf="@+id/textNS"
                         android:background="@drawable/custom_input"
                         android:ems="10"
-                        android:hint="Chọn ngày"
+                        android:hint="@string/selectDay"
                         android:inputType="none"
                         android:focusable="false"
                         android:clickable="false"

@@ -29,6 +29,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.hotelapp.API.BaseUrl;
 import com.example.hotelapp.Adapters.ServiceAdapter;
 import com.example.hotelapp.Fragment.service.AddServiceFragment;
 import com.example.hotelapp.Fragment.service.ServiceFragment;
@@ -53,10 +54,10 @@ public class ServiceEdit extends AppCompatActivity {
     Toolbar toolbar;
     int ID = 0;
     int isActive;
+    BaseUrl baseUrl = new BaseUrl();
 
-
-    String urlUpdateService =  "http://192.168.60.1/severApp/updateServices";
-    String urlDeleteService =  "http://192.168.60.1/severApp/deleteServices";
+    String urlUpdateService =  baseUrl.getBaseURL() + "/updateServices";
+    String urlDeleteService =   baseUrl.getBaseURL() + "/deleteServices";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

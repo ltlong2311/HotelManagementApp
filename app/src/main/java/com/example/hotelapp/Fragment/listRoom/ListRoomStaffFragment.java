@@ -26,6 +26,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.hotelapp.API.BaseUrl;
 import com.example.hotelapp.Activities.Home;
 import com.example.hotelapp.Activities.RoomEdit;
 import com.example.hotelapp.Adapters.RoomAdapter;
@@ -50,7 +51,8 @@ public class ListRoomStaffFragment extends Fragment {
 
     ImageView image;
     private AppBarConfiguration mAppBarConfiguration;
-    String urlGetData = "http://192.168.60.1/severApp/rooms";
+    BaseUrl baseUrl = new BaseUrl();
+    String urlGetData = baseUrl.getBaseURL()+ "/rooms";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

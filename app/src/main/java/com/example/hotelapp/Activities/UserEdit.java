@@ -30,6 +30,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.hotelapp.API.BaseUrl;
 import com.example.hotelapp.Model.Room;
 import com.example.hotelapp.Model.Service;
 import com.example.hotelapp.Model.User;
@@ -50,15 +51,16 @@ import java.util.Locale;
 import java.util.Map;
 
 public class UserEdit extends AppCompatActivity {
-
-    TextView textUsername, textTenNV, textNgaySinhNV, textCMT, textDiaChiNV;
+    BaseUrl baseUrl = new BaseUrl();
+    TextView textMaNV,textUsername, textTenNV, textNgaySinhNV, textCMT, textDiaChiNV;
     Button btnUpdateUserInfo, btnAdd, btnCannel;
     AppBarLayout appBarLayout;
     Toolbar toolbar;
     EditText nameEdt, cmtEdt, dateOfBirthEdt, addressEdt;
     DatePickerDialog.OnDateSetListener setListener;
     String dateData, token;
-    String urlUpdateUser =  "http://192.168.60.1/severApp/updateUsers";
+
+    String urlUpdateUser =  baseUrl.getBaseURL()+ "/updateUsers";
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -94,6 +96,7 @@ public class UserEdit extends AppCompatActivity {
         Intent intent = getIntent();
         User user = (User) intent.getSerializableExtra("dataUser");
 
+        textMaNV = findViewById(R.id.txtIdUser);
         textUsername = findViewById(R.id.txtUserNameInfo);
         textTenNV = findViewById(R.id.textViewTenNVInfo);
         textDiaChiNV = findViewById(R.id.textViewDiaChiInfo);
@@ -101,6 +104,8 @@ public class UserEdit extends AppCompatActivity {
         textNgaySinhNV = findViewById(R.id.textNgaySinhInfo);
         btnUpdateUserInfo = findViewById(R.id.btn_change_info);
 
+        String maNV = "(ID:" + user.getID()+ ")";
+        textMaNV.setText(maNV);
         textUsername.setText(user.getUserName());
         textTenNV.setText(user.getHoTen());
         textDiaChiNV.setText(user.getDiaChi());

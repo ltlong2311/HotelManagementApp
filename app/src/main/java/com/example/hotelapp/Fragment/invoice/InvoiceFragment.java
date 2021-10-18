@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.hotelapp.API.BaseUrl;
 import com.example.hotelapp.Activities.Home;
 import com.example.hotelapp.Model.Invoice;
 import com.example.hotelapp.Adapters.InvoiceAdapter;
@@ -32,8 +33,8 @@ import java.util.ArrayList;
 
 
 public class InvoiceFragment extends Fragment {
-
-    String urlGetData = "http://192.168.60.1/severApp/pays";
+    BaseUrl baseUrl = new BaseUrl();
+    String urlGetData = baseUrl.getBaseURL()+ "/pays";
 
     ListView lvInvoice;
     ArrayList<Invoice> invoiceList;

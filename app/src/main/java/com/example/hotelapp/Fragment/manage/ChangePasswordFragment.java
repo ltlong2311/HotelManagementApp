@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ import com.android.volley.RequestQueue;
 
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.hotelapp.API.BaseUrl;
 import com.example.hotelapp.Activities.Home;
 import com.example.hotelapp.Fragment.home.HomeFragment;
 import com.example.hotelapp.Fragment.invoice.InvoiceFragment;
@@ -47,9 +49,11 @@ public class ChangePasswordFragment extends Fragment {
     Toolbar toolbar;
     EditText oldPass, newPass, retypePass;
     Button btnChangePassword;
+    RelativeLayout relativeLayout;
     ScrollView scrollView;
-    String urlVerifyPass = "http://192.168.60.1/severApp/verifyPassword";
-    String urlChangePass = "http://192.168.60.1/severApp/renewPassword";
+    BaseUrl baseUrl = new BaseUrl();
+    String urlVerifyPass = baseUrl.getBaseURL()+ "/verifyPassword";
+    String urlChangePass = baseUrl.getBaseURL()+ "/renewPassword";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +69,8 @@ public class ChangePasswordFragment extends Fragment {
         retypePass = root.findViewById(R.id.editTextRetypePassword);
         btnChangePassword = root.findViewById(R.id.btn_change_password);
         scrollView = root.findViewById(R.id.scrollViewCP);
-
+        relativeLayout = root.findViewById(R.id.changePassword);
+        relativeLayout.setOnClickListener(this::hideKeyBoard);
         scrollView.setOnClickListener(this::hideKeyBoard);
         SharedPreferences preferences = getActivity().getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
         String token = preferences.getString("token", "");

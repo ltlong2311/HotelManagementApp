@@ -28,6 +28,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.hotelapp.API.BaseUrl;
 import com.example.hotelapp.Activities.Home;
 import com.example.hotelapp.R;
 import com.example.hotelapp.Model.Room;
@@ -48,10 +49,10 @@ public class ListRoomFragment extends Fragment {
     RoomAdapter adapter;
 
     ActionBar actionBar;
-
     ImageView image;
     private AppBarConfiguration mAppBarConfiguration;
-    String urlGetData = "http://192.168.60.1/severApp/rooms";
+    BaseUrl baseUrl = new BaseUrl();
+    String urlGetData = baseUrl.getBaseURL()+ "/rooms";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,9 +60,9 @@ public class ListRoomFragment extends Fragment {
         setHasOptionsMenu(true);
         setRetainInstance(true);
 
-        Bundle bundle= getArguments();
-        if(bundle!=null){
-            String value= bundle.getString("key");
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            String value = bundle.getString("key");
         }
     }
 
@@ -89,7 +90,8 @@ public class ListRoomFragment extends Fragment {
 
         return root;
     }
-    private void getData(String url){
+
+    private void getData(String url) {
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -98,7 +100,7 @@ public class ListRoomFragment extends Fragment {
                         try {
                             JSONArray jsonArray = response.getJSONArray("data");
 //                            Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
-                            for (int i = 0; i < jsonArray.length(); i++){
+                            for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject data = jsonArray.getJSONObject(i);
                                 arrayRoom.add(new Room(
                                         data.getInt("ID"),
@@ -125,45 +127,6 @@ public class ListRoomFragment extends Fragment {
         );
         requestQueue.add(request);
     }
-//    private void getData(String url){
-//        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-//        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
-//                new Response.Listener<JSONArray>() {
-//                    @Override
-//                    public void onResponse(JSONArray response) {
-////                        Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
-//                        for (int i=0; i < response.length(); i++){
-//                            try {
-//                                JSONObject object = response.getJSONObject(i);
-//                                arrayRoom.add(new Room(
-//                                        object.getInt("id"),
-//                                        object.getInt("tang"),
-//                                        object.getString("tenPhong"),
-//                                        object.getInt("gia"),
-//                                        object.getInt("trangThai"),
-//                                        object.getInt("tuSua")
-//                                ));
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-////                        adapter.getData().clear();
-////                        adapter.getData().addAll(arrayRoom);
-//                        adapter.notifyDataSetChanged();
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-////                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//
-//
-//        );
-//        requestQueue.add(jsonArrayRequest);
-//        refresh(1000);
-//    }
 
     private void refresh(int ms) {
         final Handler handler = new Handler();
@@ -185,12 +148,12 @@ public class ListRoomFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_add_room) {
-            AddRoomFragment addRoom= new AddRoomFragment();
+            AddRoomFragment addRoom = new AddRoomFragment();
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.drawer_layout, addRoom, "Add")
                     .addToBackStack(null)
                     .commit();
-            }
+        }
         return super.onOptionsItemSelected(item);
     }
 

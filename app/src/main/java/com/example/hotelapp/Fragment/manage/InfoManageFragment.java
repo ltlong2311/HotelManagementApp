@@ -13,7 +13,6 @@ import com.example.hotelapp.R;
 public class InfoManageFragment extends Fragment {
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

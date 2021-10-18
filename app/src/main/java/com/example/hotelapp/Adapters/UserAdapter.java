@@ -24,6 +24,8 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -31,7 +33,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.hotelapp.API.BaseUrl;
 import com.example.hotelapp.Activities.Home;
+import com.example.hotelapp.Activities.InvoiceDetail;
 import com.example.hotelapp.Activities.ServiceEdit;
 import com.example.hotelapp.Activities.UserEdit;
 import com.example.hotelapp.Model.Room;
@@ -52,8 +56,8 @@ public class UserAdapter extends BaseAdapter {
     private Context context;
     private int layout;
     private List<User> userList;
-
-    String urlDeleteUser = "http://192.168.60.1/severApp/deleteUsers";
+    BaseUrl baseUrl = new BaseUrl();
+    String urlDeleteUser = baseUrl.getBaseURL()+ "/deleteUsers";
     String token;
     int idUser;
 
@@ -137,7 +141,8 @@ public class UserAdapter extends BaseAdapter {
                         context.startActivity(intent);
                         return true;
                     case R.id.deleteUser:
-                        deleteUser(urlDeleteUser, token);
+//                        deleteUser(urlDeleteUser, token, user.getID());
+                        confirmDeleteUser(user.getID(), user.getHoTen());
                         return true;
                 }
                 return true;
@@ -146,8 +151,21 @@ public class UserAdapter extends BaseAdapter {
 
         return convertView;
     }
+    public void confirmDeleteUser(int idUser, String hoten) {
+        AlertDialog.Builder dialogDelInvoice = new AlertDialog.Builder(context);
+        dialogDelInvoice.setMessage("Xác nhận xóa nhân viên " + hoten + " ?");
+        dialogDelInvoice.setNegativeButton("Có", (dialog, which) -> {
+            SharedPreferences preferences = context.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
+            String token = preferences.getString("token", "");
+            deleteUser(urlDeleteUser, token, idUser);
+        });
+        dialogDelInvoice.setPositiveButton("Không", (dialog, which) -> {
 
-    private void deleteUser(String urlDeleteUser, String token) {
+        });
+        dialogDelInvoice.show();
+    }
+
+    private void deleteUser(String urlDeleteUser, String token, int idUser) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         StringRequest stringRequest= new StringRequest(Request.Method.POST, urlDeleteUser,
                 new Response.Listener<String>() {

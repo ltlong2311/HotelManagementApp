@@ -30,8 +30,10 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.hotelapp.API.BaseUrl;
 import com.example.hotelapp.Activities.Home;
 import com.muddzdev.styleabletoast.StyleableToast;
 
@@ -42,11 +44,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
-    String urlTest = "http://192.168.1.4:4000/getData";
-    String urlLogin = "http://192.168.60.1/severApp/login";
+    BaseUrl baseUrl = new BaseUrl();
+    String urlTest = "http://192.168.1.103:4000/getData";
+    String urlLogin = baseUrl.getBaseURL() + "/login";
     EditText edtUsername, edtPassword;
     Button button_login;
-
 
 
     @Override
@@ -55,17 +57,14 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_log_in);
 
 //        getSupportActionBar().hide();
-        if(Build.VERSION.SDK_INT>=19 && Build.VERSION.SDK_INT<21 )
-        {
+        if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {
             SetWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, true);
         }
-        if(Build.VERSION.SDK_INT>=19)
-        {
+        if (Build.VERSION.SDK_INT >= 19) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
                     View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
-        if(Build.VERSION.SDK_INT>=21)
-        {
+        if (Build.VERSION.SDK_INT >= 21) {
             SetWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false);
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
@@ -77,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
         button_login.setOnClickListener(v -> {
             String username = edtUsername.getText().toString().trim();
             String password = edtPassword.getText().toString().trim();
-            if (username.matches("") || password.matches("") ){
+            if (username.matches("") || password.matches("")) {
                 StyleableToast.makeText(LoginActivity.this, "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
             } else {
                 login(urlLogin);
@@ -86,21 +85,20 @@ public class LoginActivity extends AppCompatActivity {
         getData(urlTest);
     }
 
-    public void openHomePage(){
+    public void openHomePage() {
         Intent intent = new Intent(this, Home.class);
         startActivity(intent);
     }
+
     private void login(String url) {
         RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
-        StringRequest stringRequest= new StringRequest(Request.Method.POST, url,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 response -> {
                     try {
                         JSONObject obj = new JSONObject(response);
                         String msg = obj.getString("msg");
                         String status = obj.getString("status");
-
-
-                        if(status.equals("success")){
+                        if (status.equals("success")) {
                             JSONObject data = obj.getJSONObject("data");
                             String token = data.getString("token");
                             SharedPreferences preferences = LoginActivity.this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
@@ -111,8 +109,10 @@ public class LoginActivity extends AppCompatActivity {
                             StyleableToast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT, R.style.toastBlueLight).show();
                         } else {
                             DialogError(Gravity.CENTER);
+                            Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
                         }
                     } catch (Throwable t) {
+
                         Toast.makeText(LoginActivity.this, "Could not parse malformed JSON: \"" + response + "\"", Toast.LENGTH_SHORT).show();
                     }
                 },
@@ -120,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d("AAA", "Lỗi:\n" + error.toString());
                     Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
                 }
-        ){
+        ) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
@@ -131,7 +131,47 @@ public class LoginActivity extends AppCompatActivity {
         };
         requestQueue.add(stringRequest);
     }
-    private void getData(String url){
+
+    private void login2(String url) {
+
+        Map<String, String> params = new HashMap<>();
+        params.put("username", edtUsername.getText().toString().trim());
+        params.put("password", edtPassword.getText().toString().trim());
+        JSONObject param1 = new JSONObject(params);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, param1,
+                response -> {
+                    try {
+                        String msg = response.getString("msg");
+                        String status = response.getString("status");
+                        if (status.equals("success")) {
+                            JSONObject data = response.getJSONObject("data");
+                            String token = data.getString("token");
+                            SharedPreferences preferences = LoginActivity.this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putString("token", token);
+                            editor.apply();
+                            openHomePage();
+                            StyleableToast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT, R.style.toastBlueLight).show();
+                        } else {
+                            DialogError(Gravity.CENTER);
+                            Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Throwable t) {
+                        Toast.makeText(LoginActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Could not parse malformed JSON: \"" + response + "\"", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                error -> {
+                    Log.d("AAA", "Lỗi:\n" + error.toString());
+                    Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                }
+        );
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
+
+    }
+
+    private void getData(String url) {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
                 response -> Toast.makeText(LoginActivity.this, response.toString(), Toast.LENGTH_SHORT).show(),
@@ -148,7 +188,7 @@ public class LoginActivity extends AppCompatActivity {
         dialog.setContentView(R.layout.login_error);
 
         Window window = dialog.getWindow();
-        if (window == null){
+        if (window == null) {
             return;
         }
 
@@ -166,10 +206,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private static void SetWindowFlag(Activity activity, final int Bits, Boolean on) {
-        Window win =  activity.getWindow();
+        Window win = activity.getWindow();
         WindowManager.LayoutParams Winparams = win.getAttributes();
         if (on) {
-            Winparams.flags  |=Bits;
+            Winparams.flags |= Bits;
         } else {
             Winparams.flags &= ~Bits;
         }

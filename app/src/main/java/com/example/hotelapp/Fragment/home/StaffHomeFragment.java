@@ -58,24 +58,24 @@ public class StaffHomeFragment extends Fragment {
                 .setActionBarTitle("Home");
 
         List<SlideModel> slideList = new ArrayList<>();
-        slideList.add(new SlideModel(R.drawable.ks,null));
+        slideList.add(new SlideModel(R.drawable.ks, null));
         slideList.add(new SlideModel(R.drawable.hotel6, null));
-        slideList.add(new SlideModel(R.drawable.hotel_room13,null));
-        slideList.add(new SlideModel(R.drawable.hotel_room4,null));
-        slideList.add(new SlideModel(R.drawable.hotel_room3,null));
+        slideList.add(new SlideModel(R.drawable.hotel_room13, null));
+        slideList.add(new SlideModel(R.drawable.hotel_room4, null));
+        slideList.add(new SlideModel(R.drawable.hotel_room3, null));
         imageSlider.setImageList(slideList, ScaleTypes.CENTER_CROP);
 
         cardViewListRoom.setOnClickListener((View v) ->
-            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
-                    new ListRoomStaffFragment()).commit()
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
+                        new ListRoomStaffFragment()).commit()
         );
         cardViewService.setOnClickListener((View v) ->
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
                         new ServiceFragment()).addToBackStack(null).commit()
-         );
+        );
 
         cardViewApp.setOnClickListener((View v) ->
-                Toast.makeText(getActivity(),"App quản lý khách sạn",Toast.LENGTH_SHORT)
+                Toast.makeText(getActivity(), "App quản lý khách sạn", Toast.LENGTH_SHORT)
         );
         cardViewSupport.setOnClickListener((View v) ->
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,
@@ -83,5 +83,5 @@ public class StaffHomeFragment extends Fragment {
         );
         return root;
     }
-    
+
 }

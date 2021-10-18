@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:onClick="hideKeyBoard"
+    android:orientation="vertical"
     tools:context=".LoginActivity">
 
     <ImageView
@@ -17,84 +17,123 @@
         android:src="@drawable/the_image_overlay"
         android:text=""
         android:textColor="#CFD7D8"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:contentDescription="@string/header" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="230dp"
         android:background="@drawable/background_login"
         android:orientation="vertical"
-        android:layout_marginTop="230dp"
         android:paddingTop="40dp">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:layout_marginHorizontal="30dp"
             android:layout_marginBottom="50dp"
-            android:layout_marginHorizontal="30dp"
             android:gravity="center_horizontal"
-            android:src="@drawable/hotel" />
+            android:src="@drawable/hotel"
+            android:contentDescription="@string/icon_app" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
-            android:text="Tài khoản: "
-            android:textColor="@color/teal_700"
-            android:textSize="15dp" />
+        <!--        <TextView-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginHorizontal="30dp"-->
+        <!--            android:text="Tên đăng nhập: "-->
+        <!--            android:textColor="@color/teal_700"-->
+        <!--            android:textSize="15dp" />-->
 
         <EditText
+            android:id="@+id/editTextUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editTextUsername"
-            android:inputType="text"
             android:layout_marginHorizontal="30dp"
             android:layout_marginBottom="20dp"
-            android:textColor="#2F3745" />
+            android:hint="@string/usernameL"
+            android:inputType="text"
+            android:textColor="#2F3745"
+            android:autofillHints="Tên" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
-            android:text="Mật khẩu: "
-            android:textColor="@color/teal_700"
-            android:textSize="15sp" />
+        <!--        <TextView-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginHorizontal="30dp"-->
+        <!--            android:text="Mật khẩu: "-->
+        <!--            android:textColor="@color/teal_700"-->
+        <!--            android:textSize="15sp" />-->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="50dp"
             android:layout_marginTop="0dp"
-            android:padding="0dp"
-            app:hintEnabled="false"
+            android:layout_marginBottom="20dp"
             android:orientation="vertical"
-            app:endIconTint="@color/teal_700"
-            app:endIconMode="password_toggle"
+            android:padding="0dp"
             app:endIconDrawable="@drawable/custom_password_eye"
-            >
+            app:endIconMode="password_toggle"
+            app:endIconTint="@color/teal_700"
+            app:hintEnabled="false">
+
             <EditText
+                android:id="@+id/editTextPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/editTextPassword"
                 android:layout_marginHorizontal="30dp"
+                android:hint="@string/passwordL"
                 android:inputType="textPassword"
                 android:textColor="#2F3745" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <!--        <TextView-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginHorizontal="30dp"-->
+        <!--            android:text="Mã khách sạn: "-->
+        <!--            android:textColor="@color/teal_700"-->
+        <!--            android:textSize="15sp" />-->
+        <EditText
+            android:id="@+id/editTextHotelCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginBottom="50dp"
+            android:hint="@string/hotel_code"
+            android:inputType="text"
+            android:textColor="#2F3745" />
 
         <Button
             android:id="@+id/button_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/button_login"
-            android:text="Đăng nhập"
+            android:text="@string/login"
             android:textColor="#fafafa" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="Quên mật khẩu? Lấy lại!" />
+            android:text="@string/forgotPassword" />
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:orientation="horizontal">-->
+
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="bottom"-->
+<!--                android:gravity="center_horizontal"-->
+<!--                android:layout_marginBottom="10dp"-->
+<!--                android:text="@string/Hotline"-->
+<!--                android:textColor="#f03434"-->
+<!--                android:textStyle="bold" />-->
+
+<!--        </LinearLayout>-->
 
 
     </LinearLayout>
