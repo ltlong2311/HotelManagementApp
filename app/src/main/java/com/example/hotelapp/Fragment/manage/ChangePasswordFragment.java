@@ -141,7 +141,6 @@ public class ChangePasswordFragment extends Fragment {
         ){
             @Override
             protected Map<String, String> getParams() {
-
                 Map<String, String> params = new HashMap<>();
                 params.put("token", String.valueOf(token));
                 params.put("password", newPass.getText().toString().trim());

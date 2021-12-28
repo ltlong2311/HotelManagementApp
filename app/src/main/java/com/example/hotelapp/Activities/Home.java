@@ -155,7 +155,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             Winparams.flags &= ~Bits;
         }
         win.setAttributes(Winparams);
-
     }
 
     private void getData(String url) {

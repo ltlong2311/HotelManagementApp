@@ -37,14 +37,6 @@
             android:src="@drawable/hotel"
             android:contentDescription="@string/icon_app" />
 
-        <!--        <TextView-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginHorizontal="30dp"-->
-        <!--            android:text="Tên đăng nhập: "-->
-        <!--            android:textColor="@color/teal_700"-->
-        <!--            android:textSize="15dp" />-->
-
         <EditText
             android:id="@+id/editTextUsername"
             android:layout_width="match_parent"
@@ -56,13 +48,6 @@
             android:textColor="#2F3745"
             android:autofillHints="Tên" />
 
-        <!--        <TextView-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginHorizontal="30dp"-->
-        <!--            android:text="Mật khẩu: "-->
-        <!--            android:textColor="@color/teal_700"-->
-        <!--            android:textSize="15sp" />-->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -85,13 +70,6 @@
                 android:textColor="#2F3745" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!--        <TextView-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginHorizontal="30dp"-->
-        <!--            android:text="Mã khách sạn: "-->
-        <!--            android:textColor="@color/teal_700"-->
-        <!--            android:textSize="15sp" />-->
         <EditText
             android:id="@+id/editTextHotelCode"
             android:layout_width="match_parent"
@@ -112,11 +90,27 @@
             android:text="@string/login"
             android:textColor="#fafafa" />
 
-        <TextView
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="@string/forgotPassword" />
+            android:layout_marginHorizontal="30dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textColor="#525370"
+                android:text="@string/fingerprint_login" />
+            <TextView
+                android:id="@+id/fip_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="@string/forgot_pass"
+                />
+        </RelativeLayout>
+
+
 
 <!--        <LinearLayout-->
 <!--            android:layout_width="match_parent"-->

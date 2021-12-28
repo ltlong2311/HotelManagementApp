@@ -1,6 +1,9 @@
 package com.example.hotelapp;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -10,6 +13,8 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import androidx.biometric.BiometricManager;
+import androidx.biometric.BiometricPrompt;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
@@ -42,6 +47,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Executor;
 
 public class LoginActivity extends AppCompatActivity {
     BaseUrl baseUrl = new BaseUrl();
@@ -49,13 +55,15 @@ public class LoginActivity extends AppCompatActivity {
     String urlLogin = baseUrl.getBaseURL() + "/login";
     EditText edtUsername, edtPassword;
     Button button_login;
-
+    SharedPreferences preferences;
+    TextView fingerprint_login;
+    private static final String TAG = "Fingerprint Sensor";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
-
+        preferences = LoginActivity.this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
 //        getSupportActionBar().hide();
         if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {
             SetWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, true);
@@ -71,8 +79,8 @@ public class LoginActivity extends AppCompatActivity {
 
         edtUsername = findViewById(R.id.editTextUsername);
         edtPassword = findViewById(R.id.editTextPassword);
-
         button_login = findViewById(R.id.button_login);
+        fingerprint_login = findViewById(R.id.fip_login);
         button_login.setOnClickListener(v -> {
             String username = edtUsername.getText().toString().trim();
             String password = edtPassword.getText().toString().trim();
@@ -82,6 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                 login(urlLogin);
             }
         });
+        fingerprint_auth();
         getData(urlTest);
     }
 
@@ -101,18 +110,16 @@ public class LoginActivity extends AppCompatActivity {
                         if (status.equals("success")) {
                             JSONObject data = obj.getJSONObject("data");
                             String token = data.getString("token");
-                            SharedPreferences preferences = LoginActivity.this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = preferences.edit();
                             editor.putString("token", token);
                             editor.apply();
                             openHomePage();
-                            StyleableToast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT, R.style.toastBlueLight).show();
+                            StyleableToast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT, R.style.toastBlueLight).show();
                         } else {
                             DialogError(Gravity.CENTER);
                             Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
                         }
                     } catch (Throwable t) {
-
                         Toast.makeText(LoginActivity.this, "Could not parse malformed JSON: \"" + response + "\"", Toast.LENGTH_SHORT).show();
                     }
                 },
@@ -132,43 +139,75 @@ public class LoginActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    private void login2(String url) {
+    private void fingerprint_auth() {
+        BiometricManager biometricManager =  BiometricManager.from(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            switch (biometricManager.canAuthenticate()) {
+                case BiometricManager.BIOMETRIC_SUCCESS:
+                    Log.i(TAG, "Dùng vân tay để đăng nhập");
+                    break;
+                case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
+                    Log.i(TAG, "Thiết bị của bạn không có cảm biến vân tay");
+                    fingerprint_login.setVisibility(View.GONE);
+                    break;
+                case BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE:
+                    Log.i(TAG, "Cảm biến không khả dụng");
+                    fingerprint_login.setVisibility(View.GONE);
+                    break;
+                case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
+                    Log.i(TAG, "Thiết bị không có vân tay nào được lưu");
+                    fingerprint_login.setVisibility(View.GONE);
+                    break;
+                case BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED:
+                    Log.i(TAG, "Không thể xác thực vì lỗ hổng bảo mật đã được phát hiện với một hoặc nhiều cảm biến phần cứng");
+                    break;
+                case BiometricManager.BIOMETRIC_ERROR_UNSUPPORTED:
+                    Log.i(TAG, "Không thể xác thực vì các tùy chọn được chỉ định không tương thích với phiên bản Android hiện tại.");
+                    break;
+                case BiometricManager.BIOMETRIC_STATUS_UNKNOWN:
+                    Log.i(TAG, "Không thể xác định có thể xác thực hay không.");
+                    break;
+            }
+        }
 
-        Map<String, String> params = new HashMap<>();
-        params.put("username", edtUsername.getText().toString().trim());
-        params.put("password", edtPassword.getText().toString().trim());
-        JSONObject param1 = new JSONObject(params);
+        Executor executor = ContextCompat.getMainExecutor(this);
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, param1,
-                response -> {
-                    try {
-                        String msg = response.getString("msg");
-                        String status = response.getString("status");
-                        if (status.equals("success")) {
-                            JSONObject data = response.getJSONObject("data");
-                            String token = data.getString("token");
-                            SharedPreferences preferences = LoginActivity.this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = preferences.edit();
-                            editor.putString("token", token);
-                            editor.apply();
-                            openHomePage();
-                            StyleableToast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT, R.style.toastBlueLight).show();
-                        } else {
-                            DialogError(Gravity.CENTER);
-                            Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (Throwable t) {
-                        Toast.makeText(LoginActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
-                        Toast.makeText(LoginActivity.this, "Could not parse malformed JSON: \"" + response + "\"", Toast.LENGTH_SHORT).show();
-                    }
-                },
-                error -> {
-                    Log.d("AAA", "Lỗi:\n" + error.toString());
-                    Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-                }
-        );
-        Volley.newRequestQueue(this).add(jsonObjectRequest);
+        BiometricPrompt biometricPrompt =  new BiometricPrompt(LoginActivity.this, executor, new BiometricPrompt.AuthenticationCallback() {
+            @Override
+            public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                super.onAuthenticationError(errorCode, errString);
+                Toast.makeText(getApplicationContext(),"Error!", Toast.LENGTH_SHORT).show();
+            }
 
+            @Override
+            public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                super.onAuthenticationSucceeded(result);
+                Toast.makeText(getApplicationContext(),"Login success!", Toast.LENGTH_SHORT).show();
+                openHomePage();
+            }
+
+            @Override
+            public void onAuthenticationFailed() {
+                super.onAuthenticationFailed();
+                Toast.makeText(getApplicationContext(),"Biometric is valid but not recognized!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                .setTitle("Login")
+                .setDescription("Dùng vân tay để đăng nhập")
+                .setNegativeButtonText("Cancel")
+                .build();
+
+        String token = preferences.getString("token", "");
+
+        fingerprint_login.setOnClickListener(v -> {
+            if (token != null && !token.isEmpty()){
+                biometricPrompt.authenticate(promptInfo);
+            } else {
+                StyleableToast.makeText(LoginActivity.this, getString(R.string.login_pass_notice), Toast.LENGTH_SHORT, R.style.toastBlueLight).show();
+            }
+        });
     }
 
     private void getData(String url) {
@@ -200,8 +239,8 @@ public class LoginActivity extends AppCompatActivity {
         window.setAttributes(windowAttributes);
         dialog.show();
 
-        Button btnCannel = dialog.findViewById(R.id.btn_ok);
-        btnCannel.setOnClickListener(v -> dialog.dismiss());
+        Button btnCancel = dialog.findViewById(R.id.btn_ok);
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
 
     }
 

@@ -65,7 +65,6 @@ public class ScanQR extends AppCompatActivity {
         IntentResult intentResult = IntentIntegrator.parseActivityResult(
                 requestCode,resultCode,data
         );
-
         if (intentResult.getContents() != null) {
             SharedPreferences preferences = ScanQR.this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
             String token = preferences.getString("token", "");

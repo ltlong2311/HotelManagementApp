@@ -64,6 +64,15 @@
     <string name="loginError">Tài khoản hoặc mật khẩu không chính xác. Hãy thử lại!</string>
     <string name="OK">OK</string>
     <string name="danh_s_ch_t_ph_ng">Danh sách đặt phòng</string>
+    <string name="forgot_pass">Quên mật khẩu</string>
+    <string name="fingerprint_login"><u>Đăng nhập bằng vân tay</u></string>
+    <string name="account">Tài khoản</string>
+    <string name="manager">Quản lý</string>
+    <string name="log_out">Đăng xuất</string>
+    <string name="app">Ứng dụng</string>
+    <string name="info_app">Về ứng dụng</string>
+    <string name="sup">Hỗ trợ</string>
+    <string name="login_pass_notice">Không có dữ liệu đăng nhập, xin vui lòng đăng nhập bằng tài khoản và mật khẩu!</string>
     <string-array name="optionCheckIn">
         <item>Theo ngày</item>
         <item>Theo giờ</item>

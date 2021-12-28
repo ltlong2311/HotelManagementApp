@@ -157,7 +157,6 @@ public class ListRoomFragment extends Fragment {
         IntentResult intentResult = IntentIntegrator.parseActivityResult(
                 requestCode,resultCode,data
         );
-
         if (intentResult.getContents() != null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle("Result");

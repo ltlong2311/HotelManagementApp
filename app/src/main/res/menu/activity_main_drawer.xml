@@ -30,33 +30,33 @@
             android:icon="@drawable/chart_areaspline"
             android:title="@string/menu_revenue" />
     </group>
-    <item android:title="Tài khoản">
+    <item android:title="@string/account">
         <menu>
             <group android:checkableBehavior="single">
                 <item android:id="@+id/nav_manage"
                     android:icon="@drawable/briefcase"
-                    android:title="Quản lý" />
+                    android:title="@string/manager" />
                 <item android:id="@+id/nav_change_password"
                     android:icon="@drawable/key"
-                    android:title="Đổi mật khẩu" />
+                    android:title="@string/change_password" />
                 <item android:id="@+id/nav_log_out"
                     android:icon="@drawable/logout_variant"
-                    android:title="Đăng xuất" />
+                    android:title="@string/log_out" />
             </group>
         </menu>
     </item>
 
-    <item android:title="Ứng dụng">
+    <item android:title="@string/app">
         <menu>
             <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/info_app"
                     android:icon="@drawable/information"
-                    android:title="Về ứng dụng" />
+                    android:title="@string/info_app" />
                 <item
                     android:id="@+id/assist"
                     android:icon="@drawable/help_circle"
-                    android:title="Hỗ trợ" />
+                    android:title="@string/sup" />
             </group>
         </menu>
     </item>
