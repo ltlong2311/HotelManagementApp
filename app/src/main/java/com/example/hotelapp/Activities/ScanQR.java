@@ -28,6 +28,8 @@ import com.example.hotelapp.Fragment.listRoom.Capture;
 import com.example.hotelapp.Fragment.listRoom.ListRoomFragment;
 import com.example.hotelapp.LoginActivity;
 import com.example.hotelapp.R;
+import com.example.hotelapp.Secure.ISharedPreference;
+import com.example.hotelapp.Secure.SecureSharedPref;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -41,10 +43,14 @@ import static com.example.hotelapp.Adapters.RoomAdapter.SHARED_ID_INVOICE;
 public class ScanQR extends AppCompatActivity {
     BaseUrl baseUrl = new BaseUrl();
     String urlCheckIn = baseUrl.getBaseURL() + "/createPay";
+    ISharedPreference preferences;
+    String token;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_q_r);
+        preferences = new SecureSharedPref(this, LoginActivity.SECRET_TOKEN);
+        token = preferences.get("token");
         Button btnScan = findViewById(R.id.btnScan);
         btnScan.setOnClickListener(v -> {
             IntentIntegrator intentIntegrator = new IntentIntegrator(
@@ -66,20 +72,15 @@ public class ScanQR extends AppCompatActivity {
                 requestCode,resultCode,data
         );
         if (intentResult.getContents() != null) {
-            SharedPreferences preferences = ScanQR.this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
-            String token = preferences.getString("token", "");
             checkIn(urlCheckIn, intentResult.getContents(), token);
             AlertDialog.Builder builder = new AlertDialog.Builder(ScanQR.this);
             builder.setTitle("Result");
             builder.setMessage("Check-in Success!");
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(ScanQR.this, Home.class);
-                    intent.putExtra("url", "url");
-                    startActivity(intent);
-                    dialog.dismiss();
-                }
+            builder.setPositiveButton("OK", (dialog, which) -> {
+                Intent intent = new Intent(ScanQR.this, Home.class);
+                intent.putExtra("url", "url");
+                startActivity(intent);
+                dialog.dismiss();
             });
             builder.show();
             Toast.makeText(ScanQR.this, intentResult.getContents(), Toast.LENGTH_SHORT).show();
@@ -100,16 +101,11 @@ public class ScanQR extends AppCompatActivity {
                         JSONObject dataID = obj.getJSONObject("data");
                         int idInvoice = dataID.getInt("ID");
                         int idPhong = dataID.getInt("IDPhong");
-                        SharedPreferences preferences = this.getApplicationContext().getSharedPreferences(SHARED_ID_INVOICE, Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = preferences.edit();
+                        SharedPreferences pref = this.getApplicationContext().getSharedPreferences(SHARED_ID_INVOICE, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = pref.edit();
                         editor.putInt(String.valueOf(idPhong), idInvoice);
                         editor.apply();
-                        if (status.equals("success")) {
-                            Toast.makeText(ScanQR.this, msg, Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(ScanQR.this, msg, Toast.LENGTH_SHORT).show();
-                        }
-
+                        Toast.makeText(ScanQR.this, msg, Toast.LENGTH_SHORT).show();
                     } catch (Throwable t) {
                         Toast.makeText(ScanQR.this, "Could not parse malformed JSON: \"" + response + "\"", Toast.LENGTH_SHORT).show();
                     }
@@ -120,7 +116,7 @@ public class ScanQR extends AppCompatActivity {
                 }
         ) {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("token", token);
                 params.put("qrcode", qrcode);

@@ -45,8 +45,11 @@ import com.example.hotelapp.API.BaseUrl;
 import com.example.hotelapp.Activities.Home;
 import com.example.hotelapp.Fragment.listRoom.ListRoomFragment;
 import com.example.hotelapp.Fragment.listRoom.ListRoomStaffFragment;
+import com.example.hotelapp.LoginActivity;
 import com.example.hotelapp.R;
 import com.example.hotelapp.Model.Room;
+import com.example.hotelapp.Secure.ISharedPreference;
+import com.example.hotelapp.Secure.SecureSharedPref;
 import com.google.android.material.textfield.TextInputLayout;
 import com.muddzdev.styleabletoast.StyleableToast;
 
@@ -71,7 +74,7 @@ public class RoomAdapter extends BaseAdapter {
     String urlGetInvoiceInfo = baseUrl.getBaseURL() + "/pays/";
     String urlGetServiceInfo = baseUrl.getBaseURL() + "/services";
     String urlAddService = baseUrl.getBaseURL() + "/updatePay";
-
+    ISharedPreference preferences;
     public static final String SHARED_ID_INVOICE = "idInvoice";
     int vt = -1;
     int optionServiceID, permission;
@@ -122,7 +125,7 @@ public class RoomAdapter extends BaseAdapter {
         return RoomList;
     }
 
-    @SuppressLint({"SetTextI18n", "RtlHardcoded", "NonConstantResourceId"})
+    @SuppressLint({"SetTextI18n", "RtlHardcoded", "NonConstantResourceId", "ObsoleteSdkInt"})
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -148,12 +151,10 @@ public class RoomAdapter extends BaseAdapter {
         holder.txtGiaPhong.setText(room.getGia() + "");
         if (room.getTrangThai() == 0) {
             holder.txtTrangThai.setText("Trống");
-//            holder.layoutRoom.setBackgroundColor(Color.parseColor("#DBF1FB"));
             GradientDrawable gradientDrawable = (GradientDrawable) holder.layoutRoom.getBackground().mutate();
             gradientDrawable.setColor(Color.parseColor("#F9FEFF"));
         } else {
             holder.txtTrangThai.setText("Đã dùng");
-//            holder.layoutRoom.setBackgroundColor(Color.parseColor("#a9ffeb"));
             GradientDrawable gradientDrawable = (GradientDrawable) holder.layoutRoom.getBackground().mutate();
             gradientDrawable.setColor(Color.parseColor("#F4DFDF"));
         }
@@ -164,9 +165,10 @@ public class RoomAdapter extends BaseAdapter {
             gradientDrawable.setColor(Color.parseColor("#C3EFEB"));
         }
 
-        SharedPreferences preferences = context.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
-        permission = preferences.getInt("permission", 0);
-        token = preferences.getString("token", "");
+        SharedPreferences pref = context.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
+        permission = pref.getInt("permission", 0);
+        preferences = new SecureSharedPref(context, LoginActivity.SECRET_TOKEN);
+        token = preferences.get("token");
 
         holder.imageEdit.setOnClickListener(v -> {
             PopupMenu popup = null;
@@ -291,10 +293,8 @@ public class RoomAdapter extends BaseAdapter {
             return;
         }
         int idPhong = room.getId();
-        SharedPreferences preferences = context.getApplicationContext().getSharedPreferences(SHARED_ID_INVOICE, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.apply();
-        int idInvoice = preferences.getInt(String.valueOf(idPhong), 0);
+        SharedPreferences pref = context.getApplicationContext().getSharedPreferences(SHARED_ID_INVOICE, Context.MODE_PRIVATE);
+        int idInvoice = pref.getInt(String.valueOf(idPhong), 0);
 //        StyleableToast.makeText(context, String.valueOf(idInvoice), Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
 
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
@@ -522,8 +522,8 @@ public class RoomAdapter extends BaseAdapter {
                             String status = obj.getString("status");
                             JSONObject dataID = obj.getJSONObject("data");
                             int idInvoice = dataID.getInt("ID");
-                            SharedPreferences preferences = context.getApplicationContext().getSharedPreferences(SHARED_ID_INVOICE, Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = preferences.edit();
+                            SharedPreferences pref= context.getApplicationContext().getSharedPreferences(SHARED_ID_INVOICE, Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = pref.edit();
                             editor.putInt(String.valueOf(idPhong), idInvoice);
                             editor.apply();
                             if (status.equals("success")) {
@@ -563,7 +563,7 @@ public class RoomAdapter extends BaseAdapter {
                 }
         ) {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("token", token);
                 params.put("IDPhong", String.valueOf(idPhong));
@@ -613,52 +613,46 @@ public class RoomAdapter extends BaseAdapter {
     private void checkOut(String url, int idInvoice, int idPhong, Dialog dialog) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject obj = new JSONObject(response);
-                            String msg = obj.getString("msg");
-                            String status = obj.getString("status");
+                response -> {
+                    try {
+                        JSONObject obj = new JSONObject(response);
+                        String msg = obj.getString("msg");
+                        String status = obj.getString("status");
 //                            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-                            if (status.equals("success")) {
-                                StyleableToast.makeText(context, msg, Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
-                                SharedPreferences preferences = context.getApplicationContext().getSharedPreferences(SHARED_ID_INVOICE, Context.MODE_PRIVATE);
-                                SharedPreferences.Editor editor = preferences.edit();
-                                editor.remove(String.valueOf(idPhong));
-                                editor.apply();
-                                dialog.dismiss();
-                                if (permission == 2) {
-                                    ListRoomFragment optionsFrag = new ListRoomFragment();
-                                    ((Home) context).getSupportFragmentManager()
-                                            .beginTransaction()
-                                            .replace(R.id.nav_host_fragment, optionsFrag, "")
-                                            .addToBackStack(null)
-                                            .commit();
-                                } else {
-                                    ListRoomStaffFragment optionsFrag = new ListRoomStaffFragment();
-                                    ((Home) context).getSupportFragmentManager()
-                                            .beginTransaction()
-                                            .replace(R.id.nav_host_fragment, optionsFrag, "")
-                                            .addToBackStack(null)
-                                            .commit();
-                                }
+                        if (status.equals("success")) {
+                            StyleableToast.makeText(context, msg, Toast.LENGTH_SHORT, R.style.toastSuccess2).show();
+                            SharedPreferences pref = context.getApplicationContext().getSharedPreferences(SHARED_ID_INVOICE, Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = pref.edit();
+                            editor.remove(String.valueOf(idPhong));
+                            editor.apply();
+                            dialog.dismiss();
+                            if (permission == 2) {
+                                ListRoomFragment optionsFrag = new ListRoomFragment();
+                                ((Home) context).getSupportFragmentManager()
+                                        .beginTransaction()
+                                        .replace(R.id.nav_host_fragment, optionsFrag, "")
+                                        .addToBackStack(null)
+                                        .commit();
                             } else {
-                                Toast.makeText(context, msg.toString(), Toast.LENGTH_SHORT).show();
+                                ListRoomStaffFragment optionsFrag = new ListRoomStaffFragment();
+                                ((Home) context).getSupportFragmentManager()
+                                        .beginTransaction()
+                                        .replace(R.id.nav_host_fragment, optionsFrag, "")
+                                        .addToBackStack(null)
+                                        .commit();
                             }
-
-                        } catch (Throwable t) {
-                            Toast.makeText(context, "Could not parse malformed JSON: \"" + response + "\"", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(context, msg.toString(), Toast.LENGTH_SHORT).show();
                         }
 
+                    } catch (Throwable t) {
+                        Toast.makeText(context, "Could not parse malformed JSON: \"" + response + "\"", Toast.LENGTH_SHORT).show();
                     }
+
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("AAA", "Lỗi:\n" + error.toString());
-                        Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
-                    }
+                error -> {
+                    Log.d("AAA", "Lỗi:\n" + error.toString());
+                    Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
                 }
         ) {
             @Override

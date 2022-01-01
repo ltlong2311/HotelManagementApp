@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,8 +31,11 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.hotelapp.API.BaseUrl;
 import com.example.hotelapp.Adapters.RoomAdapter;
+import com.example.hotelapp.LoginActivity;
 import com.example.hotelapp.R;
 import com.example.hotelapp.Model.Room;
+import com.example.hotelapp.Secure.ISharedPreference;
+import com.example.hotelapp.Secure.SecureSharedPref;
 import com.google.android.material.appbar.AppBarLayout;
 import com.muddzdev.styleabletoast.StyleableToast;
 
@@ -52,9 +56,11 @@ public class RoomEdit extends AppCompatActivity {
     int isRepair = 0;
     ArrayList<Room> arrayRoom;
     RoomAdapter adapter;
-
+    ISharedPreference preferences;
+    String token;
     String urlUpdateRoom = baseUrl.getUrl() + "/updateRoom.php";
     String urlDeleteRoom =  baseUrl.getUrl()+ "/deleteRoom.php";
+    @SuppressLint("ObsoleteSdkInt")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +82,9 @@ public class RoomEdit extends AppCompatActivity {
             SetWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false);
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
+
+        preferences = new SecureSharedPref(this, LoginActivity.SECRET_TOKEN);
+        token = preferences.get("token");
 
         appBarLayout = (AppBarLayout) findViewById(R.id.appBarUpdateRoom);
         setContentView(R.layout.activity_edit_room);
@@ -136,25 +145,20 @@ public class RoomEdit extends AppCompatActivity {
                 }
             }
         });
-        btnDeleteRoom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                confirmDeleteRoom(room.getTenPhong());
-            }
-        });
+        btnDeleteRoom.setOnClickListener(v -> confirmDeleteRoom(room.getTenPhong()));
     }
 
 
     private void getDataRoom() {
-        btnUpdateRoom = (Button) findViewById(R.id.btn_update_room);
-        btnDeleteRoom = (Button) findViewById(R.id.btn_delete_room);
-        edtTenPhong = (EditText) findViewById(R.id.edtUpdateTenPhong);
-        edtTang = (EditText) findViewById(R.id.edtUpdateTang);
-        edtGiaPhong = (EditText) findViewById(R.id.edtUpdateGiaPhong);
-        cbxPhongTrong = (CheckBox) findViewById(R.id.checkboxEmptyRoom);
-        cbxPhongDaDung = (CheckBox) findViewById(R.id.checkboxRoomIsUsed);
-        rbnTuSua = (RadioButton) findViewById(R.id.rbnRoomIsFixing);
-        rbnHoatDong = (RadioButton) findViewById(R.id.rbnRoomActivity);
+        btnUpdateRoom = findViewById(R.id.btn_update_room);
+        btnDeleteRoom = findViewById(R.id.btn_delete_room);
+        edtTenPhong = findViewById(R.id.edtUpdateTenPhong);
+        edtTang = findViewById(R.id.edtUpdateTang);
+        edtGiaPhong = findViewById(R.id.edtUpdateGiaPhong);
+        cbxPhongTrong = findViewById(R.id.checkboxEmptyRoom);
+        cbxPhongDaDung = findViewById(R.id.checkboxRoomIsUsed);
+        rbnTuSua = findViewById(R.id.rbnRoomIsFixing);
+        rbnHoatDong = findViewById(R.id.rbnRoomActivity);
 
     }
 
@@ -180,7 +184,7 @@ public class RoomEdit extends AppCompatActivity {
                 }
         ){
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
 
                 Map<String, String> params = new HashMap<>();
                 params.put("ID", String.valueOf(ID));
@@ -240,7 +244,6 @@ public class RoomEdit extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-//                params.put("token","eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJJRCI6IjEiLCJ1c2VyTmFtZSI6ImFkbWluIiwiSG9UZW4iOiJhZG1pbiJ9.234-aSxbQPO_Ozd4kcffsavH1FRWBgBx61dga5ZrAWE");
                 params.put("ID", String.valueOf(ID));
                 return params;
             }

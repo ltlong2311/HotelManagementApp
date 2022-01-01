@@ -48,6 +48,4 @@ public class SecureSharedPref implements ISharedPreference {
         editor.apply();
     }
 
-
-
 }

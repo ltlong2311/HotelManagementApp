@@ -32,10 +32,11 @@ import java.util.Map;
 
 
 public class AddRoomFragment extends Fragment{
+    BaseUrl baseUrl;
     LinearLayout layoutHideKeyboard;
     EditText edtTenPhong, edtTang, edtGiaPhong;
     Button btnThemPhong, btnHuy;
-    String urlAddRoom = "http://192.168.1.103/serverApp/createRoom.php";
+    String urlAddRoom = baseUrl.getUrl() + "/createRoom.php";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

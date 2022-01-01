@@ -3,11 +3,10 @@ package com.example.hotelapp.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -19,18 +18,17 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.hotelapp.API.BaseUrl;
+import com.example.hotelapp.LoginActivity;
 import com.example.hotelapp.R;
+import com.example.hotelapp.Secure.ISharedPreference;
+import com.example.hotelapp.Secure.SecureSharedPref;
 import com.google.android.material.appbar.AppBarLayout;
 import com.muddzdev.styleabletoast.StyleableToast;
 
@@ -49,7 +47,10 @@ public class CreateStaffAccount extends AppCompatActivity {
     String dateData;
     Toolbar toolbar;
     String urlCreateUser = baseUrl.getBaseURL() + "/createUsers";
+    ISharedPreference preferences;
+    String token;
 
+    @SuppressLint("ObsoleteSdkInt")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,10 +75,14 @@ public class CreateStaffAccount extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        preferences = new SecureSharedPref(this, LoginActivity.SECRET_TOKEN);
+        token = preferences.get("token");
+
         Calendar calendar = Calendar.getInstance();
         final int year = calendar.get(Calendar.YEAR);
         final int month = calendar.get(Calendar.MONTH);
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
+
         edtUsername = findViewById(R.id.editTextUsernameS);
         edtPassword = findViewById(R.id.editTextPasswordS);
         edtTen = findViewById(R.id.editTextStaffName);
@@ -111,8 +116,6 @@ public class CreateStaffAccount extends AppCompatActivity {
             } else if (cmt.length() > 11) {
                 StyleableToast.makeText(CreateStaffAccount.this, "Chứng minh thư không quá 11 số!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
             } else {
-                SharedPreferences preferences = CreateStaffAccount.this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
-                String token = preferences.getString("token", "");
                 createUser(urlCreateUser, token);
             }
         });

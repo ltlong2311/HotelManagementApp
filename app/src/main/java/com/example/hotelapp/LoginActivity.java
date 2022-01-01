@@ -60,7 +60,6 @@ public class LoginActivity extends AppCompatActivity {
     String urlLogin = baseUrl.getBaseURL() + "/login";
     EditText edtUsername, edtPassword;
     Button button_login;
-//    SharedPreferences preferences;
     ISharedPreference preferences;
     TextView fingerprint_login;
     private static final String TAG = "Fingerprint Sensor";

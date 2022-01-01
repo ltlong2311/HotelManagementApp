@@ -1,5 +1,6 @@
 package com.example.hotelapp.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -52,6 +53,7 @@ public class ServiceAdapter extends BaseAdapter {
     }
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 

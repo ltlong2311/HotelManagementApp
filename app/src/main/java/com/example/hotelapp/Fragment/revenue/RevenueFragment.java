@@ -30,8 +30,11 @@ import com.example.hotelapp.API.BaseUrl;
 import com.example.hotelapp.Activities.Home;
 import com.example.hotelapp.Activities.InvoiceDetail;
 import com.example.hotelapp.Activities.RoomEdit;
+import com.example.hotelapp.LoginActivity;
 import com.example.hotelapp.Model.Invoice;
 import com.example.hotelapp.R;
+import com.example.hotelapp.Secure.ISharedPreference;
+import com.example.hotelapp.Secure.SecureSharedPref;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
@@ -58,7 +61,8 @@ import java.util.Locale;
 import java.util.Map;
 
 public class RevenueFragment extends Fragment {
-
+    ISharedPreference preferences;
+    String token;
     private LineChart lineChart;
     TextView lastMonthRevenue, thisMonthRevenue, thisWeekRevenue;
     BaseUrl baseUrl = new BaseUrl();
@@ -92,6 +96,9 @@ public class RevenueFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_revenue, container, false);
         ((Home) getActivity())
                 .setActionBarTitle("Doanh thu");
+        preferences = new SecureSharedPref(getContext(), LoginActivity.SECRET_TOKEN);
+        token = preferences.get("token");
+
         optionSelect = root.findViewById(R.id.optionRevenueSelection);
         lastMonthRevenue = root.findViewById(R.id.lastMonthRevenue);
         thisMonthRevenue = root.findViewById(R.id.thisMonthRevenue);
@@ -114,8 +121,6 @@ public class RevenueFragment extends Fragment {
         yAxis.setTextSize(9f);
         YAxis rightYAxis = lineChart.getAxisRight();
         rightYAxis.setEnabled(false);
-        SharedPreferences preferences = getActivity().getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
-        String token = preferences.getString("token", "");
         getLastMonthRevenue(urlGetRevenue, token);
         getThisMonthRevenue(urlGetRevenue, token);
         getThisWeekRevenue(urlGetRevenue, token);

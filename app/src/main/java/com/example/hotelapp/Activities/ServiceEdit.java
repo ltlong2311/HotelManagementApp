@@ -34,15 +34,17 @@ import com.example.hotelapp.API.BaseUrl;
 import com.example.hotelapp.Adapters.ServiceAdapter;
 import com.example.hotelapp.Fragment.service.AddServiceFragment;
 import com.example.hotelapp.Fragment.service.ServiceFragment;
+import com.example.hotelapp.LoginActivity;
 import com.example.hotelapp.R;
 import com.example.hotelapp.Model.Service;
+import com.example.hotelapp.Secure.ISharedPreference;
+import com.example.hotelapp.Secure.SecureSharedPref;
 import com.google.android.material.appbar.AppBarLayout;
 import com.muddzdev.styleabletoast.StyleableToast;
 
 import org.json.JSONObject;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -56,7 +58,8 @@ public class ServiceEdit extends AppCompatActivity {
     int ID = 0;
     int isActive;
     BaseUrl baseUrl = new BaseUrl();
-
+    ISharedPreference preferences;
+    String token;
     String urlUpdateService = baseUrl.getBaseURL() + "/updateServices";
     String urlDeleteService = baseUrl.getBaseURL() + "/deleteServices";
     @SuppressLint("ObsoleteSdkInt")
@@ -79,6 +82,9 @@ public class ServiceEdit extends AppCompatActivity {
             SetWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false);
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
+
+        preferences = new SecureSharedPref(ServiceEdit.this, LoginActivity.SECRET_TOKEN);
+        token = preferences.get("token");
 
         appBarLayout = findViewById(R.id.appBarUpdateService);
         toolbar = findViewById(R.id.toolbar_ER);
@@ -121,8 +127,6 @@ public class ServiceEdit extends AppCompatActivity {
                 if (tenDV.matches("") || giaDV.length() == 0){
                     StyleableToast.makeText(ServiceEdit.this, "Vui lòng điền đẩy đủ thông tin!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
                 } else  {
-                    SharedPreferences preferences = ServiceEdit.this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
-                    String token = preferences.getString("token", "");
                     UpdateService(urlUpdateService, token);
                 }
             }
@@ -195,8 +199,6 @@ public class ServiceEdit extends AppCompatActivity {
         dialogDelService.setNegativeButton("Có", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                SharedPreferences preferences = ServiceEdit.this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
-                String token = preferences.getString("token", "");
                 deleteService(urlDeleteService, token);
             }
         });
@@ -239,19 +241,13 @@ public class ServiceEdit extends AppCompatActivity {
                 }
         ){
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("token",token);
                 params.put("ID", String.valueOf(ID));
                 return params;
             }
 
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                Map<String, String> params = new HashMap<String, String>();
-//                params.put("Content-Type", "application/json");
-//                return params;
-//            }
         };
         requestQueue.add(stringRequest);
     }

@@ -88,12 +88,12 @@ public class UserEdit extends AppCompatActivity {
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
 
+        preferences = new SecureSharedPref(this, LoginActivity.SECRET_TOKEN);
+        token = preferences.get("token");
+
         appBarLayout = findViewById(R.id.appBarUpdateService);
         toolbar = findViewById(R.id.toolbar_ER);
         toolbar.setTitle("Thông tin nhân viên");
-
-        preferences = new SecureSharedPref(this, LoginActivity.SECRET_TOKEN);
-        token = preferences.get("token");
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

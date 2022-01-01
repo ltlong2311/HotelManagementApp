@@ -118,9 +118,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         preferences = new SecureSharedPref(this, LoginActivity.SECRET_TOKEN);
         String token = preferences.get("token");
 
-//        SharedPreferences preferences = Home.this.getApplicationContext().getSharedPreferences(LoginActivity.TOKEN, Context.MODE_PRIVATE);
-//        String token = preferences.getString("token", "");
-
         checkPermission(checkPermission, token);
 
         Intent intent = getIntent();
@@ -187,13 +184,11 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         switch (item.getItemId()) {
             case R.id.nav_log_out:
                 Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
-//                SharedPreferences preferences = this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
-//                SharedPreferences.Editor editor = preferences.edit();
-//                editor.remove("token");
-//                editor.remove("permission");
-//                editor.apply();
                 preferences.remove("token");
-                preferences.remove("permission");
+                SharedPreferences pref = Home.this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.remove("permission");
+                editor.apply();
                 return true;
             case R.id.info_app:
                 StyleableToast.makeText(this, "Made by: Nhóm 4- CT2", Toast.LENGTH_SHORT, R.style.toastInfo).show();
@@ -312,8 +307,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                         JSONObject data = obj.getJSONObject("data");
                         if (status.equals("success")) {
                             permission = data.getInt("role");
-                            SharedPreferences preferences = Home.this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = preferences.edit();
+                            SharedPreferences pref = Home.this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = pref.edit();
                             editor.putInt("permission", permission);
                             editor.apply();
                             if (permission == 1) {

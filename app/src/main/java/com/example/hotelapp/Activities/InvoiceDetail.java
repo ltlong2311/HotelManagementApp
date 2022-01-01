@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -29,7 +30,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.hotelapp.API.BaseUrl;
+import com.example.hotelapp.LoginActivity;
 import com.example.hotelapp.R;
+import com.example.hotelapp.Secure.ISharedPreference;
+import com.example.hotelapp.Secure.SecureSharedPref;
 import com.google.android.material.appbar.AppBarLayout;
 import com.muddzdev.styleabletoast.StyleableToast;
 
@@ -47,12 +51,15 @@ public class InvoiceDetail extends AppCompatActivity {
     EditText edtMaHD, edtSoPhong, edtTenKhachHang, edtCMND, edtSDT, edtDiaChi, edtDichVu, edtPhiDichVu, edtThanhToan, edtNgayTao;
     Button btnDeleteInvoice;
     AppBarLayout appBarLayout;
-    public static Toolbar toolbar;
+    Toolbar toolbar;
     int ID = 0;
     int permission;
     String urlDeleteInvoice = baseUrl.getBaseURL() + "/deletePay";
+    ISharedPreference preferences;
+    String token;
 
 
+    @SuppressLint({"SetTextI18n", "ObsoleteSdkInt"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +80,9 @@ public class InvoiceDetail extends AppCompatActivity {
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
 
+        preferences = new SecureSharedPref(this, LoginActivity.SECRET_TOKEN);
+        token = preferences.get("token");
+
         appBarLayout = findViewById(R.id.appBarUpdateInvoice);
         toolbar = findViewById(R.id.toolbar_ER);
         toolbar.setTitle("Chi tiết hóa đơn");
@@ -80,12 +90,12 @@ public class InvoiceDetail extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        SharedPreferences preferences = this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
-        permission = preferences.getInt("permission", 0);
+        SharedPreferences pref = this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
+        permission = pref.getInt("permission", 0);
 
         Intent intent = getIntent();
 
-        //        Invoice invoice = (Invoice) intent.getSerializableExtra("dataInvoice");
+        //  Invoice invoice = (Invoice) intent.getSerializableExtra("dataInvoice");
         int id = intent.getIntExtra("invoiceID", 0);
         int idPhong = intent.getIntExtra("invoiceIDPhong", 0);
         int thanhtoan = intent.getIntExtra("invoiceThanhToan", 0);
@@ -134,8 +144,6 @@ public class InvoiceDetail extends AppCompatActivity {
         AlertDialog.Builder dialogDelInvoice = new AlertDialog.Builder(InvoiceDetail.this);
         dialogDelInvoice.setMessage("Xác nhận xóa hóa đơn " + maHoaDon + " ?");
         dialogDelInvoice.setNegativeButton("Có", (dialog, which) -> {
-            SharedPreferences preferences = InvoiceDetail.this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
-            String token = preferences.getString("token", "");
             deleteInvoice(urlDeleteInvoice, token);
         });
         dialogDelInvoice.setPositiveButton("Không", (dialog, which) -> {

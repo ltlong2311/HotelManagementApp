@@ -38,9 +38,12 @@ import com.example.hotelapp.Activities.Home;
 import com.example.hotelapp.Activities.InvoiceDetail;
 import com.example.hotelapp.Activities.ServiceEdit;
 import com.example.hotelapp.Activities.UserEdit;
+import com.example.hotelapp.LoginActivity;
 import com.example.hotelapp.Model.Room;
 import com.example.hotelapp.R;
 import com.example.hotelapp.Model.User;
+import com.example.hotelapp.Secure.ISharedPreference;
+import com.example.hotelapp.Secure.SecureSharedPref;
 import com.muddzdev.styleabletoast.StyleableToast;
 
 import org.json.JSONObject;
@@ -60,6 +63,7 @@ public class UserAdapter extends BaseAdapter {
     String urlDeleteUser = baseUrl.getBaseURL()+ "/deleteUsers";
     String token;
     int idUser;
+    ISharedPreference preferences;
 
     public UserAdapter(Context context, int layout, List<User> userList) {
         this.context = context;
@@ -86,7 +90,7 @@ public class UserAdapter extends BaseAdapter {
         ImageView imageAvatar, btnEdit;
     }
 
-    @SuppressLint({"SetTextI18n", "RtlHardcoded", "NonConstantResourceId"})
+    @SuppressLint({"SetTextI18n", "RtlHardcoded", "NonConstantResourceId", "ObsoleteSdkInt"})
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         UserAdapter.ViewHolder holder;
@@ -120,9 +124,8 @@ public class UserAdapter extends BaseAdapter {
         }
 
 
-
-        SharedPreferences preferences = context.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
-        token = preferences.getString("token", "");
+        preferences = new SecureSharedPref(context, LoginActivity.SECRET_TOKEN);
+        token = preferences.get("token");
 
         holder.btnEdit.setOnClickListener(v -> {
             PopupMenu popup = null;
@@ -155,8 +158,6 @@ public class UserAdapter extends BaseAdapter {
         AlertDialog.Builder dialogDelInvoice = new AlertDialog.Builder(context);
         dialogDelInvoice.setMessage("Xác nhận xóa nhân viên " + hoten + " ?");
         dialogDelInvoice.setNegativeButton("Có", (dialog, which) -> {
-            SharedPreferences preferences = context.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
-            String token = preferences.getString("token", "");
             deleteUser(urlDeleteUser, token, idUser);
         });
         dialogDelInvoice.setPositiveButton("Không", (dialog, which) -> {
@@ -168,35 +169,27 @@ public class UserAdapter extends BaseAdapter {
     private void deleteUser(String urlDeleteUser, String token, int idUser) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         StringRequest stringRequest= new StringRequest(Request.Method.POST, urlDeleteUser,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject obj = new JSONObject(response);
-                            String status = obj.getString("status");
-                            String msg = obj.getString("msg");
-                            if(status.equals("success")){
-                                StyleableToast.makeText(context, "Xóa thành công!", Toast.LENGTH_SHORT, R.style.toastBlueLight).show();
-                                Intent intent = new Intent(context, Home.class);
-                                intent.putExtra("manage", "manage");
-                                context.startActivity(intent);
-                            } else {
-                                StyleableToast.makeText(context, msg, Toast.LENGTH_SHORT, R.style.toastStyle).show();
-                            }
-                        } catch (Throwable t) {
-                            StyleableToast.makeText(context, "Kiểm tra lại quyền chỉnh sửa!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
+                response -> {
+                    try {
+                        JSONObject obj = new JSONObject(response);
+                        String status = obj.getString("status");
+                        String msg = obj.getString("msg");
+                        if(status.equals("success")){
+                            StyleableToast.makeText(context, "Xóa thành công!", Toast.LENGTH_SHORT, R.style.toastBlueLight).show();
+                            Intent intent = new Intent(context, Home.class);
+                            intent.putExtra("manage", "manage");
+                            context.startActivity(intent);
+                        } else {
+                            StyleableToast.makeText(context, msg, Toast.LENGTH_SHORT, R.style.toastStyle).show();
                         }
+                    } catch (Throwable t) {
+                        StyleableToast.makeText(context, "Kiểm tra lại quyền chỉnh sửa!", Toast.LENGTH_SHORT, R.style.toastStyle).show();
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                }
+                error -> Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show()
         ){
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("token",token);
                 params.put("ID", String.valueOf(idUser));

@@ -35,6 +35,8 @@ import com.example.hotelapp.Fragment.invoice.InvoiceFragment;
 import com.example.hotelapp.Fragment.listRoom.AddRoomFragment;
 import com.example.hotelapp.LoginActivity;
 import com.example.hotelapp.R;
+import com.example.hotelapp.Secure.ISharedPreference;
+import com.example.hotelapp.Secure.SecureSharedPref;
 import com.google.android.material.appbar.AppBarLayout;
 import com.muddzdev.styleabletoast.StyleableToast;
 
@@ -44,7 +46,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ChangePasswordFragment extends Fragment {
-
+    ISharedPreference preferences;
+    String token;
     AppBarLayout appBarLayout;
     Toolbar toolbar;
     EditText oldPass, newPass, retypePass;
@@ -64,6 +67,9 @@ public class ChangePasswordFragment extends Fragment {
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_change_password, container, false);
 
+        preferences = new SecureSharedPref(getContext(), LoginActivity.SECRET_TOKEN);
+        token = preferences.get("token");
+
         oldPass = root.findViewById(R.id.editTextOldPassword);
         newPass = root.findViewById(R.id.editTextNewPassword);
         retypePass = root.findViewById(R.id.editTextRetypePassword);
@@ -72,8 +78,6 @@ public class ChangePasswordFragment extends Fragment {
         relativeLayout = root.findViewById(R.id.changePassword);
         relativeLayout.setOnClickListener(this::hideKeyBoard);
         scrollView.setOnClickListener(this::hideKeyBoard);
-        SharedPreferences preferences = getActivity().getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
-        String token = preferences.getString("token", "");
         btnChangePassword.setOnClickListener((View v) -> {
             verifyPassword(urlVerifyPass, token);
             hideKeyBoard(v);
@@ -122,11 +126,11 @@ public class ChangePasswordFragment extends Fragment {
                         String msg = obj.getString("msg");
                         if(status.equals("success")){
                             StyleableToast.makeText(getActivity(), "Đổi mật khẩu thành công, hãy đăng nhập lại!", Toast.LENGTH_SHORT, R.style.toastBlueLight).show();
-                            SharedPreferences preferences = getActivity().getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = preferences.edit();
-                            editor.remove("token");
+                            SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = pref.edit();
                             editor.remove("permission");
                             editor.apply();
+                            preferences.remove("token");
                             Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
