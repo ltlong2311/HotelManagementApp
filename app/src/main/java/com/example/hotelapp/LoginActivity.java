@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -40,6 +41,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.hotelapp.API.BaseUrl;
 import com.example.hotelapp.Activities.Home;
+import com.example.hotelapp.Secure.ISharedPreference;
+import com.example.hotelapp.Secure.SecureSharedPref;
 import com.muddzdev.styleabletoast.StyleableToast;
 
 import org.json.JSONArray;
@@ -48,14 +51,17 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executor;
+@SuppressLint("ObsoleteSdkInt")
 
 public class LoginActivity extends AppCompatActivity {
+
+    public static final String SECRET_TOKEN = "secretToken";
     BaseUrl baseUrl = new BaseUrl();
-    String urlTest = "http://192.168.1.103:4000/getData";
     String urlLogin = baseUrl.getBaseURL() + "/login";
     EditText edtUsername, edtPassword;
     Button button_login;
-    SharedPreferences preferences;
+//    SharedPreferences preferences;
+    ISharedPreference preferences;
     TextView fingerprint_login;
     private static final String TAG = "Fingerprint Sensor";
 
@@ -63,8 +69,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
-        preferences = LoginActivity.this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
-//        getSupportActionBar().hide();
+        preferences = new SecureSharedPref(this, SECRET_TOKEN);
+//        preferences = LoginActivity.this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
         if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {
             SetWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, true);
         }
@@ -91,7 +97,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         fingerprint_auth();
-        getData(urlTest);
     }
 
     public void openHomePage() {
@@ -110,9 +115,10 @@ public class LoginActivity extends AppCompatActivity {
                         if (status.equals("success")) {
                             JSONObject data = obj.getJSONObject("data");
                             String token = data.getString("token");
-                            SharedPreferences.Editor editor = preferences.edit();
-                            editor.putString("token", token);
-                            editor.apply();
+//                            SharedPreferences.Editor editor = preferences.edit();
+//                            editor.putString("token", token);
+//                            editor.apply();
+                            preferences.put("token", token);
                             openHomePage();
                             StyleableToast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT, R.style.toastBlueLight).show();
                         } else {
@@ -125,7 +131,8 @@ public class LoginActivity extends AppCompatActivity {
                 },
                 error -> {
                     Log.d("AAA", "Lỗi:\n" + error.toString());
-                    Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                    DialogError(Gravity.CENTER);
+//                    Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
                 }
         ) {
             @Override
@@ -199,8 +206,8 @@ public class LoginActivity extends AppCompatActivity {
                 .setNegativeButtonText("Cancel")
                 .build();
 
-        String token = preferences.getString("token", "");
-
+//        String token = preferences.getString("token", "");
+        String token = preferences.get("token");
         fingerprint_login.setOnClickListener(v -> {
             if (token != null && !token.isEmpty()){
                 biometricPrompt.authenticate(promptInfo);
@@ -208,17 +215,6 @@ public class LoginActivity extends AppCompatActivity {
                 StyleableToast.makeText(LoginActivity.this, getString(R.string.login_pass_notice), Toast.LENGTH_SHORT, R.style.toastBlueLight).show();
             }
         });
-    }
-
-    private void getData(String url) {
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
-                response -> Toast.makeText(LoginActivity.this, response.toString(), Toast.LENGTH_SHORT).show(),
-                error -> {
-//                        Toast.makeText(LoginActivity.this, "Đăng nhập!", Toast.LENGTH_SHORT).show();
-                }
-        );
-        requestQueue.add(jsonArrayRequest);
     }
 
     private void DialogError(int gravity) {

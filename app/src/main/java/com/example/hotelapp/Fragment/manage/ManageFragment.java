@@ -44,7 +44,6 @@ import java.util.ArrayList;
 
 public class ManageFragment extends Fragment {
 
-    DrawerLayout drawerLayout;
     BaseUrl baseUrl = new BaseUrl();
     String urlGetDataUser = baseUrl.getBaseURL()+ "/users";
 

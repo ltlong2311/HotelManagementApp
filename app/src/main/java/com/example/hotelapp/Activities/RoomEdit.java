@@ -53,8 +53,8 @@ public class RoomEdit extends AppCompatActivity {
     ArrayList<Room> arrayRoom;
     RoomAdapter adapter;
 
-    String urlUpdateRoom =  "http://192.168.1.103/serverApp/updateRoom.php";
-    String urlDeleteRoom =  "http://192.168.1.103/serverApp/deleteRoom.php";
+    String urlUpdateRoom = baseUrl.getUrl() + "/updateRoom.php";
+    String urlDeleteRoom =  baseUrl.getUrl()+ "/deleteRoom.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -56,8 +57,9 @@ public class ServiceEdit extends AppCompatActivity {
     int isActive;
     BaseUrl baseUrl = new BaseUrl();
 
-    String urlUpdateService =  baseUrl.getBaseURL() + "/updateServices";
-    String urlDeleteService =   baseUrl.getBaseURL() + "/deleteServices";
+    String urlUpdateService = baseUrl.getBaseURL() + "/updateServices";
+    String urlDeleteService = baseUrl.getBaseURL() + "/deleteServices";
+    @SuppressLint("ObsoleteSdkInt")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -263,7 +265,6 @@ public class ServiceEdit extends AppCompatActivity {
             Winparams.flags &= ~Bits;
         }
         win.setAttributes(Winparams);
-
     }
     @Override
     public boolean onSupportNavigateUp() {

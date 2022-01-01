@@ -37,6 +37,8 @@ import com.example.hotelapp.Fragment.revenue.RevenueFragment;
 import com.example.hotelapp.Fragment.service.ServiceFragment;
 import com.example.hotelapp.LoginActivity;
 import com.example.hotelapp.R;
+import com.example.hotelapp.Secure.ISharedPreference;
+import com.example.hotelapp.Secure.SecureSharedPref;
 import com.google.android.material.navigation.NavigationView;
 import com.muddzdev.styleabletoast.StyleableToast;
 
@@ -64,9 +66,10 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     private AppBarConfiguration mAppBarConfiguration;
     String checkPermission = baseUrl.getBaseURL() + "/permissions";
     int permission;
+    ISharedPreference preferences;
     public static Toolbar mToolbar;
 
-    @SuppressLint("CutPasteId")
+    @SuppressLint({"CutPasteId", "ObsoleteSdkInt"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +77,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         Window window = getWindow();
 
         setContentView(R.layout.activity_home);
-
         if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {
             SetWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, true);
         }
@@ -113,9 +115,12 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         drawerLayout.addDrawerListener(drawerToggle);
 
         setActionBarTitle("Home");
+        preferences = new SecureSharedPref(this, LoginActivity.SECRET_TOKEN);
+        String token = preferences.get("token");
 
-        SharedPreferences preferences = Home.this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
-        String token = preferences.getString("token", "");
+//        SharedPreferences preferences = Home.this.getApplicationContext().getSharedPreferences(LoginActivity.TOKEN, Context.MODE_PRIVATE);
+//        String token = preferences.getString("token", "");
+
         checkPermission(checkPermission, token);
 
         Intent intent = getIntent();
@@ -182,11 +187,13 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         switch (item.getItemId()) {
             case R.id.nav_log_out:
                 Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
-                SharedPreferences preferences = this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.remove("token");
-                editor.remove("permission");
-                editor.apply();
+//                SharedPreferences preferences = this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
+//                SharedPreferences.Editor editor = preferences.edit();
+//                editor.remove("token");
+//                editor.remove("permission");
+//                editor.apply();
+                preferences.remove("token");
+                preferences.remove("permission");
                 return true;
             case R.id.info_app:
                 StyleableToast.makeText(this, "Made by: Nhóm 4- CT2", Toast.LENGTH_SHORT, R.style.toastInfo).show();

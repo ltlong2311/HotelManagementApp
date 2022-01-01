@@ -48,7 +48,7 @@ public class CreateStaffAccount extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener setListener;
     String dateData;
     Toolbar toolbar;
-    String urlCreateUser = baseUrl + "/createUsers";
+    String urlCreateUser = baseUrl.getBaseURL() + "/createUsers";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

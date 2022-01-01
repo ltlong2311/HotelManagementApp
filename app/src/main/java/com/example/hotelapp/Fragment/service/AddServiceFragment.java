@@ -119,6 +119,7 @@ public class AddServiceFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("AAA", "Lỗi:\n" + error.toString());
                         Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
+                        StyleableToast.makeText(getActivity(), "Bạn không có quyền chỉnh sửa", Toast.LENGTH_SHORT, R.style.toastStyle).show();
                     }
                 }
         ){

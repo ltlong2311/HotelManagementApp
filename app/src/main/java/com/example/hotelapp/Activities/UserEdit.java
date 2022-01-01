@@ -31,10 +31,13 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.hotelapp.API.BaseUrl;
+import com.example.hotelapp.LoginActivity;
 import com.example.hotelapp.Model.Room;
 import com.example.hotelapp.Model.Service;
 import com.example.hotelapp.Model.User;
 import com.example.hotelapp.R;
+import com.example.hotelapp.Secure.ISharedPreference;
+import com.example.hotelapp.Secure.SecureSharedPref;
 import com.google.android.material.appbar.AppBarLayout;
 import com.muddzdev.styleabletoast.StyleableToast;
 
@@ -59,9 +62,11 @@ public class UserEdit extends AppCompatActivity {
     EditText nameEdt, cmtEdt, dateOfBirthEdt, addressEdt;
     DatePickerDialog.OnDateSetListener setListener;
     String dateData, token;
+    ISharedPreference preferences;
 
-    String urlUpdateUser =  baseUrl.getBaseURL()+ "/updateUsers";
+    String urlUpdateUser =  baseUrl.getBaseURL() + "/updateUsers";
 
+    @SuppressLint("ObsoleteSdkInt")
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,8 +92,8 @@ public class UserEdit extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar_ER);
         toolbar.setTitle("Thông tin nhân viên");
 
-        SharedPreferences preferences = UserEdit.this.getApplicationContext().getSharedPreferences("tokenLogin", Context.MODE_PRIVATE);
-        token = preferences.getString("token", "");
+        preferences = new SecureSharedPref(this, LoginActivity.SECRET_TOKEN);
+        token = preferences.get("token");
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -122,9 +127,7 @@ public class UserEdit extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        btnUpdateUserInfo.setOnClickListener(v -> {
-             DialogUpdate(user);
-        });
+        btnUpdateUserInfo.setOnClickListener(v -> DialogUpdate(user));
     }
 
     private void DialogUpdate(User user) {
